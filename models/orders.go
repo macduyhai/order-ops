@@ -18,6 +18,9 @@ type Order struct {
 	URL                   string     `gorm:"column:url"`
 	PartnerTrackingNumber string     `gorm:"column:partner_tracking_number"`
 	Status                int32      `gorm:"column:status"`
+	BranchSell            string     `gorm:"column:branchsell"`
+	TypeProduct           string     `gorm:"column:typeproduct"`
+	Seller                string     `gorm:"column:seller"`
 	Note                  string     `gorm:"column:note"`
 	BeginShipping         *time.Time `gorm:"column:begin_shipping"`
 	TimeCompleted         *time.Time `gorm:"column:time_completed"`

@@ -23,6 +23,9 @@ type Order struct {
 	PostalCode  string `json:"postalCode"`
 	Country     string `json:"country"`
 	Phone       string `json:"phone"`
+	BranchSell  string `json:"branchsell"`
+	TypeProduct string `json:"typeproduct"`
+	Seller      string `json:"seller"`
 	Note        string `json:"note"`
 }
 
