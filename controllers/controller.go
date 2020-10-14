@@ -41,7 +41,7 @@ func (c Controller) AddSeller(ctx *gin.Context) {
 		return
 	}
 
-	resp, err := c.TypeProductService.AddTypeProduct(request)
+	resp, err := c.SellerService.AddSeller(request)
 	if err != nil {
 		fmt.Println("add order error", err)
 		utils.ResponseErrorGin(ctx, "add order error")
