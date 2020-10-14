@@ -75,6 +75,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		sellerGroup := apiGroup.Group("/seller")
 		{
 			sellerGroup.POST("", ctl.AddSeller)
+			sellerGroup.GET("/search-seller", ctl.SearchSeller)
 
 		}
 

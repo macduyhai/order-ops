@@ -17,3 +17,8 @@ type AddsellerResponse struct {
 type DeletesellerRequest struct {
 	Name string `json:"name"`
 }
+
+type SearchSellerQuery struct {
+	Key   string
+	Value interface{}
+}

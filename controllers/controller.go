@@ -202,6 +202,63 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, resp)
 }
 
+// Search Seller
+func (c Controller) getSearchQuerySeller(ctx *gin.Context) ([]dtos.SearchSellerQuery, error) {
+	result := make([]dtos.SearchSellerQuery, 0)
+	result = append(result, dtos.SearchSellerQuery{
+		Key:   "deleted_at IS NULL",
+		Value: nil,
+	})
+
+	begin := ctx.Query("begin_time")
+	if begin != "" {
+		item := dtos.SearchSellerQuery{
+			Key:   "created_at > ?",
+			Value: begin,
+		}
+		result = append(result, item)
+	}
+
+	end := ctx.Query("end_time")
+	if end != "" {
+		item := dtos.SearchSellerQuery{
+			Key:   "created_at < ?",
+			Value: end,
+		}
+		result = append(result, item)
+	}
+
+	name := ctx.Query("name")
+	if name != "" {
+		item := dtos.SearchSellerQuery{
+			Key:   "name = ?",
+			Value: name,
+		}
+		result = append(result, item)
+	}
+
+	return result, nil
+}
+
+func (c Controller) SearchSeller(ctx *gin.Context) {
+	queries, err := c.getSearchQuerySeller(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.SellerService.SearchSeller(queries)
+	if err != nil {
+		fmt.Println("search orders error", err)
+		utils.ResponseErrorGin(ctx, "search order error")
+		return
+	}
+
+	fmt.Println("search success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
 // Search Type Product
 func (c Controller) getSearchQueryType(ctx *gin.Context) ([]dtos.SearchTypeProductQuery, error) {
 	result := make([]dtos.SearchTypeProductQuery, 0)
@@ -228,11 +285,11 @@ func (c Controller) getSearchQueryType(ctx *gin.Context) ([]dtos.SearchTypeProdu
 		result = append(result, item)
 	}
 
-	orderNumber := ctx.Query("name")
-	if orderNumber != "" {
+	name := ctx.Query("name")
+	if name != "" {
 		item := dtos.SearchTypeProductQuery{
 			Key:   "name = ?",
-			Value: orderNumber,
+			Value: name,
 		}
 		result = append(result, item)
 	}
@@ -285,11 +342,11 @@ func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchBranchS
 		result = append(result, item)
 	}
 
-	orderNumber := ctx.Query("name")
-	if orderNumber != "" {
+	name := ctx.Query("name")
+	if name != "" {
 		item := dtos.SearchBranchSellQuery{
 			Key:   "name = ?",
-			Value: orderNumber,
+			Value: name,
 		}
 		result = append(result, item)
 	}
