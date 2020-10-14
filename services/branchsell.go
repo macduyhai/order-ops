@@ -35,7 +35,13 @@ func NewBranchSellService(dao daos.BranchSellDao) BranchSellService {
 // 	completedStatus  = 3
 // )
 
-func (service *branchSellServiceImpl) mapperDtossToModelBranchSell(input models.BranchSell) dtos.BranchSell {
+func (service *branchSellServiceImpl) mapperDtossToModelBranchSell(input dtos.BranchSell) models.BranchSell {
+	return models.BranchSell{
+		Name: input.Name,
+		Note: input.Note,
+	}
+}
+func (service *branchSellServiceImpl) mapperModelToDtossBranchSell(input models.BranchSell) dtos.BranchSell {
 	return dtos.BranchSell{
 		Name: input.Name,
 		Note: input.Note,
@@ -76,10 +82,10 @@ func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSe
 	for _, record := range records {
 		if name != "" {
 			if record.Name == name {
-				result = append(result, service.mapperDtossToModelBranchSell(record))
+				result = append(result, service.mapperModelToDtossBranchSell(record))
 			}
 		} else {
-			result = append(result, service.mapperDtossToModelBranchSell(record))
+			result = append(result, service.mapperModelToDtossBranchSell(record))
 		}
 	}
 
