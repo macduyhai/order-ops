@@ -10,7 +10,7 @@ import (
 type SellerDao interface {
 	Create(record *models.Seller) error
 	// Updates(record *models.Order) error
-	SearchSeller(queries []dtos.SearchSellerlQuery) ([]models.Seller, error)
+	SearchSeller(queries []dtos.SearchSellerQuery) ([]models.Seller, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
 	// Delete(orderNumber string) error
 }
@@ -37,7 +37,7 @@ func (dao *sellerDaoImpl) Create(record *models.Seller) error {
 // 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
 // }
 
-func (dao *sellerDaoImpl) SearchSeller(queries []dtos.SearchSellerlQuery) ([]models.Seller, error) {
+func (dao *sellerDaoImpl) SearchSeller(queries []dtos.SearchSellerQuery) ([]models.Seller, error) {
 	result := make([]models.Seller, 0)
 	db := dao.db
 	for _, query := range queries {
