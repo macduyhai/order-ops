@@ -39,6 +39,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		OrderService:       orderService,
 		BranchSellService:  branchSellService,
 		TypeProductService: typeProductService,
+		SellerService:      sellerService,
 	}
 
 	engine := gin.Default()
