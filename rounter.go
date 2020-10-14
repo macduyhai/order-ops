@@ -32,9 +32,13 @@ func InitGin(db *gorm.DB) *gin.Engine {
 	branchSellDao := daos.NewBranchSellDao(db)
 	branchSellService := services.NewBranchSellService(branchSellDao)
 
+	typeProductDao := daos.NewTypeProductDao(db)
+	typeProductService := services.NewTypeProductService(typeProductDao)
+
 	ctl := controllers.Controller{
-		OrderService:      orderService,
-		BranchSellService: branchSellService,
+		OrderService:       orderService,
+		BranchSellService:  branchSellService,
+		TypeProductService: typeProductService,
 	}
 
 	engine := gin.Default()
@@ -55,6 +59,11 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		branchSellGroup := apiGroup.Group("/branchsells")
 		{
 			branchSellGroup.POST("", ctl.AddBranchSell)
+
+		}
+		typeProductGroup := apiGroup.Group("/typeproducts")
+		{
+			typeProductGroup.POST("", ctl.AddTypeProduct)
 
 		}
 
