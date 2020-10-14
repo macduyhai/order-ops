@@ -10,7 +10,7 @@ import (
 type BranchSellDao interface {
 	Create(record *models.BranchSell) error
 	// Updates(record *models.Order) error
-	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error)
+	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]dtos.BranchSell, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
 	// Delete(orderNumber string) error
 }
@@ -37,8 +37,8 @@ func (dao *branchSellDaoImpl) Create(record *models.BranchSell) error {
 // 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
 // }
 
-func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error) {
-	result := make([]models.BranchSell, 0)
+func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery) ([]dtos.BranchSell, error) {
+	result := make([]dtos.BranchSell, 0)
 	db := dao.db
 	for _, query := range queries {
 		if query.Key == "name=?" {
