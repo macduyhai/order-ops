@@ -35,6 +35,9 @@ func InitGin(db *gorm.DB) *gin.Engine {
 	typeProductDao := daos.NewTypeProductDao(db)
 	typeProductService := services.NewTypeProductService(typeProductDao)
 
+	sellerDao := daos.NewSellerDao(db)
+	sellerService := services.NewSellerService(sellerDao)
+
 	ctl := controllers.Controller{
 		OrderService:       orderService,
 		BranchSellService:  branchSellService,
