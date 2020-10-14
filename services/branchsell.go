@@ -35,8 +35,8 @@ func NewBranchSellService(dao daos.BranchSellDao) BranchSellService {
 // 	completedStatus  = 3
 // )
 
-func (service *branchSellServiceImpl) mapperDtossToModelBranchSell(input dtos.BranchSell) models.BranchSell {
-	return models.BranchSell{
+func (service *branchSellServiceImpl) mapperDtossToModelBranchSell(input models.BranchSell) dtos.BranchSell {
+	return dtos.BranchSell{
 		Name: input.Name,
 		Note: input.Note,
 	}
