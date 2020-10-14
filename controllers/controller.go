@@ -212,7 +212,7 @@ func (c Controller) getSearchQueryType(ctx *gin.Context) ([]dtos.SearchTypeProdu
 
 	begin := ctx.Query("begin_time")
 	if begin != "" {
-		item := dtos.SearchBranchSellQuery{
+		item := dtos.SearchTypeProductQuery{
 			Key:   "created_at > ?",
 			Value: begin,
 		}
@@ -221,7 +221,7 @@ func (c Controller) getSearchQueryType(ctx *gin.Context) ([]dtos.SearchTypeProdu
 
 	end := ctx.Query("end_time")
 	if end != "" {
-		item := dtos.SearchBranchSellQuery{
+		item := dtos.SearchTypeProductQuery{
 			Key:   "created_at < ?",
 			Value: end,
 		}
