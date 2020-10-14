@@ -15,13 +15,43 @@ import (
 )
 
 type Controller struct {
-	OrderService services.OrderService
+	OrderService services.OrderService,
+	BranchSellService services.BranchSellService
 }
+
+
 
 func (c Controller) HealthCheck(contex *gin.Context) {
 	contex.JSON(200, gin.H{
 		"status": "running",
 	})
+}
+
+func (c Controller) AddBranchSell(ctx *gin.Context) {
+	var request dtos.AddbranchRequest
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.BranchSellService.AddBranchSell(request)
+	if err != nil {
+		fmt.Println("add order error", err)
+		utils.ResponseErrorGin(ctx, "add order error")
+		return
+	}
+
+	fmt.Println("add success")
+	utils.ResponseSuccess(ctx, resp)
 }
 
 func (c Controller) AddOrder(ctx *gin.Context) {
