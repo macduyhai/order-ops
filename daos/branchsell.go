@@ -1,6 +1,7 @@
 package daos
 
 import (
+	"order-ops/dtos"
 	"order-ops/models"
 
 	"github.com/jinzhu/gorm"
@@ -9,7 +10,7 @@ import (
 type BranchSellDao interface {
 	Create(record *models.BranchSell) error
 	// Updates(record *models.Order) error
-	// Search(queries []dtos.SearchQuery) ([]models.Order, error)
+	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
 	// Delete(orderNumber string) error
 }
@@ -36,27 +37,27 @@ func (dao *branchSellDaoImpl) Create(record *models.BranchSell) error {
 // 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
 // }
 
-// func (dao *orderDaoImpl) Search(queries []dtos.SearchQuery) ([]models.Order, error) {
-// 	result := make([]models.Order, 0)
-// 	db := dao.db
-// 	for _, query := range queries {
-// 		if query.Key == "status=?" {
-// 			continue
-// 		}
+func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error) {
+	result := make([]models.BranchSell, 0)
+	db := dao.db
+	for _, query := range queries {
+		if query.Key == "name=?" {
+			continue
+		}
 
-// 		if query.Value != nil {
-// 			db = db.Where(query.Key, query.Value)
-// 		} else {
-// 			db = db.Where(query.Key)
-// 		}
-// 	}
+		if query.Value != nil {
+			db = db.Where(query.Key, query.Value)
+		} else {
+			db = db.Where(query.Key)
+		}
+	}
 
-// 	if err := db.Find(&result).Error; err != nil {
-// 		return nil, nil
-// 	}
+	if err := db.Find(&result).Error; err != nil {
+		return nil, nil
+	}
 
-// 	return result, nil
-// }
+	return result, nil
+}
 
 // func (dao *orderDaoImpl) GetByOrderNumber(orderNumber string) (*models.Order, error) {
 // 	var result models.Order

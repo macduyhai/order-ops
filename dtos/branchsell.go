@@ -17,3 +17,8 @@ type AddbranchResponse struct {
 type DeletebranchRequest struct {
 	Name string `json:"name"`
 }
+
+type SearchBranchSellQuery struct {
+	Key   string
+	Value interface{}
+}

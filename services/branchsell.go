@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
@@ -9,7 +10,7 @@ import (
 type BranchSellService interface {
 	AddBranchSell(request dtos.AddbranchRequest) (*dtos.AddbranchResponse, error)
 	// AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
-	// Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error)
+	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]dtos.BranchSell, error)
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
 	// Detete(orderNumber string) error
@@ -41,15 +42,6 @@ func (service *branchSellServiceImpl) mapperDtossToModelBranchSell(input dtos.Br
 	}
 }
 
-// func (service *orderServiceImpl) mapperDtossToModelOrderAddLable(input dtos.AddLabelRequest) models.Order {
-// 	return models.Order{
-// 		OrderNumber:    input.OrderNumber,
-// 		TrackingNumber: input.LableDetails.TrackingNumber,
-// 		URL:            input.LableDetails.URL,
-// 		PartnerTrackingNumber: input.LableDetails.PartnerTrackingNumber,
-// 	}
-// }
-
 func (service *branchSellServiceImpl) AddBranchSell(request dtos.AddbranchRequest) (*dtos.AddbranchResponse, error) {
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
@@ -71,100 +63,28 @@ func (service *branchSellServiceImpl) AddBranchSell(request dtos.AddbranchReques
 	return &result, nil
 }
 
-// func (service *orderServiceImpl) AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error) {
-// 	record := service.mapperDtossToModelOrderAddLable(request)
-// 	err := service.dao.Updates(&record)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSellQuery) ([]dtos.BranchSell, error) {
+	records, _ := service.dao.SearchBranch(queries)
+	result := make([]dtos.BranchSell, 0)
+	name := ""
 
-// 	return &dtos.AddorderResponse{
-// 		ID: record.ID,
-// 	}, nil
-// }
+	for _, query := range queries {
+		if query.Key == "name=?" {
+			name = fmt.Sprintf("%v", query.Value)
+		}
+	}
+	for _, record := range records {
+		if name != "" {
+			if record.Name == name {
+				result = append(result, service.mapperDtossToModelBranchSell(record))
+			}
+		} else {
+			result = append(result, service.mapperDtossToModelBranchSell(record))
+		}
+	}
 
-// func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order) dtos.FullOrderInformation {
-// 	begin := input.BeginShipping.Format(CommonTimeFormat)
-// 	end := input.TimeCompleted.Format(CommonTimeFormat)
-// 	if begin == end {
-// 		begin = ""
-// 		end = ""
-// 	}
-
-// 	return dtos.FullOrderInformation{
-// 		dtos.Order{
-// 			OrderNumber: input.OrderNumber,
-// 			Name:        input.CustomerName,
-// 			Quantity:    input.Quantity,
-// 			Phone:       input.Phone,
-// 			Address1:    input.Address1,
-// 			Address2:    input.Address2,
-// 			City:        input.City,
-// 			State:       input.State,
-// 			PostalCode:  input.PostalCode,
-// 			Country:     input.Country,
-// 			Note:        input.Note,
-// 			CreatedAt:   input.CreatedAt,
-// 		},
-// 		dtos.ShippingInfor{
-// 			Status:        input.Status,
-// 			BeginShipping: begin,
-// 			TimeCompleted: end,
-// 		},
-// 		dtos.LableDetails{
-// 			TrackingNumber: input.TrackingNumber,
-// 			URL:            input.URL,
-// 			PartnerTrackingNumber: input.PartnerTrackingNumber,
-// 		},
-// 	}
-// }
-
-// func (service *orderServiceImpl) updateRecordState(input *models.Order) {
-// 	if input.BeginShipping.Equal(*input.TimeCompleted) || input.Status == completedStatus {
-// 		return
-// 	}
-
-// 	now := time.Now()
-// 	if now.After(*input.BeginShipping) && now.Before(*input.TimeCompleted) {
-// 		input.Status = shippingStatus
-// 		return
-// 	}
-
-// 	if now.After(*input.BeginShipping) {
-// 		input.Status = holdOnStatus
-// 		return
-// 	}
-// }
-
-// func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error) {
-// 	records, _ := service.dao.Search(queries)
-// 	result := make([]dtos.FullOrderInformation, 0)
-// 	status := -1
-
-// 	for _, query := range queries {
-// 		if query.Key == "status=?" {
-// 			statusint, _ := strconv.Atoi(fmt.Sprintf("%v", query.Value))
-// 			status = statusint
-// 		}
-// 	}
-
-// 	for _, record := range records {
-// 		service.updateRecordState(&record)
-// 		if status != -1 {
-// 			if int(record.Status) == status {
-// 				result = append(result, service.mapperModelsToOrderFullInfor(record))
-// 			}
-// 		} else {
-// 			result = append(result, service.mapperModelsToOrderFullInfor(record))
-// 		}
-// 	}
-
-// 	sort.SliceStable(result, func(i, j int) bool {
-// 		return result[i].Status < result[j].Status
-// 	})
-
-// 	return result, nil
-// }
+	return result, nil
+}
 
 // func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
 // 	record := models.Order{
