@@ -15,11 +15,9 @@ import (
 )
 
 type Controller struct {
-	OrderService services.OrderService,
+	OrderService      services.OrderService
 	BranchSellService services.BranchSellService
 }
-
-
 
 func (c Controller) HealthCheck(contex *gin.Context) {
 	contex.JSON(200, gin.H{
@@ -185,7 +183,7 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 
 	status := ctx.Query("status")
 	if status != "" {
-		item := dtos.SearchQuery{	
+		item := dtos.SearchQuery{
 			Key:   "status=?",
 			Value: status,
 		}
