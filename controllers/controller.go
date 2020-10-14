@@ -203,16 +203,16 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 }
 
 // Search Branch Sell
-func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchQuery, error) {
-	result := make([]dtos.SearchQuery, 0)
-	result = append(result, dtos.SearchQuery{
+func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchBranchSellQuery, error) {
+	result := make([]dtos.SearchBranchSellQuery, 0)
+	result = append(result, dtos.SearchBranchSellQuery{
 		Key:   "deleted_at IS NULL",
 		Value: nil,
 	})
 
 	begin := ctx.Query("begin_time")
 	if begin != "" {
-		item := dtos.SearchQuery{
+		item := dtos.SearchBranchSellQuery{
 			Key:   "created_at > ?",
 			Value: begin,
 		}
@@ -221,7 +221,7 @@ func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchQuery, 
 
 	end := ctx.Query("end_time")
 	if end != "" {
-		item := dtos.SearchQuery{
+		item := dtos.SearchBranchSellQuery{
 			Key:   "created_at < ?",
 			Value: end,
 		}
@@ -230,7 +230,7 @@ func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchQuery, 
 
 	orderNumber := ctx.Query("name")
 	if orderNumber != "" {
-		item := dtos.SearchQuery{
+		item := dtos.SearchBranchSellQuery{
 			Key:   "name = ?",
 			Value: orderNumber,
 		}
