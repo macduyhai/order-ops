@@ -21,3 +21,8 @@ type AddtypeResponse struct {
 type DeletetypeRequest struct {
 	Name string `json:"name"`
 }
+
+type SearchTypeProductQuery struct {
+	Key   string
+	Value interface{}
+}

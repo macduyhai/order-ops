@@ -202,6 +202,63 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, resp)
 }
 
+// Search Type Product
+func (c Controller) getSearchQueryType(ctx *gin.Context) ([]dtos.SearchTypeProductQuery, error) {
+	result := make([]dtos.SearchTypeProductQuery, 0)
+	result = append(result, dtos.SearchTypeProductQuery{
+		Key:   "deleted_at IS NULL",
+		Value: nil,
+	})
+
+	begin := ctx.Query("begin_time")
+	if begin != "" {
+		item := dtos.SearchBranchSellQuery{
+			Key:   "created_at > ?",
+			Value: begin,
+		}
+		result = append(result, item)
+	}
+
+	end := ctx.Query("end_time")
+	if end != "" {
+		item := dtos.SearchBranchSellQuery{
+			Key:   "created_at < ?",
+			Value: end,
+		}
+		result = append(result, item)
+	}
+
+	orderNumber := ctx.Query("name")
+	if orderNumber != "" {
+		item := dtos.SearchTypeProductQuery{
+			Key:   "name = ?",
+			Value: orderNumber,
+		}
+		result = append(result, item)
+	}
+
+	return result, nil
+}
+
+func (c Controller) SearchType(ctx *gin.Context) {
+	queries, err := c.getSearchQueryType(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.TypeProductService.SearchType(queries)
+	if err != nil {
+		fmt.Println("search orders error", err)
+		utils.ResponseErrorGin(ctx, "search order error")
+		return
+	}
+
+	fmt.Println("search success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
 // Search Branch Sell
 func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchBranchSellQuery, error) {
 	result := make([]dtos.SearchBranchSellQuery, 0)
