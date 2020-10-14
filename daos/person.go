@@ -14,20 +14,21 @@ type PersonDao interface {
 type personDaoImpl struct {
 	db *gorm.DB
 }
+
 func NewPersonDao(db *gorm.DB) PersonDao {
 	return &personDaoImpl{
-		db:db,
+		db: db,
 	}
 }
 
-func (c *personDaoImpl)Create(person *models.Person) error{
+func (c *personDaoImpl) Create(person *models.Person) error {
 	return c.db.Create(person).Error
 }
 
-func (c *personDaoImpl)Save(person *models.Person) error{
+func (c *personDaoImpl) Save(person *models.Person) error {
 	return c.db.Save(person).Error
 }
-func (c *personDaoImpl)Read(id int) (*models.Person, error)  {
+func (c *personDaoImpl) Read(id int) (*models.Person, error) {
 	var person models.Person
 	if err := c.db.Where("id = ?", id).First(&person).Error; err != nil {
 		return nil, err
