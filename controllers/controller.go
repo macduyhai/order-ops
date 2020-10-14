@@ -18,6 +18,7 @@ type Controller struct {
 	OrderService       services.OrderService
 	BranchSellService  services.BranchSellService
 	TypeProductService services.TypeProductService
+	SellerService      services.SellerService
 }
 
 func (c Controller) HealthCheck(contex *gin.Context) {
