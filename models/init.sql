@@ -53,7 +53,7 @@ CREATE TABLE `typeproducts` (
   `width` INT(10) NOT NULL,
   `height` INT(10) NOT NULL,
   `weight` INT(10) NOT NULL,
-  `lenght` INT(10) NOT NULL,
+  `length` INT(10) NOT NULL,
   `note` VARCHAR(255) DEFAULT '',
   `created_at`                 DATETIME    DEFAULT NOW(),
   `updated_at`                 DATETIME    DEFAULT NOW() ON UPDATE NOW(),

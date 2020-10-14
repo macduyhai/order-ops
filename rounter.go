@@ -66,6 +66,11 @@ func InitGin(db *gorm.DB) *gin.Engine {
 			typeProductGroup.POST("", ctl.AddTypeProduct)
 
 		}
+		sellerGroup := apiGroup.Group("/seller")
+		{
+			sellerGroup.POST("", ctl.AddSeller)
+
+		}
 
 		labelGroup := apiGroup.Group("/labels")
 		{
