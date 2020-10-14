@@ -22,15 +22,15 @@ services:
     environment:
       - MYSQL_CONNECT_URL=root:bW90aGVyIGZ1Y2tlciBub29i@tcp(mysql:3306)/orders?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local
     networks:
-      - backend
+      - backend_order
   mysql:
     image: mysql:5.7
     restart: always
-    container_name: mysql-cm
+    container_name: mysql-order
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - backend
+      - backend_order
     ports:
       - "3307:3306"
     environment:
@@ -43,5 +43,5 @@ volumes:
     name: order_mysql
     external: true
 networks:
-  backend:
+  backend_order:
     driver: bridge
