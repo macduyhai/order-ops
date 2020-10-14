@@ -58,9 +58,9 @@ func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) model
 
 func (service *orderServiceImpl) mapperDtossToModelOrderAddLable(input dtos.AddLabelRequest) models.Order {
 	return models.Order{
-		OrderNumber:           input.OrderNumber,
-		TrackingNumber:        input.LableDetails.TrackingNumber,
-		URL:                   input.LableDetails.URL,
+		OrderNumber:    input.OrderNumber,
+		TrackingNumber: input.LableDetails.TrackingNumber,
+		URL:            input.LableDetails.URL,
 		PartnerTrackingNumber: input.LableDetails.PartnerTrackingNumber,
 	}
 }
@@ -119,6 +119,7 @@ func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order
 			PostalCode:  input.PostalCode,
 			Country:     input.Country,
 			Note:        input.Note,
+			CreatedAt:   input.CreatedAt,
 		},
 		dtos.ShippingInfor{
 			Status:        input.Status,
@@ -126,8 +127,8 @@ func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order
 			TimeCompleted: end,
 		},
 		dtos.LableDetails{
-			TrackingNumber:        input.TrackingNumber,
-			URL:                   input.URL,
+			TrackingNumber: input.TrackingNumber,
+			URL:            input.URL,
 			PartnerTrackingNumber: input.PartnerTrackingNumber,
 		},
 	}

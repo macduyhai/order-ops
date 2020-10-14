@@ -12,21 +12,22 @@ type Response struct {
 	Data interface{} `json:"data,omitempty"`
 }
 type Order struct {
-	OrderNumber string `json:"orderNumber"`
-	Name        string `json:"name"`
-	Item        string `json:"item"`
-	Quantity    int32  `json:"quantity"`
-	Address1    string `json:"address1"`
-	Address2    string `json:"address2"`
-	City        string `json:"city"`
-	State       string `json:"state"`
-	PostalCode  string `json:"postalCode"`
-	Country     string `json:"country"`
-	Phone       string `json:"phone"`
-	BranchSell  string `json:"branchsell"`
-	TypeProduct string `json:"typeproduct"`
-	Seller      string `json:"seller"`
-	Note        string `json:"note"`
+	OrderNumber string     `json:"orderNumber"`
+	Name        string     `json:"name"`
+	Item        string     `json:"item"`
+	Quantity    int32      `json:"quantity"`
+	Address1    string     `json:"address1"`
+	Address2    string     `json:"address2"`
+	City        string     `json:"city"`
+	State       string     `json:"state"`
+	PostalCode  string     `json:"postalCode"`
+	Country     string     `json:"country"`
+	Phone       string     `json:"phone"`
+	BranchSell  string     `json:"branchsell"`
+	TypeProduct string     `json:"typeproduct"`
+	Seller      string     `json:"seller"`
+	Note        string     `json:"note"`
+	CreatedAt   *time.Time `json:"created_at"`
 }
 
 type AddOrderRequest struct {

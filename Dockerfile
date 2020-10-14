@@ -1,8 +1,8 @@
 FROM golang:1.14 as builder
 
-WORKDIR /app
+WORKDIR /app_order
 
-COPY . /app
+COPY . /app_order
 
 RUN go mod download
 
@@ -12,10 +12,10 @@ RUN go build -o main
 
 FROM ubuntu:16.04
 
-WORKDIR /app
+WORKDIR /app_order
 
-COPY --from=builder /app/main .
+COPY --from=builder /app_order/main .
 
 EXPOSE 80
 
-CMD ["/app/main"]
+CMD ["/app_order/main"]
