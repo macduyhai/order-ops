@@ -75,6 +75,11 @@ type SearchQuery struct {
 	Value interface{}
 }
 
+// type NumberOrderQuery struct {
+// 	Key   string
+// 	Value interface{}
+// }
+
 type ChangeStatusToCompleted struct {
 	OrderNumber string `json:"orderNumber"`
 }

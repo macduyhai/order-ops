@@ -14,6 +14,7 @@ type OrderDao interface {
 	Search(queries []dtos.SearchQuery) ([]models.Order, error)
 	GetByOrderNumber(orderNumber string) (*models.Order, error)
 	Delete(orderNumber string) error
+	// NumberOrder(queries dtos.NumberOrderQuery) ([]models.NumberOrderInfor, error)
 }
 
 type orderDaoImpl struct {
@@ -37,6 +38,25 @@ func (dao *orderDaoImpl) Updates(record *models.Order) error {
 	record.ID = existedRecord.ID
 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
 }
+
+// func (dao *orderDaoImpl) NumberOrder(query dtos.NumberOrderQuery) ([]models.NumberOrderInfor, error) {
+// 	result := make([]models.NumberOrderInfor, 0)
+// 	db := dao.db
+// 	if query.Key == "interval=?" {
+// 		continue
+// 	}
+// 	if query.Value != nil {
+// 		db = db.Where(query.Key, query.Value)
+// 	} else {
+// 		db = db.Where(query.Key)
+// 	}
+
+// 	if err := db.Find(&result).Error; err != nil {
+// 		return nil, nil
+// 	}
+
+// 	return result, nil
+// }
 
 func (dao *orderDaoImpl) Search(queries []dtos.SearchQuery) ([]models.Order, error) {
 	result := make([]models.Order, 0)

@@ -439,6 +439,46 @@ func (c Controller) Search(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, resp)
 }
 
+// NumberOrderforWeek
+
+// func (c Controller) getNumberOrderQuery(ctx *gin.Context) ([]dtos. , error) {
+// 	result := make([]dtos.NumberOrderQuery, 0)
+// 	result = append(result, dtos.NumberOrderQuery{
+// 		Key:   "deleted_at IS NULL",
+// 		Value: nil,
+// 	})
+
+// 	intervalTime := ctx.Query("interval")
+// 	if intervalTime != "" {
+// 		item := dtos.SearchQuery{
+// 			Key:   "interval = ?",
+// 			Value: intervalTime,
+// 		}
+// 		result = append(result, item)
+// 	}
+
+// 	return result, nil
+// }
+
+// func (c Controller) NumberOrder(ctx *gin.Context) {
+// 	queries, err := c.getNumberOrderQuery(ctx)
+// 	if err != nil {
+// 		fmt.Println("bind json error", err)
+// 		utils.ResponseErrorGin(ctx, "bind json error")
+// 		return
+// 	}
+
+// 	resp, err := c.OrderService.NumberOrder(queries)
+// 	if err != nil {
+// 		fmt.Println(" Get NumberOrder error", err)
+// 		utils.ResponseErrorGin(ctx, "Get NumberOrder error")
+// 		return
+// 	}
+
+// 	fmt.Println("search success")
+// 	utils.ResponseSuccess(ctx, resp)
+// }
+
 func (c Controller) MakeDone(ctx *gin.Context) {
 	var request dtos.ChangeStatusToCompleted
 	err := ctx.ShouldBindJSON(&request)

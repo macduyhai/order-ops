@@ -20,6 +20,7 @@ type OrderService interface {
 	MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(orderNumber string) error
 	Updates(request dtos.Order) (*dtos.AddorderResponse, error)
+	// NumberOrder(queries dtos.NumberOrderQuery) (dtos.NumberOrderInfor, error)
 }
 
 type orderServiceImpl struct {
@@ -52,6 +53,9 @@ func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) model
 		State:        input.State,
 		PostalCode:   input.PostalCode,
 		Country:      input.Country,
+		BranchSell:   input.BranchSell,
+		TypeProduct:  input.TypeProduct,
+		Seller:       input.Seller,
 		Note:         input.Note,
 	}
 }
@@ -118,6 +122,9 @@ func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order
 			State:       input.State,
 			PostalCode:  input.PostalCode,
 			Country:     input.Country,
+			BranchSell:  input.BranchSell,
+			TypeProduct: input.TypeProduct,
+			Seller:      input.Seller,
 			Note:        input.Note,
 			CreatedAt:   input.CreatedAt,
 		},
@@ -180,6 +187,35 @@ func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.Full
 
 	return result, nil
 }
+
+// Get number order
+// func (service *orderServiceImpl) NumberOrder(query []dtos.NumberOrderQuery) ([]dtos.NumberOrderInfor, error) {
+// 	records, _ := service.dao.Search(queries)
+// 	result := make([]dtos.NumberOrderInfor, 0)
+// 	status := -1
+
+// 		if query.Key == "interval=?" {
+// 			statusint, _ := strconv.Atoi(fmt.Sprintf("%v", query.Value))
+// 			status = statusint
+// 		}
+
+// 	for _, record := range records {
+// 		service.updateRecordState(&record)
+// 		if status != -1 {
+// 			if int(record.Status) == status {
+// 				result = append(result, service.mapperModelsToOrderFullInfor(record))
+// 			}
+// 		} else {
+// 			result = append(result, service.mapperModelsToOrderFullInfor(record))
+// 		}
+// 	}
+
+// 	sort.SliceStable(result, func(i, j int) bool {
+// 		return result[i].Status < result[j].Status
+// 	})
+
+// 	return result, nil
+// }
 
 func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
 	record := models.Order{
