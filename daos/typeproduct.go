@@ -12,7 +12,7 @@ type TypeProductDao interface {
 	// Updates(record *models.Order) error
 	SearchType(queries []dtos.SearchTypeProductQuery) ([]models.TypeProduct, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
-	// Delete(orderNumber string) error
+	Delete(Typename string) error
 }
 
 type typeProductDaoImpl struct {

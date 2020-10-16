@@ -13,7 +13,7 @@ type TypeProductService interface {
 	SearchType(queries []dtos.SearchTypeProductQuery) ([]dtos.TypeProduct, error)
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
-	// Detete(orderNumber string) error
+	Detete(Typename string) error
 	// Updates(request dtos.Order) (*dtos.AddorderResponse, error)
 }
 
