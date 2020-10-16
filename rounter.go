@@ -59,6 +59,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 			orderGroup.GET("/search", ctl.Search)
 			// orderGroup.GET("/number-orders", ctl.NumberOrder)
 			orderGroup.POST("/make-done", ctl.MakeDone)
+			orderGroup.POST("/delay", ctl.MakeDelay)
 			orderGroup.POST("/shipping-time", ctl.AddShippingTime)
 		}
 		branchSellGroup := apiGroup.Group("/branchsells")

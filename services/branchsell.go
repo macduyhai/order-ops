@@ -27,14 +27,6 @@ func NewBranchSellService(dao daos.BranchSellDao) BranchSellService {
 	}
 }
 
-// const CommonTimeFormat = "2006-01-02 15:04:05"
-// const (
-// 	processingStatus = 0
-// 	shippingStatus   = 1
-// 	holdOnStatus     = 2
-// 	completedStatus  = 3
-// )
-
 func (service *branchSellServiceImpl) mapperDtossToModelBranchSell(input dtos.BranchSell) models.BranchSell {
 	return models.BranchSell{
 		Name: input.Name,
@@ -96,44 +88,3 @@ func (service *branchSellServiceImpl) Detete(branchname string) error {
 	fmt.Println(branchname)
 	return service.dao.Delete(branchname)
 }
-
-// func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
-// 	record := models.Order{
-// 		OrderNumber:   request.OrderNumber,
-// 		BeginShipping: request.BeginShippingReal,
-// 		TimeCompleted: request.TimeCompletedReal,
-// 	}
-// 	err := service.dao.Updates(&record)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &dtos.AddorderResponse{
-// 		ID: record.ID,
-// 	}, nil
-// }
-
-// func (service *orderServiceImpl) MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error) {
-// 	record := models.Order{
-// 		OrderNumber: orderNumber,
-// 		Status:      completedStatus,
-// 	}
-// 	err := service.dao.Updates(&record)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &dtos.AddorderResponse{
-// 		ID: record.ID,
-// 	}, nil
-// }
-
-// func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResponse, error) {
-// 	record := service.mapperDtossToModelOrder(request)
-// 	err := service.dao.Updates(&record)
-// 	if err != nil {
-// 		return nil, errors.Wrap(err, "update record error")
-// 	}
-
-// 	return &dtos.AddorderResponse{ID: record.ID}, nil
-// }

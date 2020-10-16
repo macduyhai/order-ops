@@ -568,6 +568,27 @@ func (c Controller) Search(ctx *gin.Context) {
 // 	utils.ResponseSuccess(ctx, resp)
 // }
 
+// MakeDelay
+func (c Controller) MakeDelay(ctx *gin.Context) {
+	var request dtos.ChangeStatusToDelay
+	err := ctx.ShouldBindJSON(&request)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.OrderService.MakeDelay(request.OrderNumber)
+	if err != nil {
+		fmt.Println("make order delay error", err)
+		utils.ResponseErrorGin(ctx, "make order delay error")
+		return
+	}
+
+	fmt.Println("make order done success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
 func (c Controller) MakeDone(ctx *gin.Context) {
 	var request dtos.ChangeStatusToCompleted
 	err := ctx.ShouldBindJSON(&request)

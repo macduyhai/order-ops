@@ -83,3 +83,6 @@ type SearchQuery struct {
 type ChangeStatusToCompleted struct {
 	OrderNumber string `json:"orderNumber"`
 }
+type ChangeStatusToDelay struct {
+	OrderNumber string `json:"orderNumber"`
+}

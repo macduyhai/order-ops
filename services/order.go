@@ -35,10 +35,15 @@ func NewOrderService(dao daos.OrderDao) OrderService {
 
 const CommonTimeFormat = "2006-01-02 15:04:05"
 const (
-	processingStatus = 0
-	shippingStatus   = 1
-	holdOnStatus     = 2
-	completedStatus  = 3
+	waitingStatus   = 0
+	shippingStatus  = 1
+	completedStatus = 2
+	delayStatus     = 3
+
+	// processingStatus = 0
+	// shippingStatus   = 1
+	// holdOnStatus     = 2
+	// completedStatus  = 3
 )
 
 func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) models.Order {
@@ -153,10 +158,27 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	}
 
 	if now.After(*input.BeginShipping) {
-		input.Status = holdOnStatus
+		input.Status = completedStatus
 		return
 	}
 }
+
+// func (service *orderServiceImpl) updateRecordState(input *models.Order) {
+// 	if input.BeginShipping.Equal(*input.TimeCompleted) || input.Status == completedStatus {
+// 		return
+// 	}
+
+// 	now := time.Now()
+// 	if now.After(*input.BeginShipping) && now.Before(*input.TimeCompleted) {
+// 		input.Status = shippingStatus
+// 		return
+// 	}
+
+// 	if now.After(*input.BeginShipping) {
+// 		input.Status = holdOnStatus
+// 		return
+// 	}
+// }
 
 func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error) {
 	records, _ := service.dao.Search(queries)
@@ -188,40 +210,26 @@ func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.Full
 	return result, nil
 }
 
-// Get number order
-// func (service *orderServiceImpl) NumberOrder(query []dtos.NumberOrderQuery) ([]dtos.NumberOrderInfor, error) {
-// 	records, _ := service.dao.Search(queries)
-// 	result := make([]dtos.NumberOrderInfor, 0)
-// 	status := -1
-
-// 		if query.Key == "interval=?" {
-// 			statusint, _ := strconv.Atoi(fmt.Sprintf("%v", query.Value))
-// 			status = statusint
-// 		}
-
-// 	for _, record := range records {
-// 		service.updateRecordState(&record)
-// 		if status != -1 {
-// 			if int(record.Status) == status {
-// 				result = append(result, service.mapperModelsToOrderFullInfor(record))
-// 			}
-// 		} else {
-// 			result = append(result, service.mapperModelsToOrderFullInfor(record))
-// 		}
-// 	}
-
-// 	sort.SliceStable(result, func(i, j int) bool {
-// 		return result[i].Status < result[j].Status
-// 	})
-
-// 	return result, nil
-// }
-
 func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
 	record := models.Order{
 		OrderNumber:   request.OrderNumber,
 		BeginShipping: request.BeginShippingReal,
 		TimeCompleted: request.TimeCompletedReal,
+	}
+	err := service.dao.Updates(&record)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dtos.AddorderResponse{
+		ID: record.ID,
+	}, nil
+}
+
+func (service *orderServiceImpl) MakeDelay(orderNumber string) (*dtos.AddorderResponse, error) {
+	record := models.Order{
+		OrderNumber: orderNumber,
+		Status:      delayStatus,
 	}
 	err := service.dao.Updates(&record)
 	if err != nil {
