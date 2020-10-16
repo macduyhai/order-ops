@@ -32,7 +32,7 @@ func (c Controller) HealthCheck(contex *gin.Context) {
 func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	branchname := ctx.Query("branchsells")
 	log.Println("test")
-	log.Println(branchname)
+	log.Println(ctx)
 
 	if branchname == "" {
 		utils.ResponseSuccess(ctx, nil)
