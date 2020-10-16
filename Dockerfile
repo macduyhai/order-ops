@@ -17,5 +17,6 @@ WORKDIR /app_order
 COPY --from=builder /app_order/main .
 
 EXPOSE 80
-
+ENV SET_CONTAINER_TIMEZONE false
+ENV CONTAINER_TIMEZONE Asia/Ho_Chi_Minh
 CMD ["/app_order/main"]
