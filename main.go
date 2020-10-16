@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"order-ops/config"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 func main() {
+	os.Setenv("TZ", "Asia/Ho_Chi_Minh")
 	config, err := config.GetConfig()
 	if err != nil {
 		panic(err)
