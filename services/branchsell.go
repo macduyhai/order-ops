@@ -93,6 +93,7 @@ func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSe
 }
 
 func (service *branchSellServiceImpl) Detete(branchname string) error {
+	fmt.Println(branchname)
 	return service.dao.Delete(branchname)
 }
 

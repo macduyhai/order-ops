@@ -30,6 +30,7 @@ func (c Controller) HealthCheck(contex *gin.Context) {
 // ----- Delete method DeleteBranchSell
 func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	branchname := ctx.Query("name")
+	fmt.Println(branchname)
 	if branchname == "" {
 		utils.ResponseSuccess(ctx, nil)
 		return
