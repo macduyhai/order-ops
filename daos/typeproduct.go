@@ -58,6 +58,17 @@ func (dao *typeProductDaoImpl) SearchType(queries []dtos.SearchTypeProductQuery)
 	return result, nil
 }
 
+func (dao *typeProductDaoImpl) Delete(Typename string) error {
+	var result models.TypeProduct
+	if err := dao.db.Where("name=?", Typename).Delete(&result).Error; err != nil {
+		return err
+	}
+
+	return nil
+
+	// return dao.db.Where("name=?", branchname).Delete(&result).Error
+}
+
 // func (dao *orderDaoImpl) GetByOrderNumber(orderNumber string) (*models.Order, error) {
 // 	var result models.Order
 // 	if err := dao.db.Where("order_number=?", orderNumber).First(&result).Error; err != nil {

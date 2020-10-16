@@ -14,7 +14,7 @@ type AddsellerResponse struct {
 	RecordsSuccess []string `json:"recordsSuccess,omitempty"`
 	RecordsFailes  []string `json:"recordsFailes,omitempty"`
 }
-type DeletesellerRequest struct {
+type DeleteSellerRequest struct {
 	Name string `json:"name"`
 }
 

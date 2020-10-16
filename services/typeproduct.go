@@ -108,6 +108,9 @@ func (service *typeProductServiceImpl) SearchType(queries []dtos.SearchTypeProdu
 
 	return result, nil
 }
+func (service *typeProductServiceImpl) Detete(Typename string) error {
+	return service.dao.Delete(Typename)
+}
 
 // func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
 // 	record := models.Order{
@@ -138,10 +141,6 @@ func (service *typeProductServiceImpl) SearchType(queries []dtos.SearchTypeProdu
 // 	return &dtos.AddorderResponse{
 // 		ID: record.ID,
 // 	}, nil
-// }
-
-// func (service *orderServiceImpl) Detete(orderNumber string) error {
-// 	return service.dao.Delete(orderNumber)
 // }
 
 // func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResponse, error) {

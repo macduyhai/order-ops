@@ -18,7 +18,7 @@ type AddtypeResponse struct {
 	RecordsSuccess []string `json:"recordsSuccess,omitempty"`
 	RecordsFailes  []string `json:"recordsFailes,omitempty"`
 }
-type DeletetypeRequest struct {
+type DeleteTypeRequest struct {
 	Name string `json:"name"`
 }
 

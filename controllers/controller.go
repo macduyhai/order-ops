@@ -29,6 +29,34 @@ func (c Controller) HealthCheck(contex *gin.Context) {
 }
 
 // ----- Delete method DeleteBranchSell
+func (c Controller) DeleteTypeProduct(ctx *gin.Context) {
+	var request dtos.DeleteTypeRequest
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	log.Println(request.Name)
+	c.TypeProductService.Detete(request.Name)
+	// err := c.BranchSellService.Detete(request.Name)
+	// if err != nil {
+	// 	fmt.Println("delete branch error", err)
+	// 	utils.ResponseErrorGin(ctx, "delete branch error")
+	// 	return
+	// }
+
+	fmt.Println("Delete type product success")
+	utils.ResponseSuccess(ctx, nil)
+}
+
 func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	var request dtos.DeleteBranchRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
@@ -45,14 +73,6 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 		return
 	}
 	log.Println(request.Name)
-	// branchname := ctx.Query("branchsells")
-	// log.Println("test")
-	// log.Println(ctx)
-
-	// if branchname == "" {
-	// 	utils.ResponseSuccess(ctx, nil)
-	// 	return
-	// }
 	c.BranchSellService.Detete(request.Name)
 	// err := c.BranchSellService.Detete(request.Name)
 	// if err != nil {
@@ -61,7 +81,7 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	// 	return
 	// }
 
-	fmt.Println("delete branch success")
+	fmt.Println("Delete branch success")
 	utils.ResponseSuccess(ctx, nil)
 }
 
