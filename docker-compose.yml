@@ -20,6 +20,7 @@ services:
       retries: 3
       start_period: 40s
     environment:
+      - TZ=Asia/Ho_Chi_Minh
       - MYSQL_CONNECT_URL=root:bW90aGVyIGZ1Y2tlciBub29i@tcp(mysql:3306)/orders?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local
     networks:
       - backend_order
