@@ -18,6 +18,7 @@ type OrderService interface {
 	Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error)
 	AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
+	MakeDelay(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(orderNumber string) error
 	Updates(request dtos.Order) (*dtos.AddorderResponse, error)
 	// NumberOrder(queries dtos.NumberOrderQuery) (dtos.NumberOrderInfor, error)
