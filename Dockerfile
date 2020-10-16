@@ -18,4 +18,6 @@ COPY --from=builder /app_order/main .
 
 EXPOSE 80
 
+ENV TZ Asia/Ho_Chi_Minh
+
 CMD ["/app_order/main"]
