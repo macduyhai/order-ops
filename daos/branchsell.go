@@ -10,7 +10,7 @@ import (
 
 type BranchSellDao interface {
 	Create(record *models.BranchSell) error
-	// Updates(record *models.Order) error
+	Updates(record *models.BranchSell) error
 	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
 	Delete(branchname string) error

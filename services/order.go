@@ -38,7 +38,7 @@ const CommonTimeFormat = "2006-01-02 15:04:05"
 const (
 	waitingStatus   = 0
 	shippingStatus  = 1
-	completedStatus = 2
+	completedStatus = 4
 	delayStatus     = 3
 
 	// processingStatus = 0

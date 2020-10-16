@@ -97,5 +97,5 @@ func (service *branchSellServiceImpl) Updates(request dtos.BranchSell) (*dtos.Ad
 		return nil, errors.Wrap(err, "update record error")
 	}
 
-	return &dtos.AddorderResponse{ID: record.ID}, nil
+	return &dtos.AddbranchResponse{ID: record.ID}, nil
 }
