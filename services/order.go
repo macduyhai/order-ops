@@ -207,7 +207,9 @@ func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.Full
 	}
 
 	for _, record := range records {
-		service.updateRecordState(&record)
+		if int(record.Status) != delayStatus {
+			service.updateRecordState(&record)
+		}
 		if status != -1 {
 			if int(record.Status) == status {
 				result = append(result, service.mapperModelsToOrderFullInfor(record))
