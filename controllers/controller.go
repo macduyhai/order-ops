@@ -53,13 +53,13 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	// 	utils.ResponseSuccess(ctx, nil)
 	// 	return
 	// }
-
-	err := c.BranchSellService.Detete(request.Name)
-	if err != nil {
-		fmt.Println("delete branch error", err)
-		utils.ResponseErrorGin(ctx, "delete branch error")
-		return
-	}
+	c.BranchSellService.Detete(request.Name)
+	// err := c.BranchSellService.Detete(request.Name)
+	// if err != nil {
+	// 	fmt.Println("delete branch error", err)
+	// 	utils.ResponseErrorGin(ctx, "delete branch error")
+	// 	return
+	// }
 
 	fmt.Println("delete branch success")
 	utils.ResponseSuccess(ctx, nil)
