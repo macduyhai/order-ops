@@ -1,7 +1,6 @@
 package daos
 
 import (
-	"fmt"
 	"order-ops/dtos"
 	"order-ops/models"
 
@@ -61,8 +60,13 @@ func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery)
 }
 func (dao *branchSellDaoImpl) Delete(branchname string) error {
 	var result models.BranchSell
-	fmt.Println(branchname)
-	return dao.db.Where("name=?", branchname).Delete(&result).Error
+	if err := dao.db.Where("name=?", branchname).Delete(&result).Error; err != nil {
+		return err
+	}
+
+	return nil
+
+	// return dao.db.Where("name=?", branchname).Delete(&result).Error
 }
 
 // func (dao *orderDaoImpl) GetByOrderNumber(orderNumber string) (*models.Order, error) {
