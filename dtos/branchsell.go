@@ -14,7 +14,7 @@ type AddbranchResponse struct {
 	RecordsSuccess []string `json:"recordsSuccess,omitempty"`
 	RecordsFailes  []string `json:"recordsFailes,omitempty"`
 }
-type DeletebranchRequest struct {
+type DeleteBranchRequest struct {
 	Name string `json:"name"`
 }
 

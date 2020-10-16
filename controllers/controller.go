@@ -30,16 +30,31 @@ func (c Controller) HealthCheck(contex *gin.Context) {
 
 // ----- Delete method DeleteBranchSell
 func (c Controller) DeleteBranchSell(ctx *gin.Context) {
-	branchname := ctx.Query("branchsells")
-	log.Println("test")
-	log.Println(ctx)
-
-	if branchname == "" {
-		utils.ResponseSuccess(ctx, nil)
+	var request dtos.DeleteBranchRequest
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
 		return
 	}
 
-	err := c.BranchSellService.Detete(branchname)
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	log.Println(request.name)
+	// branchname := ctx.Query("branchsells")
+	// log.Println("test")
+	// log.Println(ctx)
+
+	// if branchname == "" {
+	// 	utils.ResponseSuccess(ctx, nil)
+	// 	return
+	// }
+
+	err := c.BranchSellService.Detete(request.name)
 	if err != nil {
 		fmt.Println("delete branch error", err)
 		utils.ResponseErrorGin(ctx, "delete branch error")
