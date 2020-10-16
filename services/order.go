@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"log"
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
@@ -158,10 +159,11 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	}
 
 	now := time.Now()
-	if now.Equal(*input.BeginShipping) {
-		input.Status = shippingStatus
-		return
-	}
+	log.Println(now)
+	// if now.Equal(*input.BeginShipping) {
+	// 	input.Status = shippingStatus
+	// 	return
+	// }
 	if now.After(*input.BeginShipping) && now.Before(*input.TimeCompleted) {
 		input.Status = shippingStatus
 		return
@@ -171,6 +173,7 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 		input.Status = completedStatus
 		return
 	}
+	log.Println(input.Status)
 }
 
 // func (service *orderServiceImpl) updateRecordState(input *models.Order) {
