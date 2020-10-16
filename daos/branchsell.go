@@ -5,6 +5,7 @@ import (
 	"order-ops/models"
 
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
 type BranchSellDao interface {
@@ -26,16 +27,23 @@ func NewBranchSellDao(db *gorm.DB) BranchSellDao {
 func (dao *branchSellDaoImpl) Create(record *models.BranchSell) error {
 	return dao.db.Create(record).Error
 }
+func (dao *branchSellDaoImpl) GetByBranchName(branchName string) (*models.BranchSell, error) {
+	var result models.BranchSell
+	if err := dao.db.Where("order_number=?", branchName).First(&result).Error; err != nil {
+		return nil, err
+	}
 
-// func (dao *orderDaoImpl) Updates(record *models.Order) error {
-// 	existedRecord, err := dao.GetByOrderNumber(record.OrderNumber)
-// 	if err != nil {
-// 		return errors.Wrap(err, "get existed record error")
-// 	}
+	return &result, nil
+}
+func (dao *branchSellDaoImpl) Updates(record *models.BranchSell) error {
+	existedRecord, err := dao.GetByBranchName(record.Name)
+	if err != nil {
+		return errors.Wrap(err, "get existed record error")
+	}
 
-// 	record.ID = existedRecord.ID
-// 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
-// }
+	record.ID = existedRecord.ID
+	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+}
 
 func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error) {
 	result := make([]models.BranchSell, 0)

@@ -222,6 +222,38 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 	fmt.Println("add success")
 	utils.ResponseSuccess(ctx, resp)
 }
+func (c Controller) UpdateBranch(ctx *gin.Context) {
+	var request dtos.BranchSell
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	if request.Name == "" {
+		fmt.Println("required Name branch Sell", "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "Name branch Sell")
+		return
+	}
+
+	resp, err := c.BranchSellService.Updates(request)
+	if err != nil {
+		fmt.Println("updates branch error", err)
+		utils.ResponseErrorGin(ctx, "update branch error")
+		return
+	}
+
+	fmt.Println("updates branch success", "ID", resp.ID)
+	utils.ResponseSuccess(ctx, resp)
+}
 
 func (c Controller) UpdateOrders(ctx *gin.Context) {
 	var request dtos.Order
@@ -527,46 +559,6 @@ func (c Controller) Search(ctx *gin.Context) {
 	fmt.Println("search success")
 	utils.ResponseSuccess(ctx, resp)
 }
-
-// NumberOrderforWeek
-
-// func (c Controller) getNumberOrderQuery(ctx *gin.Context) ([]dtos. , error) {
-// 	result := make([]dtos.NumberOrderQuery, 0)
-// 	result = append(result, dtos.NumberOrderQuery{
-// 		Key:   "deleted_at IS NULL",
-// 		Value: nil,
-// 	})
-
-// 	intervalTime := ctx.Query("interval")
-// 	if intervalTime != "" {
-// 		item := dtos.SearchQuery{
-// 			Key:   "interval = ?",
-// 			Value: intervalTime,
-// 		}
-// 		result = append(result, item)
-// 	}
-
-// 	return result, nil
-// }
-
-// func (c Controller) NumberOrder(ctx *gin.Context) {
-// 	queries, err := c.getNumberOrderQuery(ctx)
-// 	if err != nil {
-// 		fmt.Println("bind json error", err)
-// 		utils.ResponseErrorGin(ctx, "bind json error")
-// 		return
-// 	}
-
-// 	resp, err := c.OrderService.NumberOrder(queries)
-// 	if err != nil {
-// 		fmt.Println(" Get NumberOrder error", err)
-// 		utils.ResponseErrorGin(ctx, "Get NumberOrder error")
-// 		return
-// 	}
-
-// 	fmt.Println("search success")
-// 	utils.ResponseSuccess(ctx, resp)
-// }
 
 // MakeDelay
 func (c Controller) MakeDelay(ctx *gin.Context) {

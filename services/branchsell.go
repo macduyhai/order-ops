@@ -5,6 +5,8 @@ import (
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
+
+	"github.com/pkg/errors"
 )
 
 type BranchSellService interface {
@@ -14,7 +16,7 @@ type BranchSellService interface {
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(branchname string) error
-	// Updates(request dtos.Order) (*dtos.AddorderResponse, error)
+	Updates(request dtos.BranchSell) (*dtos.AddbranchResponse, error)
 }
 
 type branchSellServiceImpl struct {
@@ -87,4 +89,13 @@ func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSe
 func (service *branchSellServiceImpl) Detete(branchname string) error {
 	fmt.Println(branchname)
 	return service.dao.Delete(branchname)
+}
+func (service *branchSellServiceImpl) Updates(request dtos.BranchSell) (*dtos.AddbranchResponse, error) {
+	record := service.mapperDtossToModelBranchSell(request)
+	err := service.dao.Updates(&record)
+	if err != nil {
+		return nil, errors.Wrap(err, "update record error")
+	}
+
+	return &dtos.AddorderResponse{ID: record.ID}, nil
 }
