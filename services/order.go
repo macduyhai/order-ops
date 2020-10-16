@@ -37,9 +37,9 @@ func NewOrderService(dao daos.OrderDao) OrderService {
 const CommonTimeFormat = "2006-01-02 15:04:05"
 const (
 	waitingStatus   = 0
-	shippingStatus  = 1
-	completedStatus = 4
-	delayStatus     = 3
+	shippingStatus  = 2
+	completedStatus = 3
+	delayStatus     = 1
 
 	// processingStatus = 0
 	// shippingStatus   = 1
