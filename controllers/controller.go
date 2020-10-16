@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"time"
 
 	"order-ops/dtos"
@@ -30,7 +31,9 @@ func (c Controller) HealthCheck(contex *gin.Context) {
 // ----- Delete method DeleteBranchSell
 func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	branchname := ctx.Query("name")
-	fmt.Println(branchname)
+	log.Println("test")
+	log.Println(branchname)
+
 	if branchname == "" {
 		utils.ResponseSuccess(ctx, nil)
 		return
