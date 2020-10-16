@@ -44,7 +44,7 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	log.Println(request.name)
+	log.Println(request.Name)
 	// branchname := ctx.Query("branchsells")
 	// log.Println("test")
 	// log.Println(ctx)
@@ -54,7 +54,7 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 	// 	return
 	// }
 
-	err := c.BranchSellService.Detete(request.name)
+	err := c.BranchSellService.Detete(request.Name)
 	if err != nil {
 		fmt.Println("delete branch error", err)
 		utils.ResponseErrorGin(ctx, "delete branch error")
