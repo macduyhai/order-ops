@@ -159,6 +159,7 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	}
 
 	now := time.Now()
+	now = now.Add(+7 * time.Hour)
 	log.Println(now)
 	// if now.Equal(*input.BeginShipping) {
 	// 	input.Status = shippingStatus
