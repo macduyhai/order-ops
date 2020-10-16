@@ -13,7 +13,7 @@ type SellerService interface {
 	SearchSeller(queries []dtos.SearchSellerQuery) ([]dtos.Seller, error)
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
-	// Detete(orderNumber string) error
+	Detete(Sellername string) error
 	// Updates(request dtos.Order) (*dtos.AddorderResponse, error)
 }
 
@@ -85,6 +85,10 @@ func (service *sellerServiceImpl) SearchSeller(queries []dtos.SearchSellerQuery)
 	return result, nil
 }
 
+func (service *sellerServiceImpl) Detete(Sellername string) error {
+	return service.dao.Delete(Sellername)
+}
+
 // func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
 // 	record := models.Order{
 // 		OrderNumber:   request.OrderNumber,
@@ -114,10 +118,6 @@ func (service *sellerServiceImpl) SearchSeller(queries []dtos.SearchSellerQuery)
 // 	return &dtos.AddorderResponse{
 // 		ID: record.ID,
 // 	}, nil
-// }
-
-// func (service *orderServiceImpl) Detete(orderNumber string) error {
-// 	return service.dao.Delete(orderNumber)
 // }
 
 // func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResponse, error) {

@@ -12,7 +12,7 @@ type SellerDao interface {
 	// Updates(record *models.Order) error
 	SearchSeller(queries []dtos.SearchSellerQuery) ([]models.Seller, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
-	// Delete(orderNumber string) error
+	Delete(Sellername string) error
 }
 
 type sellerDaoImpl struct {
@@ -57,6 +57,17 @@ func (dao *sellerDaoImpl) SearchSeller(queries []dtos.SearchSellerQuery) ([]mode
 	}
 
 	return result, nil
+}
+
+func (dao *sellerDaoImpl) Delete(Sellername string) error {
+	var result models.Seller
+	if err := dao.db.Where("name=?", Sellername).Delete(&result).Error; err != nil {
+		return err
+	}
+
+	return nil
+
+	// return dao.db.Where("name=?", branchname).Delete(&result).Error
 }
 
 // func (dao *orderDaoImpl) GetByOrderNumber(orderNumber string) (*models.Order, error) {

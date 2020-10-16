@@ -79,6 +79,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		{
 			sellerGroup.POST("", ctl.AddSeller)
 			sellerGroup.GET("/search-seller", ctl.SearchSeller)
+			sellerGroup.POST("/delete", ctl.DeleteSeller)
 
 		}
 
