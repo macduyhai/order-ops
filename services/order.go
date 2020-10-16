@@ -159,6 +159,8 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	}
 
 	now := time.Now()
+	loc, _ := time.LoadLocation("Asia/Ho_Chi_Minh")
+	now = now.In(loc)
 	log.Println(now)
 	// if now.Equal(*input.BeginShipping) {
 	// 	input.Status = shippingStatus

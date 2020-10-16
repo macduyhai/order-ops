@@ -8,10 +8,6 @@ RUN go mod download
 
 RUN GOOS=linux
 
-RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
-
-RUN dpkg-reconfigure -f noninteractive tzdata
-
 RUN go build -o main
 
 FROM ubuntu:16.04
