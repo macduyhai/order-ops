@@ -158,6 +158,10 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	}
 
 	now := time.Now()
+	if now.Equal(*input.BeginShipping) {
+		input.Status = shippingStatus
+		return
+	}
 	if now.After(*input.BeginShipping) && now.Before(*input.TimeCompleted) {
 		input.Status = shippingStatus
 		return
