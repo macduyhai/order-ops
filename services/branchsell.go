@@ -13,7 +13,7 @@ type BranchSellService interface {
 	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]dtos.BranchSell, error)
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
-	// Detete(orderNumber string) error
+	Detete(branchname string) error
 	// Updates(request dtos.Order) (*dtos.AddorderResponse, error)
 }
 
@@ -92,6 +92,10 @@ func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSe
 	return result, nil
 }
 
+func (service *branchSellServiceImpl) Detete(branchname string) error {
+	return service.dao.Delete(branchname)
+}
+
 // func (service *orderServiceImpl) AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error) {
 // 	record := models.Order{
 // 		OrderNumber:   request.OrderNumber,
@@ -121,10 +125,6 @@ func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSe
 // 	return &dtos.AddorderResponse{
 // 		ID: record.ID,
 // 	}, nil
-// }
-
-// func (service *orderServiceImpl) Detete(orderNumber string) error {
-// 	return service.dao.Delete(orderNumber)
 // }
 
 // func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResponse, error) {

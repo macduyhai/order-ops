@@ -12,7 +12,7 @@ type BranchSellDao interface {
 	// Updates(record *models.Order) error
 	SearchBranch(queries []dtos.SearchBranchSellQuery) ([]models.BranchSell, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
-	// Delete(orderNumber string) error
+	Delete(branchname string) error
 }
 
 type branchSellDaoImpl struct {
@@ -58,6 +58,10 @@ func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery)
 
 	return result, nil
 }
+func (dao *branchSellDaoImpl) Delete(branchname string) error {
+	var result models.BranchSell
+	return dao.db.Where("name=?", branchname).Delete(&result).Error
+}
 
 // func (dao *orderDaoImpl) GetByOrderNumber(orderNumber string) (*models.Order, error) {
 // 	var result models.Order
@@ -66,9 +70,4 @@ func (dao *branchSellDaoImpl) SearchBranch(queries []dtos.SearchBranchSellQuery)
 // 	}
 
 // 	return &result, nil
-// }
-
-// func (dao *orderDaoImpl) Delete(orderNumber string) error {
-// 	var result models.Order
-// 	return dao.db.Where("order_number=?", orderNumber).Delete(&result).Error
 // }

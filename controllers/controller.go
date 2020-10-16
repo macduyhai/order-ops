@@ -26,6 +26,27 @@ func (c Controller) HealthCheck(contex *gin.Context) {
 		"status": "running",
 	})
 }
+
+// ----- Delete method DeleteBranchSell
+func (c Controller) DeleteBranchSell(ctx *gin.Context) {
+	branchname := ctx.Query("name")
+	if branchname == "" {
+		utils.ResponseSuccess(ctx, nil)
+		return
+	}
+
+	err := c.BranchSellService.Detete(branchname)
+	if err != nil {
+		fmt.Println("delete branch error", err)
+		utils.ResponseErrorGin(ctx, "delete branch error")
+		return
+	}
+
+	fmt.Println("delete branch success")
+	utils.ResponseSuccess(ctx, nil)
+}
+
+// ----- ADD METHOD
 func (c Controller) AddSeller(ctx *gin.Context) {
 	var request dtos.AddsellerRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)

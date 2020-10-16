@@ -65,6 +65,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		{
 			branchSellGroup.POST("", ctl.AddBranchSell)
 			branchSellGroup.GET("/search-branch", ctl.SearchBranch)
+			branchSellGroup.POST("", ctl.DeleteBranchSell)
 
 		}
 		typeProductGroup := apiGroup.Group("/typeproducts")
