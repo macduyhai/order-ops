@@ -29,7 +29,7 @@ func (dao *branchSellDaoImpl) Create(record *models.BranchSell) error {
 }
 func (dao *branchSellDaoImpl) GetByBranchName(branchName string) (*models.BranchSell, error) {
 	var result models.BranchSell
-	if err := dao.db.Where("order_number=?", branchName).First(&result).Error; err != nil {
+	if err := dao.db.Where("name=?", branchName).First(&result).Error; err != nil {
 		return nil, err
 	}
 
