@@ -10,7 +10,7 @@ import (
 
 type SellerDao interface {
 	Create(record *models.Seller) error
-	// Updates(record *models.Order) error
+	Updates(record *models.Seller) error
 	SearchSeller(queries []dtos.SearchSellerQuery) ([]models.Seller, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
 	Delete(Sellername string) error
