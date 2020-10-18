@@ -5,6 +5,7 @@ import (
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -47,6 +48,7 @@ func (service *sellerServiceImpl) AddSeller(request dtos.AddsellerRequest) (*dto
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
 	for _, seller := range request.Sellers {
+		seller.Name = strings.ToLower(seller.Name)
 		record := service.mapperDtossToModelSeller(seller)
 		err := service.dao.Create(&record)
 		if err != nil {

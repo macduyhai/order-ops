@@ -5,6 +5,7 @@ import (
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -63,6 +64,7 @@ func (service *typeProductServiceImpl) AddTypeProduct(request dtos.AddtypeReques
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
 	for _, typeproduct := range request.TypeProducts {
+		typeproduct.Name = strings.ToLower(typeproduct.Name)
 		record := service.mapperDtossToModelTypeProduct(typeproduct)
 		err := service.dao.Create(&record)
 		if err != nil {

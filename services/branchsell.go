@@ -5,6 +5,7 @@ import (
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -46,6 +47,7 @@ func (service *branchSellServiceImpl) AddBranchSell(request dtos.AddbranchReques
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
 	for _, branchsell := range request.BranchSells {
+		branchsell.Name = strings.ToLower(branchsell.Name)
 		record := service.mapperDtossToModelBranchSell(branchsell)
 		err := service.dao.Create(&record)
 		if err != nil {
