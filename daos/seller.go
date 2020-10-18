@@ -5,6 +5,7 @@ import (
 	"order-ops/models"
 
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
 type SellerDao interface {
@@ -27,15 +28,23 @@ func (dao *sellerDaoImpl) Create(record *models.Seller) error {
 	return dao.db.Create(record).Error
 }
 
-// func (dao *orderDaoImpl) Updates(record *models.Order) error {
-// 	existedRecord, err := dao.GetByOrderNumber(record.OrderNumber)
-// 	if err != nil {
-// 		return errors.Wrap(err, "get existed record error")
-// 	}
+func (dao *sellerDaoImpl) GetBySellerName(sellerName string) (*models.Seller, error) {
+	var result models.Seller
+	if err := dao.db.Where("name=?", sellerName).First(&result).Error; err != nil {
+		return nil, err
+	}
 
-// 	record.ID = existedRecord.ID
-// 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
-// }
+	return &result, nil
+}
+func (dao *sellerDaoImpl) Updates(record *models.Seller) error {
+	existedRecord, err := dao.GetBySellerName(record.Name)
+	if err != nil {
+		return errors.Wrap(err, "get existed record error")
+	}
+
+	record.ID = existedRecord.ID
+	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+}
 
 func (dao *sellerDaoImpl) SearchSeller(queries []dtos.SearchSellerQuery) ([]models.Seller, error) {
 	result := make([]models.Seller, 0)

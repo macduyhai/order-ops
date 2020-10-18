@@ -131,7 +131,7 @@ func (c Controller) AddSeller(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	request.Name = strings.ToLower(request.Name)
 	resp, err := c.SellerService.AddSeller(request)
 	if err != nil {
 		fmt.Println("add order error", err)
@@ -158,7 +158,7 @@ func (c Controller) AddTypeProduct(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	request.Name = strings.ToLower(request.Name)
 	resp, err := c.TypeProductService.AddTypeProduct(request)
 	if err != nil {
 		fmt.Println("add order error", err)
@@ -185,7 +185,7 @@ func (c Controller) AddBranchSell(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	request.Name = strings.ToLower(request.Name)
 	resp, err := c.BranchSellService.AddBranchSell(request)
 	if err != nil {
 		fmt.Println("add order error", err)
@@ -221,6 +221,41 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 	}
 
 	fmt.Println("add success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
+// UpdateSeller
+
+func (c Controller) UpdateSeller(ctx *gin.Context) {
+	var request dtos.Seller
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	request.Name = strings.ToLower(request.Name)
+	if request.Name == "" {
+		fmt.Println("required Name seller", "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "Name Seller")
+		return
+	}
+
+	resp, err := c.SellerService.Updates(request)
+	if err != nil {
+		fmt.Println("updates seller error", err)
+		utils.ResponseErrorGin(ctx, "update seller error")
+		return
+	}
+
+	fmt.Println("updates seller success", "ID", resp.ID)
 	utils.ResponseSuccess(ctx, resp)
 }
 

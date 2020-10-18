@@ -5,6 +5,8 @@ import (
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
+
+	"github.com/pkg/errors"
 )
 
 type SellerService interface {
@@ -14,7 +16,7 @@ type SellerService interface {
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(Sellername string) error
-	// Updates(request dtos.Order) (*dtos.AddorderResponse, error)
+	Updates(request dtos.Seller) (*dtos.AddsellerResponse, error)
 }
 
 type sellerServiceImpl struct {
@@ -87,4 +89,15 @@ func (service *sellerServiceImpl) SearchSeller(queries []dtos.SearchSellerQuery)
 
 func (service *sellerServiceImpl) Detete(Sellername string) error {
 	return service.dao.Delete(Sellername)
+}
+
+//
+func (service *sellerServiceImpl) Updates(request dtos.Seller) (*dtos.AddsellerResponse, error) {
+	record := service.mapperDtossToModelSeller(request)
+	err := service.dao.Updates(&record)
+	if err != nil {
+		return nil, errors.Wrap(err, "update record error")
+	}
+
+	return &dtos.AddsellerResponse{ID: record.ID}, nil
 }
