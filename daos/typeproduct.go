@@ -26,15 +26,14 @@ func NewTypeProductDao(db *gorm.DB) TypeProductDao {
 }
 
 func (dao *typeProductDaoImpl) Create(record *models.TypeProduct) error {
-	// existedRecord, err := dao.GetTypeName(record.Name)
-	// if err != nil {
-	// 	return errors.Wrap(err, "get existed record error")
-	// }
+	existedRecord, err := dao.GetTypeName(record.Name)
+	if err != nil {
+		return dao.db.Create(record).Error
+	}
 
-	// record.ID = existedRecord.ID
-	// return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+	record.ID = existedRecord.ID
+	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
 
-	return dao.db.Create(record).Error
 }
 func (dao *typeProductDaoImpl) GetTypeName(typename string) (*models.TypeProduct, error) {
 	var result models.TypeProduct

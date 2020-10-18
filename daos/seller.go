@@ -25,7 +25,14 @@ func NewSellerDao(db *gorm.DB) SellerDao {
 }
 
 func (dao *sellerDaoImpl) Create(record *models.Seller) error {
-	return dao.db.Create(record).Error
+	existedRecord, err := dao.GetBySellerName(record.Name)
+	if err != nil {
+		return dao.db.Create(record).Error
+	}
+
+	record.ID = existedRecord.ID
+	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+
 }
 
 func (dao *sellerDaoImpl) GetBySellerName(sellerName string) (*models.Seller, error) {
