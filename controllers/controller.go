@@ -131,7 +131,7 @@ func (c Controller) AddSeller(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	request.Name = strings.ToLower(request.Name)
+	request.Sellers[0].Name = strings.ToLower(request.Sellers.Name)
 	resp, err := c.SellerService.AddSeller(request)
 	if err != nil {
 		fmt.Println("add order error", err)
@@ -158,7 +158,7 @@ func (c Controller) AddTypeProduct(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	request.Name = strings.ToLower(request.Name)
+	request.TypeProducts[0].Name = strings.ToLower(request.TypeProducts.Name)
 	resp, err := c.TypeProductService.AddTypeProduct(request)
 	if err != nil {
 		fmt.Println("add order error", err)
@@ -185,7 +185,7 @@ func (c Controller) AddBranchSell(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	request.Name = strings.ToLower(request.Name)
+	request.BranchSells[0].Name = strings.ToLower(request.BranchSells.Name)
 	resp, err := c.BranchSellService.AddBranchSell(request)
 	if err != nil {
 		fmt.Println("add order error", err)
