@@ -5,6 +5,8 @@ import (
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
+
+	"github.com/pkg/errors"
 )
 
 type TypeProductService interface {
@@ -14,7 +16,7 @@ type TypeProductService interface {
 	// AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	// MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(Typename string) error
-	// Updates(request dtos.Order) (*dtos.AddorderResponse, error)
+	Updates(request dtos.TypeProduct) (*dtos.AddtypeResponse, error)
 }
 
 type typeProductServiceImpl struct {
@@ -102,4 +104,13 @@ func (service *typeProductServiceImpl) SearchType(queries []dtos.SearchTypeProdu
 }
 func (service *typeProductServiceImpl) Detete(Typename string) error {
 	return service.dao.Delete(Typename)
+}
+func (service *typeProductServiceImpl) Updates(request dtos.TypeProduct) (*dtos.AddtypeResponse, error) {
+	record := service.mapperDtossToModelTypeProduct(request)
+	err := service.dao.Updates(&record)
+	if err != nil {
+		return nil, errors.Wrap(err, "update record error")
+	}
+
+	return &dtos.AddtypeResponse{ID: record.ID}, nil
 }

@@ -73,6 +73,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		typeProductGroup := apiGroup.Group("/typeproducts")
 		{
 			typeProductGroup.POST("", ctl.AddTypeProduct)
+			typeProductGroup.PUT("", ctl.UpdateTypeProduct)
 			typeProductGroup.GET("/search-type", ctl.SearchType)
 			typeProductGroup.POST("/delete", ctl.DeleteTypeProduct)
 

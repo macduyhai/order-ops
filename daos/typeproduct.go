@@ -5,11 +5,12 @@ import (
 	"order-ops/models"
 
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
 type TypeProductDao interface {
 	Create(record *models.TypeProduct) error
-	// Updates(record *models.Order) error
+	Updates(record *models.TypeProduct) error
 	SearchType(queries []dtos.SearchTypeProductQuery) ([]models.TypeProduct, error)
 	// GetByOrderNumber(orderNumber string) (*models.Order, error)
 	Delete(Typename string) error
@@ -20,22 +21,39 @@ type typeProductDaoImpl struct {
 }
 
 func NewTypeProductDao(db *gorm.DB) TypeProductDao {
+
 	return &typeProductDaoImpl{db: db}
 }
 
 func (dao *typeProductDaoImpl) Create(record *models.TypeProduct) error {
+	// existedRecord, err := dao.GetTypeName(record.Name)
+	// if err != nil {
+	// 	return errors.Wrap(err, "get existed record error")
+	// }
+
+	// record.ID = existedRecord.ID
+	// return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+
 	return dao.db.Create(record).Error
 }
+func (dao *typeProductDaoImpl) GetTypeName(typename string) (*models.TypeProduct, error) {
+	var result models.TypeProduct
+	if err := dao.db.Where("name=?", typename).First(&result).Error; err != nil {
+		return nil, err
+	}
 
-// func (dao *orderDaoImpl) Updates(record *models.Order) error {
-// 	existedRecord, err := dao.GetByOrderNumber(record.OrderNumber)
-// 	if err != nil {
-// 		return errors.Wrap(err, "get existed record error")
-// 	}
+	return &result, nil
+}
 
-// 	record.ID = existedRecord.ID
-// 	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
-// }
+func (dao *typeProductDaoImpl) Updates(record *models.TypeProduct) error {
+	existedRecord, err := dao.GetTypeName(record.Name)
+	if err != nil {
+		return errors.Wrap(err, "get existed record error")
+	}
+
+	record.ID = existedRecord.ID
+	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+}
 func (dao *typeProductDaoImpl) SearchType(queries []dtos.SearchTypeProductQuery) ([]models.TypeProduct, error) {
 	result := make([]models.TypeProduct, 0)
 	db := dao.db

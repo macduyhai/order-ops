@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"strings"
 	"time"
 
 	"order-ops/dtos"
@@ -222,6 +223,41 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 	fmt.Println("add success")
 	utils.ResponseSuccess(ctx, resp)
 }
+
+// UpdateTypeProduct
+func (c Controller) UpdateTypeProduct(ctx *gin.Context) {
+	var request dtos.TypeProduct
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	request.Name = strings.ToLower(request.Name)
+	if request.Name == "" {
+		fmt.Println("required Name Type Product", "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "Name Type Product")
+		return
+	}
+
+	resp, err := c.TypeProductService.Updates(request)
+	if err != nil {
+		fmt.Println("updates Type Product error", err)
+		utils.ResponseErrorGin(ctx, "update branch error")
+		return
+	}
+
+	fmt.Println("updates Type Product success", "ID", resp.ID)
+	utils.ResponseSuccess(ctx, resp)
+}
+
 func (c Controller) UpdateBranch(ctx *gin.Context) {
 	var request dtos.BranchSell
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
@@ -237,7 +273,7 @@ func (c Controller) UpdateBranch(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	request.Name = strings.ToLower(request.Name)
 	if request.Name == "" {
 		fmt.Println("required Name branch Sell", "raw_body", string(bytes))
 		utils.ResponseErrorGin(ctx, "Name branch Sell")
