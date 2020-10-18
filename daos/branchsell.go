@@ -27,11 +27,12 @@ func NewBranchSellDao(db *gorm.DB) BranchSellDao {
 func (dao *branchSellDaoImpl) Create(record *models.BranchSell) error {
 	existedRecord, err := dao.GetByBranchName(record.Name)
 	if err != nil {
-		return errors.Wrap(err, "get existed record error")
+		return dao.db.Create(record).Error
 	}
 
 	record.ID = existedRecord.ID
-	return dao.db.Create(record).Error
+	return dao.db.Model(&existedRecord).Where("id=?", existedRecord.ID).Updates(record).Error
+
 }
 func (dao *branchSellDaoImpl) GetByBranchName(branchName string) (*models.BranchSell, error) {
 	var result models.BranchSell
