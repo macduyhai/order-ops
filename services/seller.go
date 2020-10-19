@@ -49,6 +49,7 @@ func (service *sellerServiceImpl) AddSeller(request dtos.AddsellerRequest) (*dto
 	recordFail := make([]string, 0)
 	for _, seller := range request.Sellers {
 		seller.Name = strings.ToLower(seller.Name)
+		seller.Name = strings.Replace(seller.Name, " ", "", -1)
 		record := service.mapperDtossToModelSeller(seller)
 		err := service.dao.Create(&record)
 		if err != nil {

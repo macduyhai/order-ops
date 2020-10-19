@@ -48,6 +48,7 @@ func (service *branchSellServiceImpl) AddBranchSell(request dtos.AddbranchReques
 	recordFail := make([]string, 0)
 	for _, branchsell := range request.BranchSells {
 		branchsell.Name = strings.ToLower(branchsell.Name)
+		branchsell.Name = strings.Replace(branchsell.Name, " ", "", -1)
 		record := service.mapperDtossToModelBranchSell(branchsell)
 		err := service.dao.Create(&record)
 		if err != nil {

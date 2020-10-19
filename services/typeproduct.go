@@ -65,6 +65,7 @@ func (service *typeProductServiceImpl) AddTypeProduct(request dtos.AddtypeReques
 	recordFail := make([]string, 0)
 	for _, typeproduct := range request.TypeProducts {
 		typeproduct.Name = strings.ToLower(typeproduct.Name)
+		typeproduct.Name = strings.Replace(typeproduct.Name, " ", "", -1)
 		record := service.mapperDtossToModelTypeProduct(typeproduct)
 		err := service.dao.Create(&record)
 		if err != nil {
