@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"log"
 	"order-ops/daos"
 	"order-ops/dtos"
 	"order-ops/models"
@@ -50,6 +51,7 @@ func (service *sellerServiceImpl) AddSeller(request dtos.AddsellerRequest) (*dto
 	for _, seller := range request.Sellers {
 		seller.Name = strings.ToLower(seller.Name)
 		seller.Name = strings.Replace(seller.Name, " ", "", -1)
+		log.Println(seller.Name)
 		record := service.mapperDtossToModelSeller(seller)
 		err := service.dao.Create(&record)
 		if err != nil {
