@@ -276,9 +276,13 @@ func (service *orderServiceImpl) MakeDelay(orderNumber string) (*dtos.AddorderRe
 }
 
 func (service *orderServiceImpl) MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error) {
+	tg := time.Now()
+	tg = tg.Add(+7 * time.Hour)
+
 	record := models.Order{
-		OrderNumber: orderNumber,
-		Status:      completedStatus,
+		OrderNumber:   orderNumber,
+		Status:        completedStatus,
+		TimeCompleted: &tg,
 	}
 	err := service.dao.Updates(&record)
 	if err != nil {
