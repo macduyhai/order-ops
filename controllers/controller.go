@@ -660,7 +660,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	log.Println(stepTime)
 
 	if stepTime == "week" {
-		respnumber.Steptime = "week"
+		*respnumber.Steptime = "week"
 		t := time.Now()
 		t = t.Add(+7 * time.Hour)
 		for i := 0; i < 7; i++ {
@@ -680,7 +680,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			}
 			data := &dtos.NumberOrderInfor{
 				Time:  time.Format(CommonTimeFormat),
-				Value: len(resp),
+				Value: int64(len(resp)),
 			}
 
 			log.Println(time.Format(CommonTimeFormat))
