@@ -637,7 +637,7 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) (
 	result = append(result, item_start)
 	item_end := dtos.SearchQuery{
 		Key:   "time_completed < ?",
-		Value: time_e.AddDate(0, 0, +1),
+		Value: time_s.AddDate(0, 0, +1),
 	}
 	result = append(result, item_end)
 
