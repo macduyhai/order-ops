@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"order-ops/dtos"
+	"order-ops/services"
 	"strings"
 	"time"
 
-	"order-ops/dtos"
-	"order-ops/services"
+	"github.com/jinzhu/now"
 
 	"order-ops/utils"
 
@@ -625,6 +626,7 @@ const CommonTimeFormat = "2006-01-02 15:04:05"
 // Check number order for week, month, year
 func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) ([]dtos.SearchQuery, error) {
 	result := make([]dtos.SearchQuery, 0)
+
 	result = append(result, dtos.SearchQuery{
 		Key:   "deleted_at IS NULL",
 		Value: nil,
@@ -632,12 +634,12 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) (
 
 	item_start := dtos.SearchQuery{
 		Key:   "time_completed > ?",
-		Value: time_s.AddDate(0, 0, -1),
+		Value: now.With(time_s).BeginningOfDay(),
 	}
 	result = append(result, item_start)
 	item_end := dtos.SearchQuery{
 		Key:   "time_completed < ?",
-		Value: time_s.AddDate(0, 0, +1),
+		Value: now.With(time_s).EndOfDay(),
 	}
 	result = append(result, item_end)
 
