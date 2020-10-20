@@ -38,9 +38,13 @@ type NumberOrderRequest struct {
 	Steptime string `json:"steptime"`
 	Value    string `json:"value"`
 }
+
 type NumberOrderResponse struct {
-	Steptime string      `json:"steptime"`
-	Orders   interface{} `json:"orders,omitempty"`
+	Steptime     string      `json:"steptime"`
+	Orders       interface{} `json:"orders,omitempty"`
+	BranchSells  interface{} `json:"branchsells,omitempty"`
+	TypeProducts interface{} `json:"typeproducts,omitempty"`
+	Countrys     interface{} `json:"countrys,omitempty"`
 }
 type NumberOrderInfor struct {
 	Time  string `json:"time"`
