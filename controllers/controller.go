@@ -619,17 +619,18 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 
 	return result, nil
 }
+
 // const CommonTimeFormat = "2006-01-02 15:04:05"
 
 // Check number order for week, month, year
-func (c Controller) getOrderComplatedQuery(ctx *gin.Context,time_s time.Time, time_e time.Time) ([]dtos.SearchQuery, error) {
+func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, time_e time.Time) ([]dtos.SearchQuery, error) {
 	result := make([]dtos.SearchQuery, 0)
 	result = append(result, dtos.SearchQuery{
 		Key:   "deleted_at IS NULL",
 		Value: nil,
 	})
 
-	if timebegin != "" {
+	if time_s != "" {
 		item_start := dtos.SearchQuery{
 			Key:   "timeCompleted > ?",
 			Value: time_s,
@@ -642,7 +643,7 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context,time_s time.Time, ti
 		result = append(result, item_end)
 
 	}
-	
+
 	status := "3"
 	if status != "" {
 		item := dtos.SearchQuery{
@@ -656,10 +657,10 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context,time_s time.Time, ti
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	if stepTime == "week" {
-		t = time.Now()
-		for i:=0;i<7;i++ {
+		t := time.Now()
+		for i := 0; i < 7; i++ {
 			time = t.AddDate(0, 0, -i)
-			queries, err := c.getOrderComplatedQuery(ctx,time,time)
+			queries, err := c.getOrderComplatedQuery(ctx, time, time)
 			if err != nil {
 				fmt.Println("bind json error", err)
 				utils.ResponseErrorGin(ctx, "bind json error")
@@ -673,11 +674,12 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				return
 			}
 			log.Println(len(resp))
-						
+
 		}
 	}
 	fmt.Println("search number order complated success")
-	utils.ResponseSuccess(ctx, resp)
+	respnumber := ""
+	utils.ResponseSuccess(ctx, respnumber)
 }
 
 func (c Controller) Search(ctx *gin.Context) {
