@@ -631,16 +631,16 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) (
 	})
 
 	item_start := dtos.SearchQuery{
-		Key:   "time_completed = ?",
-		Value: time_s.Format(CommonTimeFormat),
+		Key:   "time_completed > ?",
+		Value: time_s.Format(CommonTimeFormat) + " 00:00:00",
 	}
 	result = append(result, item_start)
 
-	// item_end := dtos.SearchQuery{
-	// 	Key:   "time_completed < ?",
-	// 	Value: now.With(time_s).EndOfDay(),
-	// }
-	// result = append(result, item_end)
+	item_end := dtos.SearchQuery{
+		Key:   "time_completed < ?",
+		Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
+	}
+	result = append(result, item_end)
 
 	status := "3"
 	if status != "" {
