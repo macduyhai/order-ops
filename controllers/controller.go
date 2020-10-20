@@ -631,12 +631,12 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 	})
 
 	item_start := dtos.SearchQuery{
-		Key:   "timeCompleted > ?",
+		Key:   "time_completed > ?",
 		Value: time_s,
 	}
 	result = append(result, item_start)
 	item_end := dtos.SearchQuery{
-		Key:   "timeCompleted < ?",
+		Key:   "time_completed < ?",
 		Value: time_e,
 	}
 	result = append(result, item_end)
@@ -653,8 +653,6 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 }
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
-	log.Println("Numberorder")
-	fmt.Println(stepTime)
 	log.Println(stepTime)
 	if stepTime == "week" {
 		t := time.Now()
@@ -678,7 +676,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 		}
 	}
 	fmt.Println("search number order complated success")
-	respnumber := ""
+	respnumber := "{}"
 	utils.ResponseSuccess(ctx, respnumber)
 }
 
