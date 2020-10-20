@@ -630,19 +630,16 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 		Value: nil,
 	})
 
-	if time_s != nil {
-		item_start := dtos.SearchQuery{
-			Key:   "timeCompleted > ?",
-			Value: time_s,
-		}
-		result = append(result, item_start)
-		item_end := dtos.SearchQuery{
-			Key:   "timeCompleted < ?",
-			Value: time_e,
-		}
-		result = append(result, item_end)
-
+	item_start := dtos.SearchQuery{
+		Key:   "timeCompleted > ?",
+		Value: time_s,
 	}
+	result = append(result, item_start)
+	item_end := dtos.SearchQuery{
+		Key:   "timeCompleted < ?",
+		Value: time_e,
+	}
+	result = append(result, item_end)
 
 	status := "3"
 	if status != "" {
