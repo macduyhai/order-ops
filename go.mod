@@ -10,5 +10,5 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/pborman/uuid v1.2.1
 	github.com/pkg/errors v0.9.1
-	github.com/jinzhu/now v5.0.0
+	github.com/jinzhu/now v1.2.3
 )
