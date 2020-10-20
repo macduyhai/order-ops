@@ -653,6 +653,8 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 }
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
+	fmt.Println(stepTime)
+	log.Println(stepTime)
 	if stepTime == "week" {
 		t := time.Now()
 		for i := 0; i < 7; i++ {
