@@ -630,7 +630,7 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 		Value: nil,
 	})
 
-	if time_s != "" {
+	if time_s != nil {
 		item_start := dtos.SearchQuery{
 			Key:   "timeCompleted > ?",
 			Value: time_s,
@@ -659,7 +659,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	if stepTime == "week" {
 		t := time.Now()
 		for i := 0; i < 7; i++ {
-			time = t.AddDate(0, 0, -i)
+			time := t.AddDate(0, 0, -i)
 			queries, err := c.getOrderComplatedQuery(ctx, time, time)
 			if err != nil {
 				fmt.Println("bind json error", err)
