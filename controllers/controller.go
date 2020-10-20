@@ -620,7 +620,7 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 	return result, nil
 }
 
-// const CommonTimeFormat = "2006-01-02 15:04:05"
+const CommonTimeFormat = "2006-01-02 15:04:05"
 
 // Check number order for week, month, year
 func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, time_e time.Time) ([]dtos.SearchQuery, error) {
@@ -671,6 +671,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				utils.ResponseErrorGin(ctx, "search number order complated error")
 				return
 			}
+			log.Println(time.Format(CommonTimeFormat))
 			log.Println(len(resp))
 
 		}
