@@ -655,7 +655,7 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) (
 
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
-	respnumber := []dtos.NumberOrderResponse
+	respnumber := []dtos.NumberOrderResponse{}
 
 	log.Println(stepTime)
 
@@ -679,13 +679,13 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				return
 			}
 			data := &dtos.NumberOrderInfor{
-				Time:time.Format(CommonTimeFormat),
-				Value:len(resp),
+				Time:  time.Format(CommonTimeFormat),
+				Value: len(resp),
 			}
-			
+
 			log.Println(time.Format(CommonTimeFormat))
 			log.Println(len(resp))
-			respnumber.Orders = append(respnumber.Orders,*data)
+			respnumber.Orders = append(respnumber.Orders, *data)
 
 		}
 	}
