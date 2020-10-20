@@ -10,8 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jinzhu/now"
-
 	"order-ops/utils"
 
 	"github.com/gin-gonic/gin"
@@ -621,7 +619,7 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 	return result, nil
 }
 
-const CommonTimeFormat = "2006-01-02 15:04:05"
+const CommonTimeFormat = "2006-01-02"
 
 // Check number order for week, month, year
 func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) ([]dtos.SearchQuery, error) {
@@ -633,15 +631,16 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) (
 	})
 
 	item_start := dtos.SearchQuery{
-		Key:   "time_completed > ?",
-		Value: now.With(time_s).BeginningOfDay(),
+		Key:   "time_completed = ?",
+		Value: time_s.Format(CommonTimeFormat),
 	}
 	result = append(result, item_start)
-	item_end := dtos.SearchQuery{
-		Key:   "time_completed < ?",
-		Value: now.With(time_s).EndOfDay(),
-	}
-	result = append(result, item_end)
+
+	// item_end := dtos.SearchQuery{
+	// 	Key:   "time_completed < ?",
+	// 	Value: now.With(time_s).EndOfDay(),
+	// }
+	// result = append(result, item_end)
 
 	status := "3"
 	if status != "" {
