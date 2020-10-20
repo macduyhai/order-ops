@@ -48,7 +48,7 @@ type NumberOrderResponse struct {
 }
 type NumberOrderInfor struct {
 	Time  string `json:"time"`
-	Value int64  `json:"value"`
+	Value int32  `json:"value"`
 }
 type AddorderResponse struct {
 	ID             int64    `json:"id,omitempty"`
