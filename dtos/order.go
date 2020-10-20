@@ -34,6 +34,18 @@ type AddOrderRequest struct {
 	Orders []Order `json:"orders"`
 }
 
+type NumberOrderRequest struct {
+	Steptime string `json:"steptime"`
+	Value    string `json:"value"`
+}
+type NumberOrderResponse struct {
+	Steptime string      `json:"steptime"`
+	Orders   interface{} `json:"orders,omitempty"`
+}
+type NumberOrderInfor struct {
+	Time  string `json:"time"`
+	Value int64  `json:"value"`
+}
 type AddorderResponse struct {
 	ID             int64    `json:"id,omitempty"`
 	RecordsSuccess []string `json:"recordsSuccess,omitempty"`
@@ -75,10 +87,10 @@ type SearchQuery struct {
 	Value interface{}
 }
 
-// type NumberOrderQuery struct {
-// 	Key   string
-// 	Value interface{}
-// }
+type NumberOrderQuery struct {
+	Key   string
+	Value interface{}
+}
 
 type ChangeStatusToCompleted struct {
 	OrderNumber string `json:"orderNumber"`

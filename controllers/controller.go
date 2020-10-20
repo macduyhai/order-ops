@@ -591,6 +591,14 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 		result = append(result, item)
 	}
 
+	// orderNumber := ctx.Query("order_number")
+	// if orderNumber != "" {
+	// 	item := dtos.SearchQuery{
+	// 		Key:   "order_number = ?",
+	// 		Value: orderNumber,
+	// 	}
+	// 	result = append(result, item)
+	// }
 	orderNumber := ctx.Query("order_number")
 	if orderNumber != "" {
 		item := dtos.SearchQuery{
@@ -610,6 +618,66 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 	}
 
 	return result, nil
+}
+// const CommonTimeFormat = "2006-01-02 15:04:05"
+
+// Check number order for week, month, year
+func (c Controller) getOrderComplatedQuery(ctx *gin.Context,time_s time.Time, time_e time.Time) ([]dtos.SearchQuery, error) {
+	result := make([]dtos.SearchQuery, 0)
+	result = append(result, dtos.SearchQuery{
+		Key:   "deleted_at IS NULL",
+		Value: nil,
+	})
+
+	if timebegin != "" {
+		item_start := dtos.SearchQuery{
+			Key:   "timeCompleted > ?",
+			Value: time_s,
+		}
+		result = append(result, item_start)
+		item_end := dtos.SearchQuery{
+			Key:   "timeCompleted < ?",
+			Value: time_e,
+		}
+		result = append(result, item_end)
+
+	}
+	
+	status := "3"
+	if status != "" {
+		item := dtos.SearchQuery{
+			Key:   "status=?",
+			Value: status,
+		}
+		result = append(result, item)
+	}
+	return result, nil
+}
+func (c Controller) NumberOrders(ctx *gin.Context) {
+	stepTime := ctx.Query("steptime")
+	if stepTime == "week" {
+		t = time.Now()
+		for i:=0;i<7;i++ {
+			time = t.AddDate(0, 0, -i)
+			queries, err := c.getOrderComplatedQuery(ctx,time,time)
+			if err != nil {
+				fmt.Println("bind json error", err)
+				utils.ResponseErrorGin(ctx, "bind json error")
+				return
+			}
+
+			resp, err := c.OrderService.Search(queries)
+			if err != nil {
+				fmt.Println("search number orders complated error", err)
+				utils.ResponseErrorGin(ctx, "search number order complated error")
+				return
+			}
+			log.Println(len(resp))
+						
+		}
+	}
+	fmt.Println("search number order complated success")
+	utils.ResponseSuccess(ctx, resp)
 }
 
 func (c Controller) Search(ctx *gin.Context) {

@@ -22,7 +22,7 @@ type OrderService interface {
 	MakeDelay(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(orderNumber string) error
 	Updates(request dtos.Order) (*dtos.AddorderResponse, error)
-	// NumberOrder(queries dtos.NumberOrderQuery) (dtos.NumberOrderInfor, error)
+	// NumberOrders(request dtos.NumberOrderRequest) (*dtos.NumberOrderResponse, error)
 }
 
 type orderServiceImpl struct {
@@ -177,23 +177,41 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	log.Println(input.Status)
 }
 
-// func (service *orderServiceImpl) updateRecordState(input *models.Order) {
-// 	if input.BeginShipping.Equal(*input.TimeCompleted) || input.Status == completedStatus {
-// 		return
+//
+
+// func (service *orderServiceImpl) NumberOrders(queries []dtos.SearchQuery) ([]dtos.NumberOrderResponse, error) {
+// 	records, _ := service.dao.Search(queries)
+// 	result := make([]dtos.FullOrderInformation, 0)
+// 	status := -1
+
+// 	for _, query := range queries {
+// 		if query.Key == "status=?" {
+// 			statusint, _ := strconv.Atoi(fmt.Sprintf("%v", query.Value))
+// 			status = statusint
+// 		}
 // 	}
 
-// 	now := time.Now()
-// 	if now.After(*input.BeginShipping) && now.Before(*input.TimeCompleted) {
-// 		input.Status = shippingStatus
-// 		return
+// 	for _, record := range records {
+// 		if int(record.Status) != delayStatus {
+// 			service.updateRecordState(&record)
+// 		}
+// 		if status != -1 {
+// 			if int(record.Status) == status {
+// 				result = append(result, service.mapperModelsToOrderFullInfor(record))
+// 			}
+// 		} else {
+// 			result = append(result, service.mapperModelsToOrderFullInfor(record))
+// 		}
 // 	}
 
-// 	if now.After(*input.BeginShipping) {
-// 		input.Status = holdOnStatus
-// 		return
-// 	}
+// 	sort.SliceStable(result, func(i, j int) bool {
+// 		return result[i].Status < result[j].Status
+// 	})
+
+// 	return result, nil
 // }
 
+//
 func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error) {
 	records, _ := service.dao.Search(queries)
 	result := make([]dtos.FullOrderInformation, 0)
