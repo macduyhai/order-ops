@@ -488,6 +488,44 @@ func (c Controller) getSearchQueryType(ctx *gin.Context) ([]dtos.SearchTypeProdu
 	return result, nil
 }
 
+// Search Branch Sell
+func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchBranchSellQuery, error) {
+	result := make([]dtos.SearchBranchSellQuery, 0)
+	result = append(result, dtos.SearchBranchSellQuery{
+		Key:   "deleted_at IS NULL",
+		Value: nil,
+	})
+
+	begin := ctx.Query("begin_time")
+	if begin != "" {
+		item := dtos.SearchBranchSellQuery{
+			Key:   "created_at > ?",
+			Value: begin,
+		}
+		result = append(result, item)
+	}
+
+	end := ctx.Query("end_time")
+	if end != "" {
+		item := dtos.SearchBranchSellQuery{
+			Key:   "created_at < ?",
+			Value: end,
+		}
+		result = append(result, item)
+	}
+
+	name := ctx.Query("name")
+	if name != "" {
+		item := dtos.SearchBranchSellQuery{
+			Key:   "name = ?",
+			Value: name,
+		}
+		result = append(result, item)
+	}
+
+	return result, nil
+}
+
 func (c Controller) SearchType(ctx *gin.Context) {
 	queries, err := c.getSearchQueryType(ctx)
 	if err != nil {
