@@ -781,8 +781,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			Key:   branch.Name,
 			Value: int64(len(resp)),
 		}
-		log.Println(branch.Name)
-		log.Println(int64(len(resp)))
+
 		respnumber.BranchSells = append(respnumber.BranchSells, *data_b)
 
 	}
@@ -805,7 +804,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			Key:   typep.Name,
 			Value: int64(len(resp)),
 		}
-		respnumber.BranchSells = append(respnumber.TypeProducts, *data_t)
+		respnumber.TypeProducts = append(respnumber.TypeProducts, *data_t)
 
 	}
 	for _, seller := range listSeller {
