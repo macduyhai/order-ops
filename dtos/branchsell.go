@@ -4,6 +4,9 @@ type BranchSell struct {
 	Name string `json:"name"`
 	Note string `json:"note"`
 }
+type BranchName struct {
+	Name string `json:"name"`
+}
 
 type AddbranchRequest struct {
 	BranchSells []BranchSell `json:"branchsells"`

@@ -507,44 +507,6 @@ func (c Controller) SearchType(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, resp)
 }
 
-// Search Branch Sell
-func (c Controller) getSearchQueryBranch(ctx *gin.Context) ([]dtos.SearchBranchSellQuery, error) {
-	result := make([]dtos.SearchBranchSellQuery, 0)
-	result = append(result, dtos.SearchBranchSellQuery{
-		Key:   "deleted_at IS NULL",
-		Value: nil,
-	})
-
-	begin := ctx.Query("begin_time")
-	if begin != "" {
-		item := dtos.SearchBranchSellQuery{
-			Key:   "created_at > ?",
-			Value: begin,
-		}
-		result = append(result, item)
-	}
-
-	end := ctx.Query("end_time")
-	if end != "" {
-		item := dtos.SearchBranchSellQuery{
-			Key:   "created_at < ?",
-			Value: end,
-		}
-		result = append(result, item)
-	}
-
-	name := ctx.Query("name")
-	if name != "" {
-		item := dtos.SearchBranchSellQuery{
-			Key:   "name = ?",
-			Value: name,
-		}
-		result = append(result, item)
-	}
-
-	return result, nil
-}
-
 func (c Controller) SearchBranch(ctx *gin.Context) {
 	queries, err := c.getSearchQueryBranch(ctx)
 	if err != nil {
@@ -622,7 +584,7 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 const CommonTimeFormat = "2006-01-02"
 
 // Check number order for week, month, year
-func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) ([]dtos.SearchQuery, error) {
+func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, ctr string, bra string, sel string) ([]dtos.SearchQuery, error) {
 	result := make([]dtos.SearchQuery, 0)
 
 	result = append(result, dtos.SearchQuery{
@@ -650,13 +612,36 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time) (
 		}
 		result = append(result, item)
 	}
+	if ctr != "" {
+		item := dtos.SearchQuery{
+			Key:   "country=?",
+			Value: ctr,
+		}
+		result = append(result, item)
+	}
+	if bra != "" {
+		item := dtos.SearchQuery{
+			Key:   "branchsell=?",
+			Value: bra,
+		}
+		result = append(result, item)
+	}
+	if sel != "" {
+		item := dtos.SearchQuery{
+			Key:   "seller=?",
+			Value: sel,
+		}
+		result = append(result, item)
+	}
+
 	return result, nil
 }
 
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	respnumber := dtos.NumberOrderResponse{}
-
+	listBranch := c.SearchBranch(ctx)
+	log.Println(listBranch)
 	log.Println(stepTime)
 
 	if stepTime == "week" {
@@ -665,7 +650,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 		t = t.Add(+7 * time.Hour)
 		for i := 0; i < 7; i++ {
 			time := t.AddDate(0, 0, -i)
-			queries, err := c.getOrderComplatedQuery(ctx, time)
+			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "")
 			if err != nil {
 				fmt.Println("bind json error", err)
 				utils.ResponseErrorGin(ctx, "bind json error")
@@ -678,14 +663,14 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				utils.ResponseErrorGin(ctx, "search number order complated error")
 				return
 			}
-			data := &dtos.NumberOrderInfor{
+			data_order := &dtos.NumberOrderInfor{
 				Time:  time.Format(CommonTimeFormat),
 				Value: int64(len(resp)),
 			}
 
 			log.Println(time.Format(CommonTimeFormat))
 			log.Println(len(resp))
-			respnumber.Orders = append(respnumber.Orders, *data)
+			respnumber.Orders = append(respnumber.Orders, *data_order)
 
 		}
 	}
