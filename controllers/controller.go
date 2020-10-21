@@ -785,7 +785,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 
 	}
 	for _, type := range listType {
-		queries, err := c.getOrderComplatedQuery(ctx, t, type.name, "", "", stepTime)
+		queries, err := c.getOrderComplatedQuery(ctx, t, type.Name, "", "", stepTime)
 		if err != nil {
 			fmt.Println("bind json error", err)
 			utils.ResponseErrorGin(ctx, "bind json error")
