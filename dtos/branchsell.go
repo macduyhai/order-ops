@@ -4,8 +4,9 @@ type BranchSell struct {
 	Name string `json:"name"`
 	Note string `json:"note"`
 }
-type BranchName struct {
-	Name string `json:"name"`
+type BranchInfor struct {
+	Name  string `json:"name"`
+	Value int64  `json:"value"`
 }
 
 type AddbranchRequest struct {

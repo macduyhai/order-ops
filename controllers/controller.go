@@ -622,26 +622,68 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 const CommonTimeFormat = "2006-01-02"
 
 // Check number order for week, month, year
-func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, ctr string, bra string, sel string) ([]dtos.SearchQuery, error) {
+func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, ctr string, bra string, sel string, steptime string) ([]dtos.SearchQuery, error) {
 	result := make([]dtos.SearchQuery, 0)
 
 	result = append(result, dtos.SearchQuery{
 		Key:   "deleted_at IS NULL",
 		Value: nil,
 	})
+	if steptime == "" {
 
-	item_start := dtos.SearchQuery{
-		Key:   "time_completed > ?",
-		Value: time_s.Format(CommonTimeFormat) + " 00:00:00",
+		item_start := dtos.SearchQuery{
+			Key:   "time_completed > ?",
+			Value: time_s.Format(CommonTimeFormat) + " 00:00:00",
+		}
+		result = append(result, item_start)
+
+		item_end := dtos.SearchQuery{
+			Key:   "time_completed < ?",
+			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
+		}
+		result = append(result, item_end)
+	} else if steptime == "week" {
+		time_e := time_s.AddDate(0, 0, -7)
+		item_start := dtos.SearchQuery{
+			Key:   "time_completed > ?",
+			Value: time_e.Format(CommonTimeFormat) + " 00:00:00",
+		}
+		result = append(result, item_start)
+
+		item_end := dtos.SearchQuery{
+			Key:   "time_completed < ?",
+			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
+		}
+		result = append(result, item_end)
+	} else if steptime == "month" {
+		time_e := time_s.AddDate(0, -1, 0)
+		item_start := dtos.SearchQuery{
+			Key:   "time_completed > ?",
+			Value: time_e.Format(CommonTimeFormat) + " 00:00:00",
+		}
+		result = append(result, item_start)
+
+		item_end := dtos.SearchQuery{
+			Key:   "time_completed < ?",
+			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
+		}
+		result = append(result, item_end)
+	} else if steptime == "year" {
+		time_e := time_s.AddDate(-1, 0, 0)
+		item_start := dtos.SearchQuery{
+			Key:   "time_completed > ?",
+			Value: time_e.Format(CommonTimeFormat) + " 00:00:00",
+		}
+		result = append(result, item_start)
+
+		item_end := dtos.SearchQuery{
+			Key:   "time_completed < ?",
+			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
+		}
+		result = append(result, item_end)
+	} else {
+
 	}
-	result = append(result, item_start)
-
-	item_end := dtos.SearchQuery{
-		Key:   "time_completed < ?",
-		Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
-	}
-	result = append(result, item_end)
-
 	status := "3"
 	if status != "" {
 		item := dtos.SearchQuery{
@@ -714,20 +756,41 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	listBranch, _ := c.getBranchnName(ctx)
 	listType, _ := c.getTypeName(ctx)
 	listSeller, _ := c.getSellerName(ctx)
-
+	t := time.Now()
+	t = t.Add(+7 * time.Hour)
 	log.Println(listBranch)
 	log.Println(listType)
 	log.Println(listSeller)
+	// getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, ctr string, bra string, sel string, steptime string)
+	for _, branch := range listBranch {
+		queries, err := c.getOrderComplatedQuery(ctx, t, "", branch.Name, "", "week")
+		if err != nil {
+			fmt.Println("bind json error", err)
+			utils.ResponseErrorGin(ctx, "bind json error")
+			return
+		}
 
+		resp, err := c.OrderService.Search(queries)
+		if err != nil {
+			fmt.Println("search number orders complated error", err)
+			utils.ResponseErrorGin(ctx, "search number order complated error")
+			return
+		}
+
+		data := &dtos.BranchInfor{
+			Name:  branch.Name,
+			Value: int64(len(resp)),
+		}
+		respnumber.BranchSells = append(respnumber.BranchSells, *data)
+
+	}
 	log.Println(stepTime)
 
 	if stepTime == "week" {
 		respnumber.Steptime = "week"
-		t := time.Now()
-		t = t.Add(+7 * time.Hour)
 		for i := 0; i < 7; i++ {
 			time := t.AddDate(0, 0, -i)
-			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "")
+			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "", "")
 			if err != nil {
 				fmt.Println("bind json error", err)
 				utils.ResponseErrorGin(ctx, "bind json error")
@@ -750,6 +813,9 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			respnumber.Orders = append(respnumber.Orders, *data_order)
 
 		}
+
+		// Branch Sell
+
 	}
 	fmt.Println("search number order complated success")
 	log.Println(respnumber)
