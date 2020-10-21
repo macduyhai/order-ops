@@ -636,11 +636,21 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, c
 
 	return result, nil
 }
+func (c Controller) getBranchnName(ctx *gin.Context) ([]dtos.BranchSell, error) {
+	queries, err := c.getSearchQueryBranch(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	resp, err := c.BranchSellService.SearchBranch(queries)
+
+}
 
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	respnumber := dtos.NumberOrderResponse{}
-	listBranch := c.SearchBranch()
+	listBranch := c.getBranchnName(ctx)
 	log.Println(listBranch)
 	log.Println(stepTime)
 
