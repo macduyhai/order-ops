@@ -622,7 +622,7 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 const CommonTimeFormat = "2006-01-02"
 
 // Check number order for week, month, year
-func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, ctr string, bra string, sel string, steptime string) ([]dtos.SearchQuery, error) {
+func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, typ string, bra string, sel string, steptime string) ([]dtos.SearchQuery, error) {
 	result := make([]dtos.SearchQuery, 0)
 
 	result = append(result, dtos.SearchQuery{
@@ -692,10 +692,10 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, c
 		}
 		result = append(result, item)
 	}
-	if ctr != "" {
+	if typ != "" {
 		item := dtos.SearchQuery{
-			Key:   "country=?",
-			Value: ctr,
+			Key:   "typeproduct=?",
+			Value: typ,
 		}
 		result = append(result, item)
 	}
@@ -761,9 +761,9 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	log.Println(listBranch)
 	log.Println(listType)
 	log.Println(listSeller)
-	// getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, ctr string, bra string, sel string, steptime string)
+	// getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, typ string, bra string, sel string, steptime string)
 	for _, branch := range listBranch {
-		queries, err := c.getOrderComplatedQuery(ctx, t, "", branch.Name, "", "week")
+		queries, err := c.getOrderComplatedQuery(ctx, t, "", branch.Name, "", stepTime)
 		if err != nil {
 			fmt.Println("bind json error", err)
 			utils.ResponseErrorGin(ctx, "bind json error")
@@ -784,6 +784,52 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 		respnumber.BranchSells = append(respnumber.BranchSells, *data)
 
 	}
+	for _, type := range listType {
+		queries, err := c.getOrderComplatedQuery(ctx, t, type.name, "", "", stepTime)
+		if err != nil {
+			fmt.Println("bind json error", err)
+			utils.ResponseErrorGin(ctx, "bind json error")
+			return
+		}
+
+		resp, err := c.OrderService.Search(queries)
+		if err != nil {
+			fmt.Println("search number orders complated error", err)
+			utils.ResponseErrorGin(ctx, "search number order complated error")
+			return
+		}
+
+		data := &dtos.NumberOrderInfor{
+			Key:   type.Name,
+			Value: int64(len(resp)),
+		}
+		respnumber.BranchSells = append(respnumber.TypeProducts, *data)
+
+	}
+	for _, seller := range listSeller {
+		queries, err := c.getOrderComplatedQuery(ctx, t, "", "",seller.Name, stepTime)
+		if err != nil {
+			fmt.Println("bind json error", err)
+			utils.ResponseErrorGin(ctx, "bind json error")
+			return
+		}
+
+		resp, err := c.OrderService.Search(queries)
+		if err != nil {
+			fmt.Println("search number orders complated error", err)
+			utils.ResponseErrorGin(ctx, "search number order complated error")
+			return
+		}
+
+		data := &dtos.NumberOrderInfor{
+			Key:   seller.Name,
+			Value: int64(len(resp)),
+		}
+		respnumber.BranchSells = append(respnumber.Sellers, *data)
+
+	}
+
+	// S
 	log.Println(stepTime)
 
 	if stepTime == "week" {
