@@ -862,6 +862,32 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 
 		// Branch Sell
 
+	} else if stepTime == "month" {
+		for i := 0; i < 31; i++ {
+			time := t.AddDate(0, 0, -i)
+			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "", "")
+			if err != nil {
+				fmt.Println("bind json error", err)
+				utils.ResponseErrorGin(ctx, "bind json error")
+				return
+			}
+
+			resp, err := c.OrderService.Search(queries)
+			if err != nil {
+				fmt.Println("search number orders complated error", err)
+				utils.ResponseErrorGin(ctx, "search number order complated error")
+				return
+			}
+			data_order := &dtos.NumberOrderInfor{
+				Key:   time.Format(CommonTimeFormat),
+				Value: int64(len(resp)),
+			}
+
+			log.Println(time.Format(CommonTimeFormat))
+			log.Println(len(resp))
+			respnumber.Orders = append(respnumber.Orders, *data_order)
+
+		}
 	} else if stepTime == "year" {
 		for i := 0; i < 12; i++ {
 			time := t.AddDate(0, -i, 0)
@@ -888,8 +914,6 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			respnumber.Orders = append(respnumber.Orders, *data_order)
 
 		}
-	} else if stepTime == "month" {
-
 	} else {
 		// Do some things
 	}
