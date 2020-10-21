@@ -679,9 +679,10 @@ func (c Controller) getBranchnName(ctx *gin.Context) ([]dtos.BranchSell, error) 
 	if err != nil {
 		fmt.Println("bind json error", err)
 		utils.ResponseErrorGin(ctx, "bind json error")
+		return nil, err
 	}
 	resp, err := c.BranchSellService.SearchBranch(queries)
-	return nil, resp
+	return resp, nil
 }
 
 func (c Controller) NumberOrders(ctx *gin.Context) {
