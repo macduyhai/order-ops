@@ -778,7 +778,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 		}
 
 		data := &dtos.BranchInfor{
-			Name:  branch.Name,
+			Key:   branch.Name,
 			Value: int64(len(resp)),
 		}
 		respnumber.BranchSells = append(respnumber.BranchSells, *data)
@@ -804,7 +804,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				return
 			}
 			data_order := &dtos.NumberOrderInfor{
-				Time:  time.Format(CommonTimeFormat),
+				Key:   time.Format(CommonTimeFormat),
 				Value: int64(len(resp)),
 			}
 

@@ -47,7 +47,7 @@ type NumberOrderResponse struct {
 	Countrys     []NumberOrderInfor `json:"countrys"`
 }
 type NumberOrderInfor struct {
-	Time  string `json:"time"`
+	Key   string `json:"time"`
 	Value int64  `json:"value"`
 }
 type AddorderResponse struct {
