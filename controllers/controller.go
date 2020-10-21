@@ -660,7 +660,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	log.Println(stepTime)
 
 	if stepTime == "week" {
-		*respnumber.Steptime = "week"
+		respnumber.Steptime = "week"
 		t := time.Now()
 		t = t.Add(+7 * time.Hour)
 		for i := 0; i < 7; i++ {
