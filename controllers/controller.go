@@ -753,6 +753,7 @@ func (c Controller) getSellerName(ctx *gin.Context) ([]dtos.Seller, error) {
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	respnumber := dtos.NumberOrderResponse{}
+	respnumber.Steptime = stepTime
 	listBranch, _ := c.getBranchnName(ctx)
 	listType, _ := c.getTypeName(ctx)
 	listSeller, _ := c.getSellerName(ctx)
@@ -834,7 +835,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	log.Println(stepTime)
 
 	if stepTime == "week" {
-		respnumber.Steptime = "week"
+
 		for i := 0; i < 7; i++ {
 			time := t.AddDate(0, 0, -i)
 			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "", "")
