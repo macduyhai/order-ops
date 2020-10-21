@@ -781,6 +781,8 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			Key:   branch.Name,
 			Value: int64(len(resp)),
 		}
+		log.Println(branch.Name)
+		log.Println(int64(len(resp)))
 		respnumber.BranchSells = append(respnumber.BranchSells, *data)
 
 	}

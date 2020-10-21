@@ -44,10 +44,10 @@ type NumberOrderResponse struct {
 	Orders       []NumberOrderInfor `json:"orders"`
 	BranchSells  []NumberOrderInfor `json:"branchsells"`
 	TypeProducts []NumberOrderInfor `json:"typeproducts"`
-	Sellers      []NumberOrderInfor `json:"countrys"`
+	Sellers      []NumberOrderInfor `json:"sellers"`
 }
 type NumberOrderInfor struct {
-	Key   string `json:"time"`
+	Key   string `json:"key"`
 	Value int64  `json:"value"`
 }
 type AddorderResponse struct {
