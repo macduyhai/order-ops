@@ -684,12 +684,41 @@ func (c Controller) getBranchnName(ctx *gin.Context) ([]dtos.BranchSell, error) 
 	resp, err := c.BranchSellService.SearchBranch(queries)
 	return resp, nil
 }
+func (c Controller) getTypeName(ctx *gin.Context) ([]dtos.TypeProduct, error) {
+
+	queries, err := c.getSearchQueryType(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return nil, err
+	}
+
+	resp, err := c.TypeProductService.SearchType(queries)
+	return resp, nil
+}
+func (c Controller) getSellerName(ctx *gin.Context) ([]dtos.Seller, error) {
+	queries, err := c.getSearchQuerySeller(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return nil, err
+	}
+
+	resp, err := c.SellerService.SearchSeller(queries)
+	return resp, nil
+}
 
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	respnumber := dtos.NumberOrderResponse{}
 	listBranch, _ := c.getBranchnName(ctx)
+	listType, _ := c.getTypeName(ctx)
+	listSeller, _ := c.getSellerName(ctx)
+
 	log.Println(listBranch)
+	log.Println(listType)
+	log.Println(listSeller)
+
 	log.Println(stepTime)
 
 	if stepTime == "week" {
