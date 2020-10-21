@@ -777,7 +777,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			return
 		}
 
-		data := &dtos.BranchInfor{
+		data := &dtos.NumberOrderInfor{
 			Key:   branch.Name,
 			Value: int64(len(resp)),
 		}
