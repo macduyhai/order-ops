@@ -640,7 +640,7 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, c
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	respnumber := dtos.NumberOrderResponse{}
-	listBranch := c.SearchBranch(ctx)
+	listBranch := c.SearchBranch()
 	log.Println(listBranch)
 	log.Println(stepTime)
 
