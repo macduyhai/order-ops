@@ -784,8 +784,8 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 		respnumber.BranchSells = append(respnumber.BranchSells, *data)
 
 	}
-	for _, type := range listType {
-		queries, err := c.getOrderComplatedQuery(ctx, t, type.Name, "", "", stepTime)
+	for _, typep := range listType {
+		queries, err := c.getOrderComplatedQuery(ctx, t, typep.Name, "", "", stepTime)
 		if err != nil {
 			fmt.Println("bind json error", err)
 			utils.ResponseErrorGin(ctx, "bind json error")
@@ -800,14 +800,14 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 		}
 
 		data := &dtos.NumberOrderInfor{
-			Key:   type.Name,
+			Key:   typep.Name,
 			Value: int64(len(resp)),
 		}
 		respnumber.BranchSells = append(respnumber.TypeProducts, *data)
 
 	}
 	for _, seller := range listSeller {
-		queries, err := c.getOrderComplatedQuery(ctx, t, "", "",seller.Name, stepTime)
+		queries, err := c.getOrderComplatedQuery(ctx, t, "", "", seller.Name, stepTime)
 		if err != nil {
 			fmt.Println("bind json error", err)
 			utils.ResponseErrorGin(ctx, "bind json error")
@@ -825,7 +825,7 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			Key:   seller.Name,
 			Value: int64(len(resp)),
 		}
-		respnumber.BranchSells = append(respnumber.Sellers, *data)
+		respnumber.Sellers = append(respnumber.Sellers, *data)
 
 	}
 
