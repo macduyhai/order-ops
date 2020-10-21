@@ -777,13 +777,13 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			return
 		}
 
-		data := &dtos.NumberOrderInfor{
+		data_b := &dtos.NumberOrderInfor{
 			Key:   branch.Name,
 			Value: int64(len(resp)),
 		}
 		log.Println(branch.Name)
 		log.Println(int64(len(resp)))
-		respnumber.BranchSells = append(respnumber.BranchSells, *data)
+		respnumber.BranchSells = append(respnumber.BranchSells, *data_b)
 
 	}
 	for _, typep := range listType {
@@ -801,11 +801,11 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			return
 		}
 
-		data := &dtos.NumberOrderInfor{
+		data_t := &dtos.NumberOrderInfor{
 			Key:   typep.Name,
 			Value: int64(len(resp)),
 		}
-		respnumber.BranchSells = append(respnumber.TypeProducts, *data)
+		respnumber.BranchSells = append(respnumber.TypeProducts, *data_t)
 
 	}
 	for _, seller := range listSeller {
@@ -823,11 +823,11 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 			return
 		}
 
-		data := &dtos.NumberOrderInfor{
+		data_s := &dtos.NumberOrderInfor{
 			Key:   seller.Name,
 			Value: int64(len(resp)),
 		}
-		respnumber.Sellers = append(respnumber.Sellers, *data)
+		respnumber.Sellers = append(respnumber.Sellers, *data_s)
 
 	}
 
