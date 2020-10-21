@@ -679,16 +679,15 @@ func (c Controller) getBranchnName(ctx *gin.Context) ([]dtos.BranchSell, error) 
 	if err != nil {
 		fmt.Println("bind json error", err)
 		utils.ResponseErrorGin(ctx, "bind json error")
-		return
 	}
 	resp, err := c.BranchSellService.SearchBranch(queries)
-
+	return nil, resp
 }
 
 func (c Controller) NumberOrders(ctx *gin.Context) {
 	stepTime := ctx.Query("steptime")
 	respnumber := dtos.NumberOrderResponse{}
-	listBranch := c.getBranchnName(ctx)
+	listBranch, _ := c.getBranchnName(ctx)
 	log.Println(listBranch)
 	log.Println(stepTime)
 
