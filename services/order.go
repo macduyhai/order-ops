@@ -8,6 +8,7 @@ import (
 	"order-ops/models"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -53,7 +54,20 @@ const (
 	// completedStatus  = 3
 )
 
+func (service *orderServiceImpl) Filtercharacter(input string) string {
+	new := ""
+	if input != "" {
+		new = strings.ToLower(input)
+		new = strings.Replace(new, " ", "", -1)
+	}
+	return new
+}
 func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) models.Order {
+	input.Country = service.Filtercharacter(input.Country)
+	input.BranchSell = service.Filtercharacter(input.BranchSell)
+	input.TypeProduct = service.Filtercharacter(input.TypeProduct)
+	input.Seller = service.Filtercharacter(input.Seller)
+
 	return models.Order{
 		OrderNumber:  input.OrderNumber,
 		CustomerName: input.Name,
