@@ -1,7 +1,6 @@
 package daos
 
 import (
-	"fmt"
 	"order-ops/dtos"
 	"order-ops/models"
 
@@ -26,7 +25,7 @@ func NewOrderDao(db *gorm.DB) OrderDao {
 }
 
 func (dao *orderDaoImpl) Create(record *models.Order) error {
-	fmt.Println(record)
+	// fmt.Println(record)
 	return dao.db.Create(record).Error
 }
 

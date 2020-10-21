@@ -66,6 +66,19 @@ func (service *branchSellServiceImpl) AddBranchSell(request dtos.AddbranchReques
 	return &result, nil
 }
 
+// func (service *branchSellServiceImpl) SearchBranchforName(name string) bool {
+// 	query := []dtos.SearchBranchSellQuery{}
+// 	query[0].Name = name
+// 	record, _ := service.dao.SearchBranch(query)
+
+// 	if record[0].Name == name {
+// 		return true
+// 	} else {
+// 		return false
+// 	}
+
+// }
+
 func (service *branchSellServiceImpl) SearchBranch(queries []dtos.SearchBranchSellQuery) ([]dtos.BranchSell, error) {
 	records, _ := service.dao.SearchBranch(queries)
 	result := make([]dtos.BranchSell, 0)

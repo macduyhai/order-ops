@@ -759,9 +759,9 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	listSeller, _ := c.getSellerName(ctx)
 	t := time.Now()
 	t = t.Add(+7 * time.Hour)
-	log.Println(listBranch)
-	log.Println(listType)
-	log.Println(listSeller)
+	// log.Println(listBranch)
+	// log.Println(listType)
+	// log.Println(listSeller)
 	// getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, typ string, bra string, sel string, steptime string)
 	for _, branch := range listBranch {
 		queries, err := c.getOrderComplatedQuery(ctx, t, "", branch.Name, "", stepTime)
@@ -854,8 +854,8 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				Value: int64(len(resp)),
 			}
 
-			log.Println(time.Format(CommonTimeFormat))
-			log.Println(len(resp))
+			// log.Println(time.Format(CommonTimeFormat))
+			// log.Println(len(resp))
 			respnumber.Orders = append(respnumber.Orders, *data_order)
 
 		}
@@ -883,8 +883,8 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				Value: int64(len(resp)),
 			}
 
-			log.Println(time.Format(CommonTimeFormat))
-			log.Println(len(resp))
+			// log.Println(time.Format(CommonTimeFormat))
+			// log.Println(len(resp))
 			respnumber.Orders = append(respnumber.Orders, *data_order)
 
 		}
@@ -909,8 +909,8 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 				Value: int64(len(resp)),
 			}
 
-			log.Println(time.Format(CommonTimeFormat))
-			log.Println(len(resp))
+			// log.Println(time.Format(CommonTimeFormat))
+			// log.Println(len(resp))
 			respnumber.Orders = append(respnumber.Orders, *data_order)
 
 		}
