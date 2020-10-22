@@ -624,6 +624,8 @@ const CommonTimeFormat = "2006-01-02"
 // Check number order for week, month, year
 func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, typ string, bra string, sel string, steptime string) ([]dtos.SearchQuery, error) {
 	result := make([]dtos.SearchQuery, 0)
+	var y int
+	var m time.Month
 
 	result = append(result, dtos.SearchQuery{
 		Key:   "deleted_at IS NULL",
@@ -655,34 +657,22 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
 		}
 		result = append(result, item_end)
-	} else if steptime == "month1" {
-		time_e := time_s.AddDate(0, -1, 0)
-		log.Println(time_e.Format(CommonTimeFormat) + " 00:00:00")
-		log.Println(time_s.Format(CommonTimeFormat) + " 23:59:59")
-		item_start := dtos.SearchQuery{
-			Key:   "time_completed > ?",
-			Value: time_e.Format(CommonTimeFormat) + " 00:00:00",
-		}
-		result = append(result, item_start)
-
-		item_end := dtos.SearchQuery{
-			Key:   "time_completed < ?",
-			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
-		}
-		result = append(result, item_end)
 	} else if steptime == "year" {
+		y, m, _ = time_s.Date()
+		firstDay := time.Date(y, m, 1, 0, 0, 0, 0, time.UTC)
+		lastDay := time.Date(y, m+1, 1, 0, 0, 0, -1, time.UTC)
 		// time_e := time_s.AddDate(-1, 0, 0)
-		log.Println(time_s.Format(CommonTimeFormat) + " 00:00:00")
-		log.Println(time_s.Format(CommonTimeFormat) + " 23:59:59")
+		log.Println(firstDay.Format(CommonTimeFormat) + " 00:00:00")
+		log.Println(lastDay.Format(CommonTimeFormat) + " 23:59:59")
 		item_start := dtos.SearchQuery{
 			Key:   "time_completed > ?",
-			Value: time_s.Format(CommonTimeFormat) + " 00:00:00",
+			Value: firstDay.Format(CommonTimeFormat) + " 00:00:00",
 		}
 		result = append(result, item_start)
 
 		item_end := dtos.SearchQuery{
 			Key:   "time_completed < ?",
-			Value: time_s.Format(CommonTimeFormat) + " 23:59:59",
+			Value: lastDay.Format(CommonTimeFormat) + " 23:59:59",
 		}
 		result = append(result, item_end)
 	} else {
