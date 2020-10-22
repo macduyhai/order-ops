@@ -100,6 +100,7 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 	recordFail := make([]string, 0)
 	for _, order := range request.Orders {
 		if order.OrderNumber != "" {
+			order.Country = strings.ToUpper(order.Country)
 			record := service.mapperDtossToModelOrder(order)
 			err := service.dao.Create(&record)
 			if err != nil {
