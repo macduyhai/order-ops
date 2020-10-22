@@ -658,6 +658,7 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 		}
 		result = append(result, item_end)
 	} else if steptime == "year" {
+		log.Println(time_s)
 		y, m, _ = time_s.Date()
 		firstDay := time.Date(y, m, 1, 0, 0, 0, 0, time.UTC)
 		lastDay := time.Date(y, m+1, 1, 0, 0, 0, -1, time.UTC)
