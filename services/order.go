@@ -99,12 +99,16 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
 	for _, order := range request.Orders {
-		record := service.mapperDtossToModelOrder(order)
-		err := service.dao.Create(&record)
-		if err != nil {
-			recordFail = append(recordFail, order.OrderNumber)
+		if order.OrderNumber != "" {
+			record := service.mapperDtossToModelOrder(order)
+			err := service.dao.Create(&record)
+			if err != nil {
+				recordFail = append(recordFail, order.OrderNumber)
+			} else {
+				recordSuccess = append(recordSuccess, order.OrderNumber)
+			}
 		} else {
-			recordSuccess = append(recordSuccess, order.OrderNumber)
+			recordFail = append(recordFail, order.OrderNumber)
 		}
 	}
 

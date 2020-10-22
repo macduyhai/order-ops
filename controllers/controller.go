@@ -211,7 +211,6 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
 	resp, err := c.OrderService.AddOrder(request)
 	if err != nil {
 		fmt.Println("add order error", err)
