@@ -886,7 +886,8 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	} else if stepTime == "year" {
 		for i := 0; i < 12; i++ {
 			time := t.AddDate(0, -i, 0)
-			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "", "")
+			log.Println(time)
+			queries, err := c.getOrderComplatedQuery(ctx, time, "", "", "", stepTime)
 			if err != nil {
 				fmt.Println("bind json error", err)
 				utils.ResponseErrorGin(ctx, "bind json error")
