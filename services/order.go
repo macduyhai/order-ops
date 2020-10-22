@@ -62,11 +62,14 @@ func (service *orderServiceImpl) Filtercharacter(input string) string {
 	}
 	return new
 }
+
 func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) models.Order {
-	input.Country = service.Filtercharacter(input.Country)
+	// input.Country = service.Filtercharacter(input.Country)
 	input.BranchSell = service.Filtercharacter(input.BranchSell)
 	input.TypeProduct = service.Filtercharacter(input.TypeProduct)
 	input.Seller = service.Filtercharacter(input.Seller)
+	t_n := time.Now().Add(+7 * time.Hour)
+	CreatedAt := t_n.Format(CommonTimeFormat)
 
 	return models.Order{
 		OrderNumber:  input.OrderNumber,
@@ -83,6 +86,7 @@ func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) model
 		TypeProduct:  input.TypeProduct,
 		Seller:       input.Seller,
 		Note:         input.Note,
+		CreatedAt:    CreatedAt,
 	}
 }
 
