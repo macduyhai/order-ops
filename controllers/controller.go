@@ -657,6 +657,8 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 		result = append(result, item_end)
 	} else if steptime == "month" {
 		time_e := time_s.AddDate(0, -1, 0)
+		log.Println(time_e.Format(CommonTimeFormat) + " 00:00:00")
+		log.Println(time_s.Format(CommonTimeFormat) + " 23:59:59")
 		item_start := dtos.SearchQuery{
 			Key:   "time_completed > ?",
 			Value: time_e.Format(CommonTimeFormat) + " 00:00:00",
@@ -670,6 +672,8 @@ func (c Controller) getOrderComplatedQuery(ctx *gin.Context, time_s time.Time, t
 		result = append(result, item_end)
 	} else if steptime == "year" {
 		time_e := time_s.AddDate(-1, 0, 0)
+		log.Println(time_e.Format(CommonTimeFormat) + " 00:00:00")
+		log.Println(time_s.Format(CommonTimeFormat) + " 23:59:59")
 		item_start := dtos.SearchQuery{
 			Key:   "time_completed > ?",
 			Value: time_e.Format(CommonTimeFormat) + " 00:00:00",
