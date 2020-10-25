@@ -38,11 +38,15 @@ func InitGin(db *gorm.DB) *gin.Engine {
 	sellerDao := daos.NewSellerDao(db)
 	sellerService := services.NewSellerService(sellerDao)
 
+	authenDao := daos.NewAuthenDao(db)
+	authenService := services.NewAuthenService(authenDao)
+
 	ctl := controllers.Controller{
 		OrderService:       orderService,
 		BranchSellService:  branchSellService,
 		TypeProductService: typeProductService,
 		SellerService:      sellerService,
+		AuthenService:      authenService,
 	}
 
 	engine := gin.Default()
@@ -51,6 +55,11 @@ func InitGin(db *gorm.DB) *gin.Engine {
 	engine.GET("/health", ctl.HealthCheck)
 	apiGroup := engine.Group("/api/v1")
 	{
+		authenGroup := apiGroup.Group("/authenkey")
+		{
+			authenGroup.POST("", ctl.AddAuthen)
+			authenGroup.GET("", ctl.SearchAuthen)
+		}
 		orderGroup := apiGroup.Group("/orders")
 		{
 			orderGroup.POST("", ctl.AddOrder)

@@ -20,6 +20,7 @@ type Controller struct {
 	BranchSellService  services.BranchSellService
 	TypeProductService services.TypeProductService
 	SellerService      services.SellerService
+	AuthenService      services.AuthenService
 }
 
 func (c Controller) HealthCheck(contex *gin.Context) {
@@ -112,6 +113,34 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 
 	fmt.Println("Delete branch success")
 	utils.ResponseSuccess(ctx, nil)
+}
+
+// ----- ADD Authen
+func (c Controller) AddAuthen(ctx *gin.Context) {
+	var request dtos.AuthenKey
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.AuthenService.AddAuthen(request)
+	if err != nil {
+		fmt.Println("add order error", err)
+		utils.ResponseErrorGin(ctx, "add order error")
+		return
+	}
+
+	fmt.Println("add success")
+	utils.ResponseSuccess(ctx, resp)
 }
 
 // ----- ADD METHOD
@@ -428,6 +457,19 @@ func (c Controller) getSearchQuerySeller(ctx *gin.Context) ([]dtos.SearchSellerQ
 	}
 
 	return result, nil
+}
+
+//Search Authen Key
+func (c Controller) SearchAuthen(ctx *gin.Context) {
+	resp, err := c.AuthenService.SearchAuthen(ctx)
+	if err != nil {
+		fmt.Println("search orders error", err)
+		utils.ResponseErrorGin(ctx, "search order error")
+		return
+	}
+
+	fmt.Println("search success")
+	utils.ResponseSuccess(ctx, resp)
 }
 
 func (c Controller) SearchSeller(ctx *gin.Context) {

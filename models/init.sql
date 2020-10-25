@@ -69,3 +69,9 @@ CREATE TABLE `sellers` (
   `updated_at`                 DATETIME    DEFAULT NOW() ON UPDATE NOW(),
   `deleted_at`                 DATETIME    DEFAULT NULL
 );
+DROP TABLE IF EXISTS `authenkey`;
+CREATE TABLE `authenkey` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `key` VARCHAR(255) NOT NULL,
+  `created_at`                 DATETIME    DEFAULT NOW()
+);
