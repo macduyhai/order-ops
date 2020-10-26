@@ -117,7 +117,12 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 
 // ----- ADD Authen
 func (c Controller) AddAuthen(ctx *gin.Context) {
+
+	log.Println(ctx.Query("Key"))
+	log.Println(ctx.Query("CreatedAt"))
+
 	var request dtos.AuthenKey
+
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
 		fmt.Println("get raw body error", err)
@@ -131,7 +136,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	log.Println(request)
 	resp, err := c.AuthenService.AddAuthen(request)
 	if err != nil {
 		fmt.Println("add order error", err)
