@@ -433,7 +433,7 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 		// fmt.Println()
 	}
 	// AddLabelsToItems
-	resp_item, err := c.OrderService.AddLabelsToItems(request)
+	_, err := c.OrderService.AddLabelsToItems(request)
 	if err != nil {
 		// fmt.Println("add labels to order error", err)
 		utils.ResponseErrorGin(ctx, "add Item to items error")
