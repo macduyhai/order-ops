@@ -135,6 +135,29 @@ func (service *orderServiceImpl) AddLabelsToOrder(request dtos.AddLabelRequest) 
 		ID: record.ID,
 	}, nil
 }
+func (service *orderServiceImpl) mapperDtossToModelItemAddLable(input dtos.Item) models.Item {
+	t_n := time.Now().Add(+7 * time.Hour)
+	return models.Item{
+		OrderNumber: input.OrderNumber,
+		TypeProduct: input.TypeProduct,
+		Quantity:    input.Quantity,
+		Note:        input.Note,
+		CreatedAt:   &t_n,
+	}
+}
+
+//  mapperDtossToModelItemAddLable(input dtos.Item) models.Item
+func (service *orderServiceImpl) AddLabelsToItems(request dtos.Item) (*dtos.Response, error) {
+	res := dtos.Response{}
+	for _, item := range request.Items {
+		record := service.mapperDtossToModelItemAddLable(item)
+		err := service.dao.Create_Item(&record)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
 
 func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order) dtos.FullOrderInformation {
 	begin := input.BeginShipping.Format(CommonTimeFormat)

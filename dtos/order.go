@@ -29,7 +29,13 @@ type Order struct {
 	Note        string     `json:"note"`
 	CreatedAt   *time.Time `json:"created_at"`
 }
-
+type Item struct {
+	OrderNumber string     `json:"orderNumber"`
+	TypeProduct string     `json:"typeproduct"`
+	Quantity    int32      `json:"quantity"`
+	Note        string     `json:"note"`
+	CreatedAt   *time.Time `json:"created_at"`
+}
 type AddOrderRequest struct {
 	Orders []Order `json:"orders"`
 }
@@ -64,6 +70,7 @@ type LableDetails struct {
 
 type AddLabelRequest struct {
 	OrderNumber  string       `json:"orderNumber"`
+	Items        []Item       `json:"items"`
 	LableDetails LableDetails `json:"labelDetails"`
 }
 

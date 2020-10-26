@@ -11,6 +11,7 @@ import (
 type OrderDao interface {
 	Create(record *models.Order) error
 	Updates(record *models.Order) error
+	Create_Item(record *models.Item) error
 	Search(queries []dtos.SearchQuery) ([]models.Order, error)
 	GetByOrderNumber(orderNumber string) (*models.Order, error)
 	Delete(orderNumber string) error
@@ -23,7 +24,10 @@ type orderDaoImpl struct {
 func NewOrderDao(db *gorm.DB) OrderDao {
 	return &orderDaoImpl{db: db}
 }
-
+func (dao *orderDaoImpl) Create_Item(record *models.Item) error {
+	// fmt.Println(record)
+	return dao.db.Create(record).Error
+}
 func (dao *orderDaoImpl) Create(record *models.Order) error {
 	// fmt.Println(record)
 	return dao.db.Create(record).Error

@@ -32,3 +32,12 @@ type Order struct {
 func (Order) TableName() string {
 	return "orders"
 }
+
+type Item struct {
+	ID          int64      `gorm:"column:id;AUTO_INCREMENT;PRIMARY_KEY"`
+	OrderNumber string     `gorm:"column:order_number"`
+	TypeProduct string     `gorm:"column:typeproduct"`
+	Quantity    int32      `gorm:"column:quantity"`
+	Note        string     `gorm:"column:note"`
+	CreatedAt   *time.Time `gorm:"column:created_at"`
+}

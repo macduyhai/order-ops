@@ -35,7 +35,18 @@ CREATE TABLE `orders` (
   MODIFY `time_completed` TIMESTAMP;
   ALTER TABLE orders.orders MODIFY COLUMN note VARCHAR(255)  
     CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
-  
+
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE `items` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   `order_number` VARCHAR(128) NOT NULL UNIQUE,
+   `typeproduct` VARCHAR(255) DEFAULT '',
+   `quantity` INT(10) NOT NULL,
+   `note` VARCHAR(255) DEFAULT '',
+  `created_at`  DATETIME    DEFAULT NOW()
+
+);
+
 DROP TABLE IF EXISTS `branchsells`;
 CREATE TABLE `branchsells` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
