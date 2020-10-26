@@ -142,7 +142,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 	// request.CreatedAt = ctx.Query("CreatedAt")
 
 	t := time.Now()
-	t = t.Add(time.Hour * 7).Format(TimeFormatFull)
+	t = t.Add(time.Hour * 7)
 	request.CreatedAt = &t
 
 	log.Println(request)
