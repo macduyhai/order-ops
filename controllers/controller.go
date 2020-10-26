@@ -141,7 +141,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 
 	t := time.Now()
 	t = t.Add(time.Hour * 7)
-	request.CreatedAt = *t
+	request.CreatedAt = &t
 
 	log.Println(request)
 	resp, err := c.AuthenService.AddAuthen(request)
