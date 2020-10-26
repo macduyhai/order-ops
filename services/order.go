@@ -17,6 +17,7 @@ import (
 type OrderService interface {
 	AddOrder(request dtos.AddOrderRequest) (*dtos.AddorderResponse, error)
 	AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
+	AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
 	Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error)
 	AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
