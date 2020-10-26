@@ -426,7 +426,7 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 			utils.ResponseErrorGin(ctx, "require field is missing")
 			return
 		}
-		resp, err := c.OrderService.AddLabelsToOrder(request)
+		_, err := c.OrderService.AddLabelsToOrder(request)
 		if err != nil {
 			// fmt.Println("add labels to order error", err)
 			utils.ResponseErrorGin(ctx, "add labels to order error")
