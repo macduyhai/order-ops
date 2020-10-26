@@ -8,7 +8,7 @@ import (
 
 type AuthenService interface {
 	AddAuthen(request dtos.AuthenKey) (*dtos.AuthenKey, error)
-	SearchAuthen(queries dtos.AuthenKey) (dtos.AuthenKey, error)
+	SearchAuthen() (dtos.AuthenKey, error)
 }
 
 type authenServiceImpl struct {
