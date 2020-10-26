@@ -415,7 +415,7 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	log.Println(request)
 	if request.LableDetails.PartnerTrackingNumber == "" ||
 		request.LableDetails.TrackingNumber == "" ||
 		request.LableDetails.URL == "" {
