@@ -417,13 +417,15 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	log.Println(request)
-	if request.LableDetails.PartnerTrackingNumber == "" ||
-		request.LableDetails.TrackingNumber == "" ||
-		request.LableDetails.URL == "" {
-		// fmt.Println("require field in label details is missing", request)
-		utils.ResponseErrorGin(ctx, "require field is missing")
-		return
+	// log.Println(request)
+	if request.Items == nil {
+		if request.LableDetails.PartnerTrackingNumber == "" ||
+			request.LableDetails.TrackingNumber == "" ||
+			request.LableDetails.URL == "" {
+			// fmt.Println("require field in label details is missing", request)
+			utils.ResponseErrorGin(ctx, "require field is missing")
+			return
+		}
 	}
 
 	resp, err := c.OrderService.AddLabelsToOrder(request)
