@@ -131,6 +131,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "get raw body error")
 		return
 	}
+	log.Println(bytes)
 
 	err = json.Unmarshal(bytes, &request)
 	if err != nil {
