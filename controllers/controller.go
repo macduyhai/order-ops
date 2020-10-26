@@ -137,7 +137,11 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 		return
 	}
 	request.Key = ctx.Query("Key")
-	request.CreatedAt = ctx.Query("CreatedAt")
+	// request.CreatedAt = ctx.Query("CreatedAt")
+
+	t := time.Now()
+	t = t.Add(time.Hour * 7)
+	request.CreatedAt = t
 
 	log.Println(request)
 	resp, err := c.AuthenService.AddAuthen(request)
