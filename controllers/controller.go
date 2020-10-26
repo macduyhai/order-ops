@@ -138,6 +138,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
+	log.Println(request)
 	request.Key = ctx.Query("Key")
 	// request.CreatedAt = ctx.Query("CreatedAt")
 
@@ -145,7 +146,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 	t = t.Add(time.Hour * 7)
 	request.CreatedAt = &t
 
-	// log.Println(request)
+	log.Println(request)
 	resp, err := c.AuthenService.AddAuthen(request)
 	if err != nil {
 		fmt.Println("add order error", err)
