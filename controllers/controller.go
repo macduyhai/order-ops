@@ -461,11 +461,8 @@ func (c Controller) getSearchQuerySeller(ctx *gin.Context) ([]dtos.SearchSellerQ
 
 //Search Authen Key
 func (c Controller) SearchAuthen(ctx *gin.Context) {
-	re := dtos.AuthenKey
-	re.Key = ctx.Key
-	re.CreatedAt = ctx.CreatedAt
 
-	resp, err := c.AuthenService.SearchAuthen(re)
+	resp, err := c.AuthenService.SearchAuthen()
 	if err != nil {
 		fmt.Println("search orders error", err)
 		utils.ResponseErrorGin(ctx, "search order error")

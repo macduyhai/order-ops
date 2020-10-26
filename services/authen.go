@@ -43,7 +43,8 @@ func (service *authenServiceImpl) AddAuthen(request dtos.AuthenKey) (*dtos.Authe
 	return &result, nil
 }
 
-func (service *authenServiceImpl) SearchAuthen(queries dtos.AuthenKey) (dtos.AuthenKey, error) {
+func (service *authenServiceImpl) SearchAuthen() (dtos.AuthenKey, error) {
+	queries := dtos.AuthenKey{}
 	record, _ := service.dao.SearchAuthen(queries)
 	result := dtos.AuthenKey{}
 	if record.Key != "" {
