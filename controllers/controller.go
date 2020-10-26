@@ -447,7 +447,7 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	}
 
 	fmt.Println("add labels to order done")
-	utils.ResponseSuccess(ctx, resp)
+	utils.ResponseSuccess(ctx, res)
 }
 
 // Search Seller
