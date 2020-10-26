@@ -19,6 +19,7 @@ type OrderService interface {
 	AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
 	AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
 	Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error)
+	SearchItems(queries []dtos.SearchItemsQuery) ([]dtos.Item, error)
 	AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
 	MakeCompleted(orderNumber string) (*dtos.AddorderResponse, error)
 	MakeDelay(orderNumber string) (*dtos.AddorderResponse, error)
@@ -227,39 +228,28 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	log.Println(input.Status)
 }
 
-//
+func (service *orderServiceImpl) mapperModelToDtossItem(input models.Item) dtos.Item {
+	t_n := time.Now().Add(+7 * time.Hour)
+	return dtos.Item{
+		OrderNumber: input.OrderNumber,
+		TypeProduct: input.TypeProduct,
+		Quantity:    input.Quantity,
+		Note:        input.Note,
+		CreatedAt:   &t_n,
+	}
+}
+func (service *orderServiceImpl) SearchItems(queries []dtos.SearchItemsQuery) ([]dtos.Item, error) {
+	records, _ := service.dao.SearchItems(queries)
+	result := make([]dtos.Item, 0)
 
-// func (service *orderServiceImpl) NumberOrders(queries []dtos.SearchQuery) ([]dtos.NumberOrderResponse, error) {
-// 	records, _ := service.dao.Search(queries)
-// 	result := make([]dtos.FullOrderInformation, 0)
-// 	status := -1
+	for _, record := range records {
+		if record.OrderNumber != "" {
+			result = append(result, service.mapperModelToDtossItem(record))
+		}
+	}
 
-// 	for _, query := range queries {
-// 		if query.Key == "status=?" {
-// 			statusint, _ := strconv.Atoi(fmt.Sprintf("%v", query.Value))
-// 			status = statusint
-// 		}
-// 	}
-
-// 	for _, record := range records {
-// 		if int(record.Status) != delayStatus {
-// 			service.updateRecordState(&record)
-// 		}
-// 		if status != -1 {
-// 			if int(record.Status) == status {
-// 				result = append(result, service.mapperModelsToOrderFullInfor(record))
-// 			}
-// 		} else {
-// 			result = append(result, service.mapperModelsToOrderFullInfor(record))
-// 		}
-// 	}
-
-// 	sort.SliceStable(result, func(i, j int) bool {
-// 		return result[i].Status < result[j].Status
-// 	})
-
-// 	return result, nil
-// }
+	return result, nil
+}
 
 //
 func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error) {

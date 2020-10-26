@@ -14,6 +14,7 @@ type OrderDao interface {
 	Updates(record *models.Order) error
 	Create_Item(record *models.Item) error
 	Search(queries []dtos.SearchQuery) ([]models.Order, error)
+	SearchItems(queries []dtos.SearchItemsQuery) ([]models.Item, error)
 	GetByOrderNumber(orderNumber string) (*models.Order, error)
 	Delete(orderNumber string) error
 }
@@ -49,6 +50,24 @@ func (dao *orderDaoImpl) Updates(record *models.Order) error {
 // func (dao *orderDaoImpl) OrderforDay(timeStart time.Time) (val int64) {
 
 // }
+func (dao *orderDaoImpl) SearchItems(queries []dtos.SearchItemsQuery) ([]models.Item, error) {
+	result := make([]models.Item, 0)
+	db := dao.db
+	for _, query := range queries {
+
+		if query.Value != nil {
+			db = db.Where(query.Key, query.Value)
+		} else {
+			db = db.Where(query.Key)
+		}
+	}
+
+	if err := db.Find(&result).Error; err != nil {
+		return nil, nil
+	}
+
+	return result, nil
+}
 
 func (dao *orderDaoImpl) Search(queries []dtos.SearchQuery) ([]models.Order, error) {
 	result := make([]models.Order, 0)

@@ -975,6 +975,36 @@ func (c Controller) NumberOrders(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, respnumber)
 }
 
+// SearchItems
+func (c Controller) getSearchItemsQuery(ctx *gin.Context) ([]dtos.SearchItemsQuery, error) {
+	result := make([]dtos.SearchItemsQuery, 0)
+	ordernumber := ctx.Query("order_number")
+	result = append(result, dtos.SearchItemsQuery{
+		Key:   "order_number =?",
+		Value: ordernumber,
+	})
+	return result, nil
+}
+
+func (c Controller) SearchItem(ctx *gin.Context) {
+	queries, err := c.getSearchItemsQuery(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.OrderService.SearchItems(queries)
+	if err != nil {
+		fmt.Println("search orders error", err)
+		utils.ResponseErrorGin(ctx, "search order error")
+		return
+	}
+
+	fmt.Println("search success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
 func (c Controller) Search(ctx *gin.Context) {
 	queries, err := c.getSearchQuery(ctx)
 	if err != nil {

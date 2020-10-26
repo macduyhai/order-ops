@@ -36,6 +36,12 @@ type Item struct {
 	Note        string     `json:"note"`
 	CreatedAt   *time.Time `json:"created_at"`
 }
+type SearchItemRequest struct {
+	orderNumber string
+}
+type SearchItemResponse struct {
+	Items []Item `json:"items"`
+}
 type AddOrderRequest struct {
 	Orders []Order `json:"orders"`
 }
@@ -94,6 +100,10 @@ type FullOrderInformation struct {
 }
 
 type SearchQuery struct {
+	Key   string
+	Value interface{}
+}
+type SearchItemsQuery struct {
 	Key   string
 	Value interface{}
 }
