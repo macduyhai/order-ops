@@ -151,7 +151,7 @@ func (service *orderServiceImpl) mapperDtossToModelItemAddLable(input dtos.Item)
 //  mapperDtossToModelItemAddLable(input dtos.Item) models.Item
 func (service *orderServiceImpl) AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error) {
 	res := dtos.AddorderResponse{}
-
+	log.Println(request)
 	for _, item := range request.Items {
 		if item.OrderNumber == "" {
 			item.OrderNumber = request.OrderNumber
