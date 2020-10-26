@@ -150,8 +150,11 @@ func (service *orderServiceImpl) mapperDtossToModelItemAddLable(input dtos.Item)
 //  mapperDtossToModelItemAddLable(input dtos.Item) models.Item
 func (service *orderServiceImpl) AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error) {
 	res := dtos.AddorderResponse{}
-	log.Println(request.Items)
+	
 	for _, item := range request.Items {
+		if item.OrderNumber = ""{
+			item.OrderNumber = request.OrderNumber
+		}
 		record := service.mapperDtossToModelItemAddLable(item)
 		err := service.dao.Create_Item(&record)
 		if err != nil {
