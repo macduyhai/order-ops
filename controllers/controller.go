@@ -986,7 +986,7 @@ func (c Controller) getSearchItemsQuery(ctx *gin.Context) ([]dtos.SearchItemsQue
 	return result, nil
 }
 
-func (c Controller) SearchItem(ctx *gin.Context) {
+func (c Controller) SearchItems(ctx *gin.Context) {
 	queries, err := c.getSearchItemsQuery(ctx)
 	if err != nil {
 		fmt.Println("bind json error", err)
