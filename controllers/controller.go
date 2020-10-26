@@ -124,21 +124,21 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 	// log.Println(ctx.Query("CreatedAt"))
 
 	var request dtos.AuthenKey
+	// log.Println(ctx.Request.Body)
+	// bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	// if err != nil {
+	// 	fmt.Println("get raw body error", err)
+	// 	utils.ResponseErrorGin(ctx, "get raw body error")
+	// 	return
+	// }
+	// log.Println(bytes)
 
-	bytes, err := ioutil.ReadAll(ctx.Request.Body)
-	if err != nil {
-		fmt.Println("get raw body error", err)
-		utils.ResponseErrorGin(ctx, "get raw body error")
-		return
-	}
-	log.Println(bytes)
-
-	err = json.Unmarshal(bytes, &request)
-	if err != nil {
-		fmt.Println("bind json error", err, "raw_body", string(bytes))
-		utils.ResponseErrorGin(ctx, "bind json error")
-		return
-	}
+	// err = json.Unmarshal(bytes, &request)
+	// if err != nil {
+	// 	fmt.Println("bind json error", err, "raw_body", string(bytes))
+	// 	utils.ResponseErrorGin(ctx, "bind json error")
+	// 	return
+	// }
 	log.Println(request)
 	request.Key = ctx.Query("Key")
 	// request.CreatedAt = ctx.Query("CreatedAt")
