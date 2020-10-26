@@ -15,6 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const TimeFormatFull = "2006-01-02 15:04:05"
+
 type Controller struct {
 	OrderService       services.OrderService
 	BranchSellService  services.BranchSellService
@@ -140,7 +142,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 	// request.CreatedAt = ctx.Query("CreatedAt")
 
 	t := time.Now()
-	t = t.Add(time.Hour * 7)
+	t = t.Add(time.Hour * 7).Format(TimeFormatFull)
 	request.CreatedAt = &t
 
 	log.Println(request)
