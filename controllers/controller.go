@@ -426,16 +426,16 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 			utils.ResponseErrorGin(ctx, "require field is missing")
 			return
 		}
+		resp, err := c.OrderService.AddLabelsToOrder(request)
+		if err != nil {
+			// fmt.Println("add labels to order error", err)
+			utils.ResponseErrorGin(ctx, "add labels to order error")
+			return
+		} else {
+			// fmt.Println()
+		}
 	}
 
-	resp, err := c.OrderService.AddLabelsToOrder(request)
-	if err != nil {
-		// fmt.Println("add labels to order error", err)
-		utils.ResponseErrorGin(ctx, "add labels to order error")
-		return
-	} else {
-		// fmt.Println()
-	}
 	// AddLabelsToItems
 	res, err := c.OrderService.AddLabelsToItems(request)
 	if err != nil {
