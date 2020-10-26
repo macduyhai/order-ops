@@ -120,8 +120,8 @@ func (c Controller) DeleteBranchSell(ctx *gin.Context) {
 // ----- ADD Authen
 func (c Controller) AddAuthen(ctx *gin.Context) {
 
-	log.Println(ctx.Query("Key"))
-	log.Println(ctx.Query("CreatedAt"))
+	// log.Println(ctx.Query("Key"))
+	// log.Println(ctx.Query("CreatedAt"))
 
 	var request dtos.AuthenKey
 
@@ -145,7 +145,7 @@ func (c Controller) AddAuthen(ctx *gin.Context) {
 	t = t.Add(time.Hour * 7)
 	request.CreatedAt = &t
 
-	log.Println(request)
+	// log.Println(request)
 	resp, err := c.AuthenService.AddAuthen(request)
 	if err != nil {
 		fmt.Println("add order error", err)
