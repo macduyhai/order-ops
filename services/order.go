@@ -153,14 +153,17 @@ func (service *orderServiceImpl) AddLabelsToItems(request dtos.AddLabelRequest) 
 	res := dtos.AddorderResponse{}
 	log.Println(request)
 	for _, item := range request.Items {
-		if item.OrderNumber == "" {
-			item.OrderNumber = request.OrderNumber
+		if item.SkuNumber != "" {
+			if item.OrderNumber == "" {
+				item.OrderNumber = request.OrderNumber
+			}
+			record := service.mapperDtossToModelItemAddLable(item)
+			err := service.dao.Create_Item(&record)
+			if err != nil {
+				return nil, err
+			}
 		}
-		record := service.mapperDtossToModelItemAddLable(item)
-		err := service.dao.Create_Item(&record)
-		if err != nil {
-			return nil, err
-		}
+
 	}
 	return &res, nil
 }
