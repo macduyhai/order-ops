@@ -39,10 +39,10 @@ CREATE TABLE `orders` (
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   `order_number` VARCHAR(128) NOT NULL UNIQUE,
-   `typeproduct` VARCHAR(255) DEFAULT '',
-   `quantity` INT(10) NOT NULL,
-   `note` VARCHAR(255) DEFAULT '',
+   `order_number`  VARCHAR(255) DEFAULT '',
+   `sku_number` VARCHAR(255) DEFAULT '',
+   `packaged_quantity` INT(10) NOT NULL,
+   `item_description` VARCHAR(255) DEFAULT '',
   `created_at`  DATETIME    DEFAULT NOW()
 
 );

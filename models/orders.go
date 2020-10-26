@@ -34,10 +34,10 @@ func (Order) TableName() string {
 }
 
 type Item struct {
-	ID          int64      `gorm:"column:id;AUTO_INCREMENT;PRIMARY_KEY"`
-	OrderNumber string     `gorm:"column:order_number"`
-	TypeProduct string     `gorm:"column:typeproduct"`
-	Quantity    int32      `gorm:"column:quantity"`
-	Note        string     `gorm:"column:note"`
-	CreatedAt   *time.Time `gorm:"column:created_at"`
+	ID               int64      `gorm:"column:id;AUTO_INCREMENT;PRIMARY_KEY"`
+	OrderNumber      string     `gorm:"column:order_number"`
+	SkuNumber        string     `gorm:"column:sku_number"`
+	PackagedQuantity int32      `gorm:"column:packaged_quantity"`
+	ItemDescription  string     `gorm:"column:item_description"`
+	CreatedAt        *time.Time `gorm:"column:created_at"`
 }

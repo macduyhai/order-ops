@@ -30,11 +30,11 @@ type Order struct {
 	CreatedAt   *time.Time `json:"created_at"`
 }
 type Item struct {
-	OrderNumber string     `json:"orderNumber"`
-	TypeProduct string     `json:"typeproduct"`
-	Quantity    int32      `json:"quantity"`
-	Note        string     `json:"note"`
-	CreatedAt   *time.Time `json:"created_at"`
+	OrderNumber      string     `json:"orderNumber"`
+	SkuNumber        string     `json:"skuNumber"`
+	PackagedQuantity int32      `json:"packagedQuantity"`
+	ItemDescription  string     `json:"itemDescription"`
+	CreatedAt        *time.Time `json:"created_at"`
 }
 type SearchItemRequest struct {
 	orderNumber string

@@ -140,11 +140,11 @@ func (service *orderServiceImpl) AddLabelsToOrder(request dtos.AddLabelRequest) 
 func (service *orderServiceImpl) mapperDtossToModelItemAddLable(input dtos.Item) models.Item {
 	t_n := time.Now().Add(+7 * time.Hour)
 	return models.Item{
-		OrderNumber: input.OrderNumber,
-		TypeProduct: input.TypeProduct,
-		Quantity:    input.Quantity,
-		Note:        input.Note,
-		CreatedAt:   &t_n,
+		OrderNumber:      input.OrderNumber,
+		SkuNumber:        input.SkuNumber,
+		PackagedQuantity: input.PackagedQuantity,
+		ItemDescription:  input.ItemDescription,
+		CreatedAt:        &t_n,
 	}
 }
 
@@ -231,11 +231,11 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 func (service *orderServiceImpl) mapperModelToDtossItem(input models.Item) dtos.Item {
 	t_n := time.Now().Add(+7 * time.Hour)
 	return dtos.Item{
-		OrderNumber: input.OrderNumber,
-		TypeProduct: input.TypeProduct,
-		Quantity:    input.Quantity,
-		Note:        input.Note,
-		CreatedAt:   &t_n,
+		OrderNumber:      input.OrderNumber,
+		SkuNumber:        input.SkuNumber,
+		PackagedQuantity: input.PackagedQuantity,
+		ItemDescription:  input.ItemDescription,
+		CreatedAt:        &t_n,
 	}
 }
 func (service *orderServiceImpl) SearchItems(queries []dtos.SearchItemsQuery) ([]dtos.Item, error) {
