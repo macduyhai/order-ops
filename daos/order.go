@@ -29,7 +29,7 @@ func NewOrderDao(db *gorm.DB) OrderDao {
 func (dao *orderDaoImpl) Create_Item(record *models.Item) error {
 	// fmt.Println(record)
 	log.Println(record)
-	return dao.db.Updates(record).Error
+	return dao.db.Create(record).Error
 }
 func (dao *orderDaoImpl) Create(record *models.Order) error {
 	// fmt.Println(record)
