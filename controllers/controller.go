@@ -405,7 +405,6 @@ func (c Controller) UpdateOrders(ctx *gin.Context) {
 func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	var request dtos.AddLabelRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
-	var response 
 	if err != nil {
 		fmt.Println("get raw body error", err)
 		utils.ResponseErrorGin(ctx, "get raw body error")
@@ -435,11 +434,10 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 				utils.ResponseErrorGin(ctx, "add Item to items error")
 				return
 			} else {
-				response = res
 			}
 
 			fmt.Println("add labels to order done")
-
+			utils.ResponseSuccess(ctx, res)
 		}
 	} else {
 		res, err := c.OrderService.AddLabelsToOrder(request)
@@ -449,8 +447,9 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 			return
 		} else {
 			// fmt.Println()
-			response = res
 		}
+
+		utils.ResponseSuccess(ctx, res)
 	}
 
 	// }
@@ -466,8 +465,8 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	// } else {
 	// }
 
-	fmt.Println("add labels to order done")
-	utils.ResponseSuccess(ctx, response)
+	// fmt.Println("add labels to order done")
+	// utils.ResponseSuccess(ctx, res)
 }
 
 // Search Seller
