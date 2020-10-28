@@ -418,14 +418,28 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 		return
 	}
 	// log.Println(request)
-	if request.Items == nil {
-		if request.LableDetails.PartnerTrackingNumber == "" ||
-			request.LableDetails.TrackingNumber == "" ||
-			request.LableDetails.URL == "" {
-			// fmt.Println("require field in label details is missing", request)
-			utils.ResponseErrorGin(ctx, "require field is missing")
-			return
+	// if request.Items == nil {
+	if request.LableDetails.PartnerTrackingNumber == "" ||
+		request.LableDetails.TrackingNumber == "" ||
+		request.LableDetails.URL == "" {
+		if request.Items == nil {}
+		// fmt.Println("require field in label details is missing", request)
+		utils.ResponseErrorGin(ctx, "require field is missing")
+		return
+		}else{
+			res, err := c.OrderService.AddLabelsToItems(request)
+			if err != nil {
+				// fmt.Println("add labels to order error", err)
+				fmt.Println(res)
+				utils.ResponseErrorGin(ctx, "add Item to items error")
+				return
+			} else {
+			}
+		
+			fmt.Println("add labels to order done")
+			utils.ResponseSuccess(ctx, res)
 		}
+	} else {
 		_, err := c.OrderService.AddLabelsToOrder(request)
 		if err != nil {
 			// fmt.Println("add labels to order error", err)
@@ -436,18 +450,21 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 		}
 	}
 
-	// AddLabelsToItems
-	res, err := c.OrderService.AddLabelsToItems(request)
-	if err != nil {
-		// fmt.Println("add labels to order error", err)
-		fmt.Println(res)
-		utils.ResponseErrorGin(ctx, "add Item to items error")
-		return
-	} else {
-	}
+	// }
 
-	fmt.Println("add labels to order done")
-	utils.ResponseSuccess(ctx, res)
+	// // AddLabelsToItems
+	
+	// res, err := c.OrderService.AddLabelsToItems(request)
+	// if err != nil {
+	// 	// fmt.Println("add labels to order error", err)
+	// 	fmt.Println(res)
+	// 	utils.ResponseErrorGin(ctx, "add Item to items error")
+	// 	return
+	// } else {
+	// }
+
+	// fmt.Println("add labels to order done")
+	// utils.ResponseSuccess(ctx, res)
 }
 
 // Search Seller
