@@ -422,11 +422,11 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	if request.LableDetails.PartnerTrackingNumber == "" ||
 		request.LableDetails.TrackingNumber == "" ||
 		request.LableDetails.URL == "" {
-		if request.Items == nil {}
-		// fmt.Println("require field in label details is missing", request)
-		utils.ResponseErrorGin(ctx, "require field is missing")
-		return
-		}else{
+		if request.Items == nil {
+			// fmt.Println("require field in label details is missing", request)
+			utils.ResponseErrorGin(ctx, "require field is missing")
+			return
+		} else {
 			res, err := c.OrderService.AddLabelsToItems(request)
 			if err != nil {
 				// fmt.Println("add labels to order error", err)
@@ -435,7 +435,7 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 				return
 			} else {
 			}
-		
+
 			fmt.Println("add labels to order done")
 			utils.ResponseSuccess(ctx, res)
 		}
@@ -453,7 +453,7 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	// }
 
 	// // AddLabelsToItems
-	
+
 	// res, err := c.OrderService.AddLabelsToItems(request)
 	// if err != nil {
 	// 	// fmt.Println("add labels to order error", err)
