@@ -368,7 +368,38 @@ func (c Controller) UpdateBranch(ctx *gin.Context) {
 	fmt.Println("updates branch success", "ID", resp.ID)
 	utils.ResponseSuccess(ctx, resp)
 }
+func (c Controller) Printers(ctx *gin.Context) {
+	var request []dtos.Order
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
 
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	// if request.OrderNumber == "" {
+	// 	fmt.Println("required OrderNumber", "raw_body", string(bytes))
+	// 	utils.ResponseErrorGin(ctx, "required OrderNumber")
+	// 	return
+	// }
+
+	resp, err := c.OrderService.Printers(request)
+	if err != nil {
+		fmt.Println("updates order error", err)
+		utils.ResponseErrorGin(ctx, "update order error")
+		return
+	}
+
+	fmt.Println("updates order success", "ID", resp.ID)
+	utils.ResponseSuccess(ctx, resp)
+}
 func (c Controller) UpdateOrders(ctx *gin.Context) {
 	var request dtos.Order
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)

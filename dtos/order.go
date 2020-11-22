@@ -68,7 +68,11 @@ type AddorderResponse struct {
 	RecordsSuccess []string `json:"recordsSuccess,omitempty"`
 	RecordsFailes  []string `json:"recordsFailes,omitempty"`
 }
-
+type PrintersResponse struct {
+	PrintsOrder    []NumberOrderInfor `json:"printsorder"`
+	RecordsSuccess []string           `json:"recordsSuccess,omitempty"`
+	RecordsFailes  []string           `json:"recordsFailes,omitempty"`
+}
 type LableDetails struct {
 	TrackingNumber        string `json:"trackingNumber"`
 	URL                   string `json:"url"`
