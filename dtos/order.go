@@ -70,7 +70,7 @@ type AddorderResponse struct {
 }
 type PrintersRequest struct {
 	OrderNumber []string `json:"orderNumber"`
-	PrintStatus int32    `json:"printStatus"`
+	PrintStatus int32    `json:"printstatus"`
 }
 type PrintersResponse struct {
 	PrintsOrder    []NumberOrderInfor `json:"printsorder"`
