@@ -357,6 +357,7 @@ func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResp
 // Printers
 func (service *orderServiceImpl) Printers(request dtos.PrintersRequest) (*dtos.AddorderResponse, error) {
 	var id int64
+	log.Println(request)
 	p_stt := request.PrintStatus
 	for _, orderNumber := range request.OrderNumber {
 		order := dtos.Order{}
