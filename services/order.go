@@ -194,6 +194,7 @@ func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order
 			Seller:      input.Seller,
 			Note:        input.Note,
 			CreatedAt:   input.CreatedAt,
+			PrintStatus: input.PrintStatus,
 		},
 		dtos.ShippingInfor{
 			Status:        input.Status,
