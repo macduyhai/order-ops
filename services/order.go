@@ -88,6 +88,7 @@ func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) model
 		Seller:       input.Seller,
 		Note:         input.Note,
 		CreatedAt:    &t_n,
+		PrintStatus:  input.PrintStatus,
 	}
 }
 

@@ -35,7 +35,8 @@ CREATE TABLE `orders` (
   MODIFY `time_completed` TIMESTAMP;
   ALTER TABLE orders.orders MODIFY COLUMN note VARCHAR(255)  
     CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
-
+  ALTER TABLE orders
+  ADD COLUMN `print_status` TINYINT(3) DEFAULT 0 AFTER `deleted_at`;
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,

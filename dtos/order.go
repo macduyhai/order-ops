@@ -28,6 +28,7 @@ type Order struct {
 	Seller      string     `json:"seller"`
 	Note        string     `json:"note"`
 	CreatedAt   *time.Time `json:"created_at"`
+	PrintStatus int32      `json:"printstatus"`
 }
 type Item struct {
 	OrderNumber      string     `json:"orderNumber"`

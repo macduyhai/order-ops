@@ -27,6 +27,7 @@ type Order struct {
 	CreatedAt             *time.Time `gorm:"column:created_at"`
 	UpdatedAt             *time.Time `gorm:"column:updated_at"`
 	DeletedAt             *time.Time `gorm:"column:deleted_at"`
+	PrintStatus           int32      `gorm:"column:print_status"`
 }
 
 func (Order) TableName() string {
