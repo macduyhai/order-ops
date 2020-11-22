@@ -25,7 +25,7 @@ type OrderService interface {
 	MakeDelay(orderNumber string) (*dtos.AddorderResponse, error)
 	Detete(orderNumber string) error
 	Updates(request dtos.Order) (*dtos.AddorderResponse, error)
-	Printers(request []dtos.Order) (*dtos.AddorderResponse, error)
+	Printers(request dtos.PrintersRequest) (*dtos.AddorderResponse, error)
 	// NumberOrders(request dtos.NumberOrderRequest) (*dtos.NumberOrderResponse, error)
 }
 
@@ -355,9 +355,13 @@ func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResp
 }
 
 // Printers
-func (service *orderServiceImpl) Printers(request []dtos.Order) (*dtos.AddorderResponse, error) {
+func (service *orderServiceImpl) Printers(request dtos.PrintersRequest) (*dtos.AddorderResponse, error) {
 	var id int64
-	for _, order := range request {
+	p_stt := request.PrintStatus
+	for _, orderNumber := range request.OrderNumber {
+		order := dtos.Order{}
+		order.OrderNumber = orderNumber
+		order.PrintStatus = p_stt
 		record := service.mapperDtossToModelOrder(order)
 		err := service.dao.Updates(&record)
 		if err != nil {

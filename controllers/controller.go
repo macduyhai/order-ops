@@ -369,7 +369,7 @@ func (c Controller) UpdateBranch(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, resp)
 }
 func (c Controller) Printers(ctx *gin.Context) {
-	var request []dtos.Order
+	var request dtos.PrintersRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
 		fmt.Println("get raw body error", err)
