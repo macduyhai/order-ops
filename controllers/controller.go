@@ -435,7 +435,7 @@ func (c Controller) UpdateOrders(ctx *gin.Context) {
 
 func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	// var request dtos.AddLabelRequest
-	var request []interface{}
+	var request interface{}
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
 		log.Println("get raw body error", err)
