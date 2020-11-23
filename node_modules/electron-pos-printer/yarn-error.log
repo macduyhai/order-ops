@@ -1,0 +1,77 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js login
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\adb\platform-tools;C:\Python27\;C:\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\PuTTY\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Java\jdk1.8.0_231\bin;C:\Users\hform\AppData\Local\Android\Sdk\tools;"C:\Program Files\Java\jdk1.8.0_231\bin;";C:\gradle\gradle-6.0\bin;C:\sdk\flutter\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Python37-32\Scripts\;C:\Python37-32\;C:\Users\hform\AppData\Local\Microsoft\WindowsApps;C:\Users\hform\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\hform\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Program Files\Java\jre1.8.0_231\bin;C:\Users\hform\AppData\Local\Yarn\bin;"C:\Program Files\Java\jdk1.8.0_231\bin;";C:\sdk\flutter\bin;
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  12.11.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:136925:13)
+      at Interface.emit (events.js:210:5)
+      at Interface._ttyWrite (readline.js:887:16)
+      at ReadStream.onkeypress (readline.js:191:10)
+      at ReadStream.emit (events.js:210:5)
+      at emitKeys (internal/readline/utils.js:433:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1153:36)
+      at ReadStream.emit (events.js:210:5)
+      at addChunk (_stream_readable.js:308:12)
+
+npm manifest: 
+  {
+    "name": "electron-pos-printer",
+    "version": "1.1.2",
+    "description": "Electron receipt printer",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+      "test": "mocha",
+      "start": "electron ./demo/",
+      "pack": "webpack --config ./webpack.config.js",
+      "build": "tsc",
+      "test:all": "mocha -R mocha-jenkins-reporter --timeout 20000 \"./src/test/**/*test-*.js\"",
+      "test:one": "mocha --watch -u bdd \"./src/test/**/test-*.js\" --grep \"test-login-form\""
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Hubertformin/electron-pos-printer.git"
+    },
+    "keywords": [
+      "electron",
+      "printer",
+      "thermal"
+    ],
+    "author": "Hubertformin <hformin@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Hubertformin/electron-pos-printer/issues"
+    },
+    "homepage": "https://github.com/Hubertformin/electron-pos-printer#readme",
+    "dependencies": {},
+    "devDependencies": {
+      "chai": "^4.2.0",
+      "chai-as-promised": "^7.1.1",
+      "electron": "^7.0.0",
+      "mocha": "^6.2.2",
+      "spectron": "^9.0.0",
+      "typescript": "^3.6.4",
+      "webpack": "^4.41.2",
+      "webpack-cli": "^3.3.10",
+      "webpack-node-externals": "^1.7.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
