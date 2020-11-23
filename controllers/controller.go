@@ -257,21 +257,22 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	var request_add dtos.AddOrderRequest{
-			OrderNumber: request.OrderNumber,
-			Name:        request.Name,
-			Quantity:    request.Quantity,
-			Phone:       request.Phone,
-			Address1:    request.Address1,
-			Address2:    request.Address2,
-			City:        request.City,
-			State:       request.State,
-			PostalCode:  request.PostalCode,
-			Country:     request.Country,
-			BranchSell:  request.BranchSell,
-			Seller:      request.Seller,
-			Note:        request.Note,
-	}
+	var request_add dtos.AddOrderRequest
+
+	request_add.OrderNumber: request.OrderNumber,
+	request_add.Name:        request.Name,
+	request_add.Quantity:    request.Quantity,
+	request_add.Phone:       request.Phone,
+	request_add.Address1:    request.Address1,
+	request_add.Address2:    request.Address2,
+	request_add.City:        request.City,
+	request_add.State:       request.State,
+	request_add.PostalCode:  request.PostalCode,
+	request_add.Country:     request.Country,
+	request_add.BranchSell:  request.BranchSell,
+	request_add.Seller:      request.Seller,
+	request_add.Note:        request.Note,
+	
 
 	resp, err := c.OrderService.AddOrder(request_add)
 	if err != nil {
