@@ -46,7 +46,24 @@ type SearchItemResponse struct {
 type AddOrderRequest struct {
 	Orders []Order `json:"orders"`
 }
-
+type AddOrderNewRequest struct {
+	OrderNumber string `json:"orderNumber"`
+	Name        string `json:"name"`
+	Item        string `json:"item"`
+	SkuNumber   string `json:"skuNumber"`
+	Quantity    int32  `json:"quantity"`
+	Note        string `json:"note"`
+	Address1    string `json:"address1"`
+	Address2    string `json:"address2"`
+	City        string `json:"city"`
+	State       string `json:"state"`
+	PostalCode  string `json:"postalCode"`
+	Country     string `json:"country"`
+	Phone       string `json:"phone"`
+	BranchSell  string `json:"branchsell"`
+	Seller      string `json:"seller"`
+	Items       []Item `json:"items"`
+}
 type NumberOrderRequest struct {
 	Steptime string `json:"steptime"`
 	Value    string `json:"value"`
