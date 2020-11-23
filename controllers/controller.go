@@ -440,48 +440,46 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 		log.Println("get raw body error", err)
 		utils.ResponseErrorGin(ctx, "get raw body error")
 		return
-	} else {
-		err = json.Unmarshal(bytes, &request)
-		if err != nil {
-			log.Println("bind json error", err, "raw_body", string(bytes))
-			utils.ResponseErrorGin(ctx, "bind json error")
+	}
+	err = json.Unmarshal([]byte(bytes), &request)
+	if err != nil {
+		log.Println("bind json error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	// log.Println(request)
+	// if request.Items == nil {
+	if request.LableDetails.PartnerTrackingNumber == "" ||
+		request.LableDetails.TrackingNumber == "" ||
+		request.LableDetails.URL == "" {
+		if request.Items == nil {
+			log.Println("require field in label details is missing", request)
+			utils.ResponseErrorGin(ctx, "require field is missing")
 			return
-		}
-		// log.Println(request)
-		// if request.Items == nil {
-		if request.LableDetails.PartnerTrackingNumber == "" ||
-			request.LableDetails.TrackingNumber == "" ||
-			request.LableDetails.URL == "" {
-			if request.Items == nil {
-				log.Println("require field in label details is missing", request)
-				utils.ResponseErrorGin(ctx, "require field is missing")
-				return
-			} else {
-				res, err := c.OrderService.AddLabelsToItems(request)
-				if err != nil {
-					log.Println("add labels to order error", err)
-					fmt.Println(res)
-					utils.ResponseErrorGin(ctx, "add Item to items error")
-					return
-				} else {
-				}
-
-				fmt.Println("add labels to order done")
-				utils.ResponseSuccess(ctx, res)
-			}
 		} else {
-			res, err := c.OrderService.AddLabelsToOrder(request)
+			res, err := c.OrderService.AddLabelsToItems(request)
 			if err != nil {
 				log.Println("add labels to order error", err)
-				utils.ResponseErrorGin(ctx, "add labels to order error")
+				fmt.Println(res)
+				utils.ResponseErrorGin(ctx, "add Item to items error")
 				return
 			} else {
-				// fmt.Println()
 			}
 
+			fmt.Println("add labels to order done")
 			utils.ResponseSuccess(ctx, res)
 		}
+	} else {
+		res, err := c.OrderService.AddLabelsToOrder(request)
+		if err != nil {
+			log.Println("add labels to order error", err)
+			utils.ResponseErrorGin(ctx, "add labels to order error")
+			return
+		} else {
+			// fmt.Println()
+		}
 
+		utils.ResponseSuccess(ctx, res)
 	}
 
 	// }
