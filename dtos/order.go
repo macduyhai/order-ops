@@ -46,7 +46,7 @@ type SearchItemResponse struct {
 type AddOrderRequest struct {
 	Orders []Order `json:"orders"`
 }
-type AddOrderNewRequest struct {
+type OrderNew struct {
 	OrderNumber string `json:"orderNumber"`
 	Name        string `json:"name"`
 	Item        string `json:"item"`
@@ -63,6 +63,9 @@ type AddOrderNewRequest struct {
 	BranchSell  string `json:"branchsell"`
 	Seller      string `json:"seller"`
 	Items       []Item `json:"items"`
+}
+type AddOrderNewRequest struct {
+	Orders []OrderNew `json:"orders"`
 }
 type NumberOrderRequest struct {
 	Steptime string `json:"steptime"`

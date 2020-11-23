@@ -242,8 +242,8 @@ func (c Controller) AddBranchSell(ctx *gin.Context) {
 }
 
 func (c Controller) AddOrder(ctx *gin.Context) {
-	// var request dtos.AddOrderRequest
-	var request dtos.AddOrderNewRequest
+	var request dtos.AddOrderRequest
+	// var request dtos.AddOrderNewRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
 		fmt.Println("get raw body error", err)
@@ -257,23 +257,8 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-	var request_add dtos.AddOrderRequest
 
-	request_add.OrderNumber = request.OrderNumber
-	request_add.Name = request.Name
-	request_add.Quantity = request.Quantity
-	request_add.Phone = request.Phone
-	request_add.Address1 = request.Address1
-	request_add.Address2 = request.Address2
-	request_add.City = request.City
-	request_add.State = request.State
-	request_add.PostalCode = request.PostalCode
-	request_add.Country = request.Country
-	request_add.BranchSell = request.BranchSell
-	request_add.Seller = request.Seller
-	request_add.Note = request.Note
-
-	resp, err := c.OrderService.AddOrder(request_add)
+	resp, err := c.OrderService.AddOrder(request)
 	if err != nil {
 		fmt.Println("add order error", err)
 		utils.ResponseErrorGin(ctx, "add order error")
