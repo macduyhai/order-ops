@@ -246,14 +246,14 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 	//  var request dtos.AddOrderNewRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
-		fmt.Println("get raw body error", err)
+		fmt.Println("get raw body ADD ORDER error", err)
 		utils.ResponseErrorGin(ctx, "get raw body error")
 		return
 	}
 
 	err = json.Unmarshal(bytes, &request)
 	if err != nil {
-		fmt.Println("bind json error", err, "raw_body", string(bytes))
+		fmt.Println("bind json ADD ORDER error", err, "raw_body", string(bytes))
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
@@ -438,13 +438,13 @@ func (c Controller) AddLabelToOrder(ctx *gin.Context) {
 	var request dtos.AddLabelRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
-		log.Println("get raw body error", err)
+		log.Println("get raw body AddLabelToOrder error", err)
 		utils.ResponseErrorGin(ctx, "get raw body error")
 		return
 	}
 	err = json.Unmarshal([]byte(bytes), &request)
 	if err != nil {
-		log.Println("bind json error", err, "raw_body", string(bytes))
+		log.Println("bind json AddLabelToOrder error", err, "raw_body", string(bytes))
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
