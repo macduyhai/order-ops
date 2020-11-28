@@ -1093,7 +1093,7 @@ func (c Controller) Check(ctx *gin.Context) {
 		utils.ResponseErrorGin(ctx, "bind json error")
 		return
 	}
-
+	log.Println(queries)
 	resp, err := c.OrderService.Check(queries)
 	if err != nil {
 		fmt.Println("search orders error", err)
