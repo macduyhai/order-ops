@@ -49,9 +49,6 @@ type AddOrderRequest struct {
 type OrderNew struct {
 	OrderNumber string `json:"orderNumber"`
 	Name        string `json:"name"`
-	Item        string `json:"item"`
-	SkuNumber   string `json:"skuNumber"`
-	Quantity    int32  `json:"quantity"`
 	Note        string `json:"note"`
 	Address1    string `json:"address1"`
 	Address2    string `json:"address2"`
@@ -62,11 +59,11 @@ type OrderNew struct {
 	Phone       string `json:"phone"`
 	BranchSell  string `json:"branchsell"`
 	Seller      string `json:"seller"`
-	Items       []Item `json:"items"`
 }
-type AddOrderNewRequest struct {
-	Orders []OrderNew `json:"orders"`
-}
+
+// type AddOrderNewRequest struct {
+// 	Orders []OrderNew `json:"orders"`
+// }
 type NumberOrderRequest struct {
 	Steptime string `json:"steptime"`
 	Value    string `json:"value"`
@@ -147,4 +144,12 @@ type ChangeStatusToCompleted struct {
 }
 type ChangeStatusToDelay struct {
 	OrderNumber string `json:"orderNumber"`
+}
+type CheckRequest struct {
+	PartnerTrackingNumber string `json:"partner_tracking_number"`
+}
+type CheckResponse struct {
+	Order        OrderNew
+	LableDetails LableDetails `json:"lableDetails"`
+	Items        []Item       `json:"items"`
 }

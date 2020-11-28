@@ -18,6 +18,7 @@ type OrderService interface {
 	AddOrder(request dtos.AddOrderRequest) (*dtos.AddorderResponse, error)
 	AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
 	AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
+	Check(queries []dtos.SearchQuery) ([]dtos.CheckResponse, error)
 	Search(queries []dtos.SearchQuery) ([]dtos.FullOrderInformation, error)
 	SearchItems(queries []dtos.SearchItemsQuery) ([]dtos.Item, error)
 	AddShippingTime(request dtos.AddShippingTimeRequest) (*dtos.AddorderResponse, error)
@@ -210,6 +211,38 @@ func (service *orderServiceImpl) mapperModelsToOrderFullInfor(input models.Order
 	}
 }
 
+func (service *orderServiceImpl) mapperModelsToOrderCheck(input models.Order, inputItems []models.Item) dtos.CheckResponse {
+	result := make([]dtos.Item, 0)
+	for _, record := range inputItems {
+		if record.OrderNumber != "" {
+			result = append(result, service.mapperModelToDtossItem(record))
+		}
+	}
+	Order := dtos.OrderNew{
+		OrderNumber: input.OrderNumber,
+		Name:        input.CustomerName,
+		Note:        input.Note,
+		Address1:    input.Address1,
+		Address2:    input.Address2,
+		City:        input.City,
+		State:       input.State,
+		PostalCode:  input.PostalCode,
+		Country:     input.Country,
+		Phone:       input.Phone,
+		BranchSell:  input.BranchSell,
+		Seller:      input.Seller,
+	}
+	Lable := dtos.LableDetails{
+		TrackingNumber: input.TrackingNumber,
+		URL:            input.URL,
+		PartnerTrackingNumber: input.PartnerTrackingNumber,
+	}
+	return dtos.CheckResponse{
+		Order:        Order,
+		LableDetails: Lable,
+		Items:        result,
+	}
+}
 func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 	if input.BeginShipping.Equal(*input.TimeCompleted) || input.Status == completedStatus {
 		return
@@ -287,6 +320,24 @@ func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.Full
 		return result[i].Status < result[j].Status
 	})
 
+	return result, nil
+}
+
+// Checking Order
+func (service *orderServiceImpl) Check(queries []dtos.SearchQuery) ([]dtos.CheckResponse, error) {
+
+	records, _ := service.dao.Search(queries)
+	result := make([]dtos.CheckResponse, 0)
+	for _, record := range records {
+		queriesItems := make([]dtos.SearchItemsQuery, 0)
+		queriesItems = append(queriesItems, dtos.SearchItemsQuery{
+			Key:   "order_number =?",
+			Value: record.OrderNumber,
+		})
+		recordsItem, _ := service.dao.SearchItems(queriesItems)
+
+		result = append(result, service.mapperModelsToOrderCheck(record, recordsItem))
+	}
 	return result, nil
 }
 

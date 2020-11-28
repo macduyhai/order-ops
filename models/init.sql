@@ -22,21 +22,23 @@ CREATE TABLE `orders` (
   `begin_shipping` TIMESTAMP,
   `time_completed` TIMESTAMP,
   `created_at`                 DATETIME    DEFAULT NOW(),
-  `updated_at`                 DATETIME    DEFAULT NOW() ON UPDATE NOW()
+  `updated_at`                 DATETIME    DEFAULT NOW() ON UPDATE NOW(),
+  `deleted_at`                 DATETIME     DEFAULT NULL,
+  `print_status`               TINYINT(3)    DEFAULT 0
   );
   ALTER TABLE
     orders
     CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
-  ALTER TABLE orders
-  ADD COLUMN `deleted_at` DATETIME DEFAULT NULL AFTER `updated_at`;
+  -- ALTER TABLE orders
+  -- ADD COLUMN `deleted_at` DATETIME DEFAULT NULL AFTER `updated_at`;
   ALTER TABLE orders
   MODIFY `begin_shipping` TIMESTAMP;
   MODIFY `time_completed` TIMESTAMP;
   ALTER TABLE orders.orders MODIFY COLUMN note VARCHAR(255)  
     CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
-  ALTER TABLE orders
-  ADD COLUMN `print_status` TINYINT(3) DEFAULT 0 AFTER `deleted_at`;
+  -- ALTER TABLE orders
+  -- ADD COLUMN `print_status` TINYINT(3) DEFAULT 0 AFTER `deleted_at`;
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,

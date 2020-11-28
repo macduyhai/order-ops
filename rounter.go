@@ -67,6 +67,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 			orderGroup.PUT("", ctl.UpdateOrders)
 			orderGroup.PUT("/prints", ctl.Printers)
 			orderGroup.GET("/search", ctl.Search)
+			orderGroup.GET("/check", ctl.Check)
 			orderGroup.GET("/items", ctl.SearchItems)
 			orderGroup.GET("/number-orders", ctl.NumberOrders)
 			orderGroup.POST("/make-done", ctl.MakeDone)

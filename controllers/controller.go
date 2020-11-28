@@ -737,6 +737,15 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 		result = append(result, item)
 	}
 
+	checkid := ctx.Query("partner_tracking_number")
+	if status != "" {
+		item := dtos.SearchQuery{
+			Key:   "partner_tracking_number=?",
+			Value: status,
+		}
+		result = append(result, item)
+	}
+
 	return result, nil
 }
 
@@ -1066,6 +1075,26 @@ func (c Controller) Search(ctx *gin.Context) {
 	}
 
 	resp, err := c.OrderService.Search(queries)
+	if err != nil {
+		fmt.Println("search orders error", err)
+		utils.ResponseErrorGin(ctx, "search order error")
+		return
+	}
+
+	fmt.Println("search success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
+// Scaner Check Order
+func (c Controller) Check(ctx *gin.Context) {
+	queries, err := c.getSearchQuery(ctx)
+	if err != nil {
+		fmt.Println("bind json error", err)
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+
+	resp, err := c.OrderService.Check(queries)
 	if err != nil {
 		fmt.Println("search orders error", err)
 		utils.ResponseErrorGin(ctx, "search order error")
