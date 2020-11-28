@@ -741,7 +741,7 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 	if status != "" {
 		item := dtos.SearchQuery{
 			Key:   "partner_tracking_number=?",
-			Value: status,
+			Value: checkid,
 		}
 		result = append(result, item)
 	}
