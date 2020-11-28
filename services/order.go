@@ -250,7 +250,7 @@ func (service *orderServiceImpl) updateRecordState(input *models.Order) {
 
 	now := time.Now()
 	now = now.Add(+7 * time.Hour)
-	log.Println(now)
+	//log.Println(now)
 	// if now.Equal(*input.BeginShipping) {
 	// 	input.Status = shippingStatus
 	// 	return
@@ -325,8 +325,9 @@ func (service *orderServiceImpl) Search(queries []dtos.SearchQuery) ([]dtos.Full
 
 // Checking Order
 func (service *orderServiceImpl) Check(queries []dtos.SearchQuery) ([]dtos.CheckResponse, error) {
-
+	log.Println(queries)
 	records, _ := service.dao.Search(queries)
+	log.Println(queries)
 	result := make([]dtos.CheckResponse, 0)
 	for _, record := range records {
 		queriesItems := make([]dtos.SearchItemsQuery, 0)
@@ -335,7 +336,7 @@ func (service *orderServiceImpl) Check(queries []dtos.SearchQuery) ([]dtos.Check
 			Value: record.OrderNumber,
 		})
 		recordsItem, _ := service.dao.SearchItems(queriesItems)
-
+		log.Println(recordsItem)
 		result = append(result, service.mapperModelsToOrderCheck(record, recordsItem))
 	}
 	return result, nil
