@@ -149,6 +149,7 @@ type CheckRequest struct {
 	PartnerTrackingNumber string `json:"partner_tracking_number"`
 }
 type CheckResponse struct {
-	Order OrderNew
-	Items []Item `json:"items"`
+	Order        OrderNew
+	LableDetails LableDetails `json:"lableDetails"`
+	Items        []Item       `json:"items"`
 }

@@ -232,10 +232,15 @@ func (service *orderServiceImpl) mapperModelsToOrderCheck(input models.Order, in
 		BranchSell:  input.BranchSell,
 		Seller:      input.Seller,
 	}
-
+	Lable := dtos.LableDetails{
+		TrackingNumber: input.TrackingNumber,
+		URL:            input.URL,
+		PartnerTrackingNumber: input.PartnerTrackingNumber,
+	}
 	return dtos.CheckResponse{
-		Order: Order,
-		Items: result,
+		Order:        Order,
+		LableDetails: Lable,
+		Items:        result,
 	}
 }
 func (service *orderServiceImpl) updateRecordState(input *models.Order) {
