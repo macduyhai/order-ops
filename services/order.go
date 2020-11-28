@@ -328,7 +328,7 @@ func (service *orderServiceImpl) Check(queries []dtos.SearchQuery) ([]dtos.Check
 	log.Println("CHECK QUERIES")
 	log.Println(queries)
 	records, _ := service.dao.Search(queries)
-	log.Println(records)
+	// log.Println(records)
 	result := make([]dtos.CheckResponse, 0)
 	for _, record := range records {
 		queriesItems := make([]dtos.SearchItemsQuery, 0)
