@@ -242,8 +242,8 @@ func (c Controller) AddBranchSell(ctx *gin.Context) {
 }
 
 func (c Controller) AddOrder(ctx *gin.Context) {
-	var request []dtos.AddOrderRequest
-	fmt.Printf("Kieu resquest add full order: %T", request)
+	var request dtos.AddOrderRequest
+
 	//  var request dtos.AddOrderNewRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
