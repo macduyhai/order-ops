@@ -752,8 +752,8 @@ func (c Controller) getSearchQuery(ctx *gin.Context) ([]dtos.SearchQuery, error)
 	orderNumber := ctx.Query("order_number")
 	if orderNumber != "" {
 		item := dtos.SearchQuery{
-			Key:   "order_number LIKE %?%",
-			Value: orderNumber,
+			Key:   "order_number LIKE ?",
+			Value: "%" + orderNumber + "%",
 		}
 		result = append(result, item)
 	}
