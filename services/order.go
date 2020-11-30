@@ -185,6 +185,7 @@ func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) 
 					} else {
 						error_ = err
 						recordFail = append(recordFail, order.OrderNumber)
+						return nil, err
 					}
 				}
 
