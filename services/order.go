@@ -164,7 +164,9 @@ func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) 
 			record := service.mapperDtossToModelOrderFull(order)
 			err := service.dao.Create(&record)
 			if err != nil {
+				error_ = err
 				recordFail = append(recordFail, order.OrderNumber)
+				return nil, err
 			} else {
 				for _, item := range order.Items {
 					if item.SkuNumber != "" {
