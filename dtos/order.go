@@ -153,3 +153,28 @@ type CheckResponse struct {
 	LableDetails LableDetails `json:"lableDetails"`
 	Items        []Item       `json:"items"`
 }
+
+// TICH HOP TOOL
+type ItemNew struct {
+	SkuNumber        string `json:"skuNumber"`
+	PackagedQuantity int32  `json:"packagedQuantity"`
+	ItemDescription  string `json:"itemDescription"`
+}
+type OrderFull struct {
+	OrderNumber string    `json:"orderNumber"`
+	Name        string    `json:"name"`
+	Note        string    `json:"note"`
+	Address1    string    `json:"address1"`
+	Address2    string    `json:"address2"`
+	City        string    `json:"city"`
+	State       string    `json:"state"`
+	PostalCode  string    `json:"postalCode"`
+	Country     string    `json:"country"`
+	Phone       string    `json:"phone"`
+	BranchSell  string    `json:"branchsell"`
+	Seller      string    `json:"seller"`
+	Items       []ItemNew `json:"items"`
+}
+type AddfullOrderRequest struct {
+	Orders []OrderFull `json:"orders"`
+}

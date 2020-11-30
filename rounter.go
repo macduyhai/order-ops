@@ -63,6 +63,7 @@ func InitGin(db *gorm.DB) *gin.Engine {
 		orderGroup := apiGroup.Group("/orders")
 		{
 			orderGroup.POST("", ctl.AddOrder)
+			orderGroup.POST("/tools", ctl.AddFullOrder)
 			orderGroup.DELETE("", ctl.Delete)
 			orderGroup.PUT("", ctl.UpdateOrders)
 			orderGroup.PUT("/prints", ctl.Printers)

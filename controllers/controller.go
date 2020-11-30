@@ -268,6 +268,34 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 	utils.ResponseSuccess(ctx, resp)
 }
 
+// AddFullOrder
+func (c Controller) AddFullOrder(ctx *gin.Context) {
+	var request dtos.AddfullOrderRequest
+	//  var request dtos.AddOrderNewRequest
+	bytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		fmt.Println("get raw body ADD FULL ORDER From tools error", err)
+		utils.ResponseErrorGin(ctx, "get raw body error")
+		return
+	}
+
+	err = json.Unmarshal(bytes, &request)
+	if err != nil {
+		log.Println("bind json ADD FULL ORDER error", err, "raw_body", string(bytes))
+		utils.ResponseErrorGin(ctx, "bind json error")
+		return
+	}
+	resp, err := c.OrderService.AddFullOrder(request)
+	if err != nil {
+		fmt.Println("add order error", err)
+		utils.ResponseErrorGin(ctx, "add order error")
+		return
+	}
+
+	fmt.Println("add success")
+	utils.ResponseSuccess(ctx, resp)
+}
+
 // UpdateSeller
 
 func (c Controller) UpdateSeller(ctx *gin.Context) {

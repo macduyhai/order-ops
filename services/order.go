@@ -16,6 +16,7 @@ import (
 
 type OrderService interface {
 	AddOrder(request dtos.AddOrderRequest) (*dtos.AddorderResponse, error)
+	AddFullOrder(request dtos.AddfullOrderRequest) (*dtos.AddorderResponse, error)
 	AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
 	AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error)
 	Check(queries []dtos.SearchQuery) ([]dtos.CheckResponse, error)
@@ -93,7 +94,31 @@ func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) model
 		PrintStatus:  input.PrintStatus,
 	}
 }
+func (service *orderServiceImpl) mapperDtossToModelOrderFull(input dtos.OrderFull) models.Order {
+	// input.Country = service.Filtercharacter(input.Country)
+	input.BranchSell = service.Filtercharacter(input.BranchSell)
+	input.Seller = service.Filtercharacter(input.Seller)
+	t_n := time.Now().Add(+7 * time.Hour)
 
+	return models.Order{
+		OrderNumber:  input.OrderNumber,
+		CustomerName: input.Name,
+		Quantity:     0,
+		Note:         input.Note,
+		Address1:     input.Address1,
+		Address2:     input.Address2,
+		City:         input.City,
+		State:        input.State,
+		PostalCode:   input.PostalCode,
+		Country:      input.Country,
+		Phone:        input.Phone,
+		BranchSell:   input.BranchSell,
+		TypeProduct:  "none",
+		Seller:       input.Seller,
+		CreatedAt:    &t_n,
+		PrintStatus:  0,
+	}
+}
 func (service *orderServiceImpl) mapperDtossToModelOrderAddLable(input dtos.AddLabelRequest) models.Order {
 	return models.Order{
 		OrderNumber:    input.OrderNumber,
@@ -129,6 +154,51 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 	return &result, nil
 }
 
+func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) (*dtos.AddorderResponse, error) {
+	recordSuccess := make([]string, 0)
+	recordFail := make([]string, 0)
+	for _, order := range request.Orders {
+		if order.OrderNumber != "" {
+			order.Country = strings.ToUpper(order.Country)
+			record := service.mapperDtossToModelOrderFull(order)
+			err := service.dao.Create(&record)
+			if err != nil {
+				recordFail = append(recordFail, order.OrderNumber)
+			} else {
+				for _, item := range order.Items {
+					if item.SkuNumber != "" {
+						itemDtos := dtos.Item{
+							OrderNumber:      order.OrderNumber,
+							SkuNumber:        item.SkuNumber,
+							PackagedQuantity: item.PackagedQuantity,
+							ItemDescription:  item.ItemDescription,
+						}
+						record := service.mapperDtossToModelItemAdd(itemDtos)
+						err := service.dao.Create_Item(&record)
+						if err != nil {
+							return nil, err
+						}
+						recordSuccess = append(recordSuccess, order.OrderNumber)
+					} else {
+						recordFail = append(recordFail, order.OrderNumber)
+					}
+				}
+
+			}
+
+		} else {
+			recordFail = append(recordFail, order.OrderNumber)
+		}
+	}
+
+	result := dtos.AddorderResponse{
+		RecordsFailes:  recordFail,
+		RecordsSuccess: recordSuccess,
+	}
+
+	return &result, nil
+}
+
 func (service *orderServiceImpl) AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error) {
 	record := service.mapperDtossToModelOrderAddLable(request)
 	err := service.dao.Updates(&record)
@@ -150,11 +220,21 @@ func (service *orderServiceImpl) mapperDtossToModelItemAddLable(input dtos.Item)
 		CreatedAt:        &t_n,
 	}
 }
+func (service *orderServiceImpl) mapperDtossToModelItemAdd(input dtos.Item) models.Item {
+	t_n := time.Now().Add(+7 * time.Hour)
+	return models.Item{
+		OrderNumber:      input.OrderNumber,
+		SkuNumber:        input.SkuNumber,
+		PackagedQuantity: input.PackagedQuantity,
+		ItemDescription:  input.ItemDescription,
+		CreatedAt:        &t_n,
+	}
+}
 
 //  mapperDtossToModelItemAddLable(input dtos.Item) models.Item
 func (service *orderServiceImpl) AddLabelsToItems(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error) {
 	res := dtos.AddorderResponse{}
-	log.Println(request)
+	//log.Println(request)
 	for _, item := range request.Items {
 		if item.SkuNumber != "" {
 			if item.OrderNumber == "" {
