@@ -290,7 +290,7 @@ func (c Controller) AddFullOrder(ctx *gin.Context) {
 	resp, err := c.OrderService.AddFullOrder(request)
 	if err != nil {
 		log.Println("add order error", err)
-		utils.ResponseErrorGin(ctx, err)
+		utils.ResponseErrorGin(ctx, err.Error())
 		return
 	}
 
