@@ -272,6 +272,7 @@ func (c Controller) AddOrder(ctx *gin.Context) {
 // AddFullOrder
 func (c Controller) AddFullOrder(ctx *gin.Context) {
 	var request dtos.AddfullOrderRequest
+	fmt.Printf("Kieu resquest add full order: %T", request)
 	//  var request dtos.AddOrderNewRequest
 	bytes, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {

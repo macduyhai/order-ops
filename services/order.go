@@ -157,6 +157,7 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) (*dtos.AddorderResponse, error) {
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
+	error_ := nil
 	for _, order := range request.Orders {
 		if order.OrderNumber != "" {
 			order.Country = strings.ToUpper(order.Country)
@@ -176,10 +177,13 @@ func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) 
 						record := service.mapperDtossToModelItemAdd(itemDtos)
 						err := service.dao.Create_Item(&record)
 						if err != nil {
+							error_ = err
 							return nil, err
+
 						}
 						recordSuccess = append(recordSuccess, order.OrderNumber)
 					} else {
+						error_ = err
 						recordFail = append(recordFail, order.OrderNumber)
 					}
 				}
@@ -196,7 +200,7 @@ func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) 
 		RecordsSuccess: recordSuccess,
 	}
 
-	return &result, nil
+	return &result, error_
 }
 
 func (service *orderServiceImpl) AddLabelsToOrder(request dtos.AddLabelRequest) (*dtos.AddorderResponse, error) {
