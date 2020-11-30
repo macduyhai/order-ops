@@ -157,7 +157,7 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 func (service *orderServiceImpl) AddFullOrder(request dtos.AddfullOrderRequest) (*dtos.AddorderResponse, error) {
 	recordSuccess := make([]string, 0)
 	recordFail := make([]string, 0)
-	error_ := nil
+	var error_ error
 	for _, order := range request.Orders {
 		if order.OrderNumber != "" {
 			order.Country = strings.ToUpper(order.Country)
