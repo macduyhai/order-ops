@@ -73,6 +73,7 @@ func (service *orderServiceImpl) mapperDtossToModelOrder(input dtos.Order) model
 	input.BranchSell = service.Filtercharacter(input.BranchSell)
 	input.TypeProduct = service.Filtercharacter(input.TypeProduct)
 	input.Seller = service.Filtercharacter(input.Seller)
+	imput.State = service.Filtercharacter(imput.State)
 	t_n := time.Now().Add(+7 * time.Hour)
 
 	return models.Order{
@@ -98,6 +99,7 @@ func (service *orderServiceImpl) mapperDtossToModelOrderFull(input dtos.OrderFul
 	// input.Country = service.Filtercharacter(input.Country)
 	input.BranchSell = service.Filtercharacter(input.BranchSell)
 	input.Seller = service.Filtercharacter(input.Seller)
+	imput.State = service.Filtercharacter(imput.State)
 	t_n := time.Now().Add(+7 * time.Hour)
 
 	return models.Order{
