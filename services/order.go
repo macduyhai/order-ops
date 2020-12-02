@@ -140,11 +140,13 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 			err := service.dao.Create(&record)
 			if err != nil {
 				recordFail = append(recordFail, order.OrderNumber)
+				return nil, err
 			} else {
 				recordSuccess = append(recordSuccess, order.OrderNumber)
 			}
 		} else {
 			recordFail = append(recordFail, order.OrderNumber)
+			return nil, err
 		}
 	}
 
