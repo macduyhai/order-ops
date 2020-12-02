@@ -146,7 +146,7 @@ func (service *orderServiceImpl) AddOrder(request dtos.AddOrderRequest) (*dtos.A
 			}
 		} else {
 			recordFail = append(recordFail, order.OrderNumber)
-			return nil, err
+			return nil, nil
 		}
 	}
 
