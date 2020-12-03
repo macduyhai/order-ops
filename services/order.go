@@ -486,6 +486,8 @@ func (service *orderServiceImpl) Detete(orderNumber string) error {
 
 func (service *orderServiceImpl) Updates(request dtos.Order) (*dtos.AddorderResponse, error) {
 	record := service.mapperDtossToModelOrder(request)
+	t_n := time.Now().Add(+7 * time.Hour)
+	record.UpdatedAt = &t_n
 	err := service.dao.Updates(&record)
 	if err != nil {
 		return nil, errors.Wrap(err, "update record error")
